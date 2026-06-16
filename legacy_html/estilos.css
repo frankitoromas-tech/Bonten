@@ -1,0 +1,90 @@
+// ==========================
+// VARIABLES
+// ==========================
+$modo-oscuro: false;
+$padding-base: 20px;
+$borde-redondo: 15px;
+$fuente-principal: Arial, sans-serif;
+$color-fondo-claro: #f4f6f8;
+$color-fondo-oscuro: #121212;
+$color-texto-claro: #ffffff;
+$color-texto-oscuro: #222222;
+// Mapa de colores
+$planes: (
+  basico: #3498db,
+  profesional: #2ecc71,
+  empresarial: #9b59b6,
+  blanco:white
+);
+// ==========================
+// MIXIN
+// ==========================
+@mixin boton($color) {
+  background-color: $color;
+  color:white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  &:hover {
+    background-color: darken($color, 10%);
+  }
+}
+// ==========================
+// ESTILOS GENERALES
+// ==========================
+body {
+  margin: 0;
+  font-family: $fuente-principal;
+  @if $modo-oscuro == true {
+    background-color: $color-fondo-oscuro;
+    color: $color-texto-claro;
+  } @else {
+    background-color: $color-fondo-claro;
+    color: $color-texto-oscuro;
+  }
+}
+.header {
+  text-align: center;
+  padding: $padding-base * 2;
+  h1 {
+    margin-bottom: 5px;
+  }
+  p {
+    font-size: 18px;
+  }
+}
+.planes {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: $padding-base;
+  flex-wrap: wrap;
+}
+.card {
+  width: 260px;
+  padding: $padding-base;
+  border-radius: $borde-redondo;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  .precio {
+    font-size: 32px;
+    font-weight: bold;
+  }
+}
+// ==========================
+// GENERAR CLASES CON @each
+// ==========================
+@each $nombre, $color in $planes {
+  .#{$nombre} {
+    border-top: 8px solid $color;
+    h2 {
+      color: $color;
+    }
+    button {
+      @include boton($color);
+    }
+  }
+}

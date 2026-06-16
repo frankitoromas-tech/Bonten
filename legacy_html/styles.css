@@ -1,0 +1,594 @@
+/* =========================================
+   1. VARIABLES GLOBALES (Neuro-Sales & Identidad)
+========================================= */
+:root {
+    --header-blue: #033266;       
+    --bg-base: #f4f6f9;           
+    --surface-color: #ffffff;     
+    --gradient-hero: linear-gradient(135deg, #9b209e 0%, #db38c2 100%);
+    --accent-blue: #3ba4e6;       
+    --text-dark: #1e293b;         
+    --text-light: #ffffff;        
+    --text-muted: #64748b;        
+    --border-color: #e2e8f0;
+    
+    --radius-md: 16px;
+    --radius-lg: 32px;
+    --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.05);
+    --shadow-glow: 0 15px 35px rgba(219, 56, 194, 0.25);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =========================================
+   2. RESET Y TIPOGRAFÍA
+========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* =========================================
+   ANIMACIONES Y EFECTOS MODERNOS
+========================================= */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shine {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* =========================================
+   3. NAVEGACIÓN Y CABECERA (Gateway)
+========================================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 5%;
+    background-color: rgba(3, 50, 102, 0.85); /* Glassmorphism */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: var(--transition);
+}
+
+.brand-container:hover {
+    transform: scale(1.02);
+}
+
+.brand-text-group {
+    display: flex;
+    align-items: flex-start;
+}
+
+.logo {
+    font-weight: 800; 
+    font-size: 2.2rem;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+    margin: 0;
+    line-height: 1;
+}
+
+.badge-ng {
+    background-color: var(--text-light);
+    color: var(--header-blue);
+    font-size: 0.7rem;
+    font-weight: 800;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-left: 0.2rem;
+    transform: translateY(-0.2rem);
+}
+
+.logo-img {
+    height: 55px;
+    width: 55px; /* Fijamos el ancho igual al alto */
+    border-radius: 50%; /* Esto recorta la imagen en un círculo perfecto */
+    object-fit: cover; /* Evita que la imagen se deforme */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Le da un efecto 3D sobre la barra azul */
+}
+.logo {
+    font-weight: 800; 
+    font-size: 2.2rem;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+    margin: 0; /* Asegura que no haya márgenes fantasma que lo desalineen */
+}
+
+.badge-wrapper {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    padding: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-10deg);
+}
+
+.badge {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    padding: 0.4rem 0.6rem;
+}
+
+/* =========================================
+   Enlaces Top Right (Menú)
+========================================= */
+.top-nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    opacity: 0.7;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: var(--transition);
+}
+
+.nav-link:hover {
+    opacity: 1;
+}
+
+.nav-link.active {
+    opacity: 1;
+    color: var(--accent-blue);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--accent-blue);
+    border-radius: 2px;
+}
+
+/* =========================================
+   4. LAYOUT GLOBAL
+========================================= */
+.layout-container {
+    flex: 1;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.layout-container > * {
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+}
+
+.layout-container > *:nth-child(1) { animation-delay: 0.1s; }
+.layout-container > *:nth-child(2) { animation-delay: 0.3s; }
+.layout-container > *:nth-child(3) { animation-delay: 0.5s; }
+.layout-container > *:nth-child(4) { animation-delay: 0.7s; }
+
+/* =========================================
+   5. COMPONENTES: HERO CARD (Expandible)
+========================================= */
+.box-card {
+    background: var(--gradient-hero);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    color: var(--text-light);
+    box-shadow: var(--shadow-glow);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.box-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    animation: shine 8s infinite;
+    pointer-events: none;
+}
+
+.box-card:hover {
+    box-shadow: 0 25px 50px rgba(219, 56, 194, 0.4);
+    transform: translateY(-5px);
+}
+
+.box-card .section-title {
+    color: var(--text-light);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.text-lines p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Estilo para las palabras en negrita dentro del cuadro violeta */
+.text-lines strong {
+    font-weight: 800;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.15); /* Subrayado estilo marcador negro transparente */
+    padding: 0 6px;
+    border-radius: 4px;
+}
+
+/* --- LÓGICA DEL TEXTO OCULTO --- */
+.full-text {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Cuando se activa con JS, esta clase hace que el texto aparezca */
+.box-card.expanded .full-text {
+    max-height: 800px; /* Altura máxima permitida para que el texto se despliegue */
+    opacity: 1;
+    margin-top: 1rem;
+}
+
+.manifesto-highlight {
+    font-size: 1.25rem !important;
+    font-weight: 800;
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- BOTÓN LEER MÁS --- */
+.read-more-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--text-light);
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    transition: var(--transition);
+}
+
+.read-more-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+.chevron-icon {
+    transition: transform 0.4s ease;
+}
+
+/* Rota la flecha hacia arriba cuando está abierto */
+.box-card.expanded .chevron-icon {
+    transform: rotate(180deg);
+}
+.carousel-layout {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    flex: 1;
+}
+
+.library-card {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.library-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(3, 50, 102, 0.12);
+    border-color: var(--accent-blue);
+}
+
+.card-header {
+    background-color: rgba(244, 246, 249, 0.8);
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--header-blue);
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.mock-line {
+    height: 6px;
+    background-color: #cbd5e1;
+    border-radius: 4px;
+    width: 100%;
+}
+.mock-line.short { width: 60%; }
+
+.action-arrow {
+    background: var(--surface-color);
+    border: none;
+    color: var(--header-blue);
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    box-shadow: 0 10px 25px rgba(3, 50, 102, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: float 4s ease-in-out infinite;
+}
+
+.action-arrow svg { width: 30px; height: 30px; transition: transform 0.3s ease; }
+
+.action-arrow:hover {
+    transform: translateX(8px) scale(1.1);
+    background: var(--accent-blue);
+    color: var(--text-light);
+    box-shadow: 0 15px 35px rgba(59, 164, 230, 0.3);
+    animation-play-state: paused;
+}
+
+.action-arrow:hover svg {
+    transform: translateX(4px);
+}
+
+/* =========================================
+   6. COMPONENTES: INTEGRANTES
+========================================= */
+.page-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    color: var(--header-blue);
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.members-grid-large {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.member-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.member-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-blue);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.member-card.profile-glow:hover {
+    border-color: #db38c2;
+    box-shadow: 0 15px 35px rgba(219, 56, 194, 0.15);
+}
+
+.member-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--gradient-hero);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.member-name {
+    font-size: 1.4rem;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.role-badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.role-mod { background: #fee2e2; color: #ef4444; }
+.role-investigator { background: #e0f2fe; color: #0284c7; }
+.role-contributor { background: #f3f4f6; color: #4b5563; }
+
+.member-bio {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-dark);
+    padding: 0.6rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.btn-outline:hover {
+    background: var(--header-blue);
+    border-color: var(--header-blue);
+    color: var(--text-light);
+}
+
+/* =========================================
+   7. FOOTER
+========================================= */
+.site-footer {
+    background-color: var(--header-blue);
+    padding: 3rem 5%;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer-title {
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.social-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.social-box {
+    text-decoration: none;
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.6rem 1.5rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.social-box:hover {
+    background-color: var(--text-light);
+    color: var(--header-blue);
+    transform: translateY(-3px);
+}
+
+/* =========================================
+   8. MEDIA QUERIES (Móviles)
+========================================= */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .top-nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .carousel-layout {
+        flex-direction: column;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    .action-arrow {
+        transform: rotate(90deg);
+        margin-top: 1rem;
+    }
+
+    .action-arrow:hover {
+        transform: rotate(90deg) translateY(-8px);
+    }
+}
