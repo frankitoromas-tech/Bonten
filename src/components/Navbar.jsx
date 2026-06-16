@@ -8,7 +8,6 @@ export default function Navbar({ setPage, activePage, darkMode, toggleDarkMode }
                     <h1 className="logo">BONTEN</h1>
                     <span className="badge-ng">NG</span>
                 </div>
-              // Asegúrate de escribir el nombre exacto respetando las mayúsculas
 <img src="/BONTEN_LOGO0.jpg" alt="Logo Bonten" />
             </a>
             <nav className="top-nav">
