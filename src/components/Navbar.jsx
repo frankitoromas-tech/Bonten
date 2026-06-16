@@ -8,7 +8,7 @@ export default function Navbar({ setPage, activePage, darkMode, toggleDarkMode }
                     <h1 className="logo">BONTEN</h1>
                     <span className="badge-ng">NG</span>
                 </div>
-<img src="/BONTEN_LOGO0.jpg" alt="Logo Bonten" />
+                <img src="/BONTEN_LOG0.jpg" alt="Logo Bonten" className="logo-img" />
             </a>
             <nav className="top-nav">
                 <a href="#" onClick={(e) => { e.preventDefault(); setPage('inicio'); }} className={`nav-link ${activePage === 'inicio' ? 'active' : ''}`}>Inicio</a>
