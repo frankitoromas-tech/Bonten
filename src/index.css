@@ -93,9 +93,10 @@ body {
 }
 
 .logo {
-    font-weight: 800; 
-    font-size: 2.2rem;
-    letter-spacing: 0.05em;
+    font-family: 'Bangers', cursive;
+    font-weight: 400; 
+    font-size: 3rem;
+    letter-spacing: 0.08em;
     color: var(--text-light);
     margin: 0;
     line-height: 1;
@@ -123,13 +124,7 @@ body {
     object-fit: cover; /* Evita que la imagen se deforme */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Le da un efecto 3D sobre la barra azul */
 }
-.logo {
-    font-weight: 800; 
-    font-size: 2.2rem;
-    letter-spacing: 0.05em;
-    color: var(--text-light);
-    margin: 0; /* Asegura que no haya márgenes fantasma que lo desalineen */
-}
+
 
 .badge-wrapper {
     border: 1px solid rgba(255, 255, 255, 0.5);
@@ -248,12 +243,17 @@ body {
     transform: translateY(-8px) rotateX(2deg) rotateY(1deg);
 }
 
+.section-title {
+    font-family: 'Bangers', cursive;
+    font-size: 3.5rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+}
+
 .box-card .section-title {
     color: var(--text-light);
-    font-size: 2.5rem;
     margin-bottom: 1rem;
-    font-weight: 800;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    text-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 .text-lines p {
@@ -427,8 +427,11 @@ body {
 }
 
 .page-title {
-    font-size: 2.5rem;
-    color: var(--title-color);
+    font-family: 'Bangers', cursive;
+    font-size: 3.5rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--header-blue);
     margin-bottom: 0.5rem;
 }
 
@@ -581,17 +584,45 @@ body {
 /* =========================================
    8. MEDIA QUERIES (Móviles)
 ========================================= */
+.navbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.menu-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
-        gap: 1.5rem;
+        align-items: flex-start;
+        padding: 1rem 5%;
     }
     
+    .menu-btn {
+        display: block;
+    }
+
     .top-nav {
         width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 1rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding-top: 1.5rem;
+        display: none;
+        animation: fadeInUp 0.4s ease;
+    }
+
+    .top-nav.open {
+        display: flex;
     }
 
     .carousel-layout {
