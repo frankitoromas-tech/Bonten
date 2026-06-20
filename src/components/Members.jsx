@@ -6,7 +6,7 @@ export default function Members() {
         handle: '@fireboyphilosophy',
         role: 'Líder Fundador',
         bio: 'El único impulso que no puede ser frenado es la curiosidad 🔥 #BontenTeam',
-        avatar: '/assets/avatar_fireboy_1781973753933.png',
+        avatar: '/assets/fireboy_premium_1781974414658.png',
         tiktok: 'https://www.tiktok.com/@fireboyphilosophy',
         youtube: 'https://youtube.com/@fireboyphilosophy?si=5nOPKIestJFXdJOl'
     };
