@@ -60,25 +60,25 @@ export default function Hero() {
             </div>
 
             {/* Capa Glassmorphism Superior */}
-            <article className={`relative z-10 w-full max-w-4xl p-8 md:p-12 rounded-3xl backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all duration-700 ease-out hero-element ${expanded ? 'scale-100' : 'scale-[0.98]'}`}>
-                <h2 className="text-4xl md:text-5xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 mb-6 tracking-tighter">
+            <article className={`relative z-10 w-full max-w-4xl p-8 md:p-12 rounded-3xl backdrop-blur-xl bg-white/5 border border-gray-300/20 dark:border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all duration-700 ease-out hero-element ${expanded ? 'scale-100' : 'scale-[0.98]'}`}>
+                <h2 className="text-4xl md:text-5xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-[#033266] to-[#db38c2] dark:from-white dark:to-gray-400 mb-6 tracking-tighter">
                     Nuestra Resistencia
                 </h2>
                 
-                <div className="text-gray-200 text-lg md:text-xl leading-relaxed mb-8">
-                    <p className="hero-element mb-4">En un mundo que ha olvidado el valor de lo esencial, nosotros nos alzamos como la última línea de defensa. <strong className="text-white">BONTEN no es solo una organización; es un manifiesto de resistencia</strong> por aquellos que aún no tienen voz.</p>
+                <div className="text-gray-800 dark:text-gray-200 text-lg md:text-xl leading-relaxed mb-8">
+                    <p className="hero-element mb-4">En un mundo que ha olvidado el valor de lo esencial, nosotros nos alzamos como la última línea de defensa. <strong className="text-[#033266] dark:text-white">BONTEN no es solo una organización; es un manifiesto de resistencia</strong> por aquellos que aún no tienen voz.</p>
 
                     <div className={`overflow-hidden transition-all duration-700 ease-in-out ${expanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <div className="pt-4 border-t border-white/10 space-y-4">
+                        <div className="pt-4 border-t border-gray-300/30 dark:border-white/10 space-y-4">
                             <p className="hero-element">Al igual que en la inspiración de este nombre, donde el destino parece escrito en piedra y la tragedia acecha en cada esquina, hoy vivimos en una era contemporánea donde defender la vida es visto como un acto de rebeldía. En la "línea temporal" actual, se nos criminaliza por proteger el derecho más básico; se nos tacha de sombras cuando buscamos ser la luz.</p>
-                            <p className="hero-element">Nuestra visión a futuro es clara: <strong className="text-white">Queremos cambiar el futuro alterando el presente.</strong> No somos un grupo que busca el conflicto, sino una fraternidad que busca reescribir el guion de la sociedad. En un mundo que nos persigue por nuestras convicciones, nosotros nos mantenemos firmes como la "Resistencia" de la vida.</p>
-                            <p className="text-xl font-medium text-[#2368b8] mt-6 hero-element">La batalla por el futuro de la humanidad se libra hoy. <br/>No dejes que la historia se escriba sin ti.</p>
+                            <p className="hero-element">Nuestra visión a futuro es clara: <strong className="text-[#033266] dark:text-white">Queremos cambiar el futuro alterando el presente.</strong> No somos un grupo que busca el conflicto, sino una fraternidad que busca reescribir el guion de la sociedad. En un mundo que nos persigue por nuestras convicciones, nosotros nos mantenemos firmes como la "Resistencia" de la vida.</p>
+                            <p className="text-xl font-medium text-[#db38c2] dark:text-[#3ba4e6] mt-6 hero-element">La batalla por el futuro de la humanidad se libra hoy. <br/>No dejes que la historia se escriba sin ti.</p>
                         </div>
                     </div>
                 </div>
 
                 <button 
-                    className="hero-element flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full transition-all interactive group"
+                    className="hero-element flex items-center gap-2 px-6 py-3 bg-[#033266]/10 dark:bg-white/10 hover:bg-[#033266]/20 dark:hover:bg-white/20 border border-[#033266]/20 dark:border-white/20 rounded-full transition-all interactive group text-[#033266] dark:text-white"
                     onClick={() => setExpanded(!expanded)}
                 >
                     <span className="font-semibold tracking-wider text-sm uppercase">{expanded ? 'Ocultar manifiesto' : 'Leer manifiesto completo'}</span>
