@@ -5,7 +5,7 @@ export default function Hero() {
 
     return (
         <section className="hero-section">
-            <article className={`box-card ${expanded ? 'expanded' : ''}`} id="hero-card" style={{ backgroundImage: 'linear-gradient(rgba(155,32,158,0.65), rgba(219,56,194,0.65)), url("/assets/hero_bg_1781465357241.png")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            <article className={`box-card ${expanded ? 'expanded' : ''}`} id="hero-card" style={{ backgroundImage: 'linear-gradient(rgba(155,32,158,0.65), rgba(219,56,194,0.65)), url("/assets/hero_bg_1781465357241.webp")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
                 <h2 className="section-title">Nuestra Resistencia</h2>
                 
                 <div className="text-lines">

@@ -8,7 +8,7 @@ const DOCUMENTS = [
         category: "Manifiesto",
         author: "Comunidad BONTEN",
         readTime: "4 min",
-        image: "/assets/lib_docs_1781465368328.png",
+        image: "/assets/lib_docs_1781465368328.webp",
         content: [
             "En un mundo contemporáneo donde defender los derechos más elementales y la existencia humana es catalogado como una insurrección, nosotros elegimos alzarnos. <strong>BONTEN no es una organización común; es un refugio de la verdad.</strong>",
             "<blockquote>La batalla moral y apologética por el futuro de la sociedad se libra hoy, alterando nuestras prioridades en el presente.</blockquote>",
@@ -22,7 +22,7 @@ const DOCUMENTS = [
         category: "Teología",
         author: "Ana L.",
         readTime: "6 min",
-        image: "/assets/lib_types_1781465379712.png",
+        image: "/assets/lib_types_1781465379712.webp",
         content: [
             "El estudio sistemático de las doctrinas cristianas a menudo se ve amenazado por el relativismo cultural. En esta tipología analizamos cómo la hermenéutica bíblica mantiene su consistencia histórica.",
             "Detallamos el método de estudio gramático-histórico frente a las corrientes existenciales modernas que diluyen el texto sagrado. La gracia no es un concepto moldeable por las modas filosóficas, sino una roca inamovible.",

@@ -6,15 +6,15 @@ export default function Members() {
         handle: '@fireboyphilosophy',
         role: 'Líder Fundador',
         bio: 'El único impulso que no puede ser frenado es la curiosidad 🔥 #BontenTeam',
-        avatar: '/assets/fireboy_client.jpg',
+        avatar: '/assets/fireboy_client.webp',
         tiktok: 'https://www.tiktok.com/@fireboyphilosophy',
         youtube: 'https://youtube.com/@fireboyphilosophy?si=5nOPKIestJFXdJOl'
     };
 
     const members = [
-        { name: 'Ana L.', role: 'Moderadora', roleClass: 'role-mod', bio: 'Especialista en teología sistemática y gestión de la biblioteca central.', avatar: '/assets/avatar_ana_1781465403711.png' },
-        { name: 'Carlos M.', role: 'Investigador', roleClass: 'role-investigator', bio: 'Encargado de recopilar documentación histórica y análisis de textos.', avatar: '/assets/avatar_carlos_1781465414008.png' },
-        { name: 'Elena R.', role: 'Contribuidora', roleClass: 'role-contributor', bio: 'Activa en los debates sobre apologética y exégesis moderna.', avatar: '/assets/avatar_elena_1781465424361.png' }
+        { name: 'Ana L.', role: 'Moderadora', roleClass: 'role-mod', bio: 'Especialista en teología sistemática y gestión de la biblioteca central.', avatar: '/assets/avatar_ana_1781465403711.webp' },
+        { name: 'Carlos M.', role: 'Investigador', roleClass: 'role-investigator', bio: 'Encargado de recopilar documentación histórica y análisis de textos.', avatar: '/assets/avatar_carlos_1781465414008.webp' },
+        { name: 'Elena R.', role: 'Contribuidora', roleClass: 'role-contributor', bio: 'Activa en los debates sobre apologética y exégesis moderna.', avatar: '/assets/avatar_elena_1781465424361.webp' }
     ];
 
     return (
