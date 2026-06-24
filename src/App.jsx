@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar';
+import BackToTop from './components/BackToTop';
 import Hero from './components/Hero';
 import Library from './components/Library';
 import Members from './components/Members';
@@ -19,9 +21,10 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <Navbar theme={theme} toggleTheme={toggleTheme} />
-      <main className="layout-container">
+    <HelmetProvider>
+      <BrowserRouter>
+        <Navbar theme={theme} toggleTheme={toggleTheme} />
+        <main className="layout-container">
         <Routes>
           <Route path="/" element={
             <>
@@ -33,7 +36,9 @@ function App() {
         </Routes>
       </main>
       <Footer />
+      <BackToTop />
     </BrowserRouter>
+    </HelmetProvider>
   );
 }
 

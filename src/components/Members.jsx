@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 export default function Members() {
     const leader = {
@@ -19,6 +20,13 @@ export default function Members() {
 
     return (
         <>
+            <Helmet>
+                <title>BONTEN | Integrantes</title>
+                <meta name="description" content="Conoce a la Mesa Directiva y a la comunidad BONTEN. Liderados por Fireboy." />
+                <meta property="og:title" content="BONTEN | Integrantes del equipo" />
+                <meta property="og:description" content="Conoce al fundador y a los miembros de nuestra comunidad." />
+                <meta property="og:image" content="/assets/fireboy_client.webp" />
+            </Helmet>
             <div className="page-header">
                 <h2 className="page-title">Mesa Directiva</h2>
                 <p className="page-subtitle">Conoce al fundador y a los miembros de nuestra comunidad.</p>
