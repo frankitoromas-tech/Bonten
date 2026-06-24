@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
 
 export const metadata = {
+  metadataBase: new URL('https://bonten-bice.vercel.app'),
   title: 'BONTEN',
   description: 'Nuestra Resistencia - BONTEN',
   manifest: '/manifest.webmanifest',
