@@ -26,7 +26,7 @@ export default function Navbar() {
     return (
         <header className="navbar">
             <div className="navbar-header">
-                <Link to="/" className="brand-container" style={{textDecoration: 'none'}}>
+                <Link href="/" className="brand-container" style={{textDecoration: 'none'}}>
                     <div className="brand-text-group">
                         <h1 className="logo">BONTEN</h1>
                         <span className="badge-ng">NG</span>
@@ -62,8 +62,8 @@ export default function Navbar() {
             </div>
 
             <nav className={`top-nav ${menuOpen ? 'open' : ''}`}>
-                <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>Inicio</Link>
-                <Link to="/integrantes" className={`nav-link ${location.pathname === '/integrantes' ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>Integrantes</Link>
+                <Link href="/" className={`nav-link ${pathname === '/' ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>Inicio</Link>
+                <Link href="/integrantes" className={`nav-link ${pathname === '/integrantes' ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>Integrantes</Link>
                 <a href="#" className="nav-link" onClick={() => setMenuOpen(false)}>Debates</a>
             </nav>
         </header>
