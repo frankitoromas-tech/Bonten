@@ -24,7 +24,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es">
+    <html lang="es" data-theme="dark">
       <body className="cursor-none"> {/* Ocultamos cursor default */}
         <CustomCursor />
         <Preloader />

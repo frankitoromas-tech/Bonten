@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
+import { Float, OrbitControls, Sphere, MeshDistortMaterial, Environment } from '@react-three/drei';
 import gsap from 'gsap';
 
 // Componente 3D (Animado)
@@ -10,14 +10,16 @@ function AnimatedShape() {
         <Float speed={2} rotationIntensity={1} floatIntensity={2}>
             <Sphere args={[1, 100, 100]} scale={2.5}>
                 <MeshDistortMaterial 
-                    color="#2368b8"
+                    color="#1e3a8a"
+                    emissive="#0f172a"
                     attach="material"
                     distort={0.4}
                     speed={2}
-                    roughness={0.2}
-                    metalness={0.8}
+                    roughness={0.1}
+                    metalness={0.9}
                 />
             </Sphere>
+            <Environment preset="city" />
         </Float>
     );
 }
