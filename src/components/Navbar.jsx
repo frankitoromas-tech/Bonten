@@ -33,7 +33,7 @@ export default function Navbar() {
                     <Image src="/BONTEN_LOG0.jpg" alt="Logo Bonten" className="logo-img" width={55} height={55} />
                 </Link>
 
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
                     <button onClick={toggleTheme} className="theme-toggle" aria-label="Cambiar tema">
                         {theme === 'light' ? '🌙' : '☀️'}
                     </button>

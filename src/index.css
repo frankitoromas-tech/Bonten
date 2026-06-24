@@ -137,6 +137,7 @@ body {
     border-radius: 50%; /* Esto recorta la imagen en un círculo perfecto */
     object-fit: cover; /* Evita que la imagen se deforme */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Le da un efecto 3D sobre la barra azul */
+    flex-shrink: 0; /* Evita que se aplaste en pantallas pequeñas */
 }
 
 
@@ -869,8 +870,27 @@ body {
         padding: 1rem 5%;
     }
     
+    .brand-container {
+        gap: 0.5rem;
+    }
+    
+    .logo {
+        font-size: 2rem;
+    }
+    
+    .logo-img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .badge-ng {
+        transform: translateY(0);
+        margin-left: 0.1rem;
+    }
+
     .menu-btn {
         display: block;
+        margin-left: 0.5rem;
     }
 
     .top-nav {
