@@ -1,9 +1,27 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+"use client";
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-export default function Navbar({ theme, toggleTheme }) {
-    const location = useLocation();
+export default function Navbar() {
+    const pathname = usePathname();
     const [menuOpen, setMenuOpen] = useState(false);
+    const [theme, setTheme] = useState('light');
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }, []);
+
+    const toggleTheme = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    };
+
+    const location = { pathname };
 
     return (
         <header className="navbar">
