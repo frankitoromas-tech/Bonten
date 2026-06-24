@@ -18,8 +18,8 @@ export default function Newsletter() {
     };
 
     return (
-        <section className="newsletter-section" style={{ marginTop: '2rem' }}>
-            <article className="box-card newsletter-card" style={{ padding: '2.5rem', textAlign: 'center', background: 'var(--surface-color)', border: '1px solid var(--border-color)', color: 'var(--text-dark)' }}>
+        <section className="join-section" style={{ marginTop: '2rem' }}>
+            <article className="box-card join-card" style={{ padding: '2.5rem', textAlign: 'center', background: 'var(--surface-color)', border: '1px solid var(--border-color)', color: 'var(--text-dark)' }}>
                 <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: 'var(--title-color)' }}>Únete a la Resistencia</h3>
                 <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
                     Recibe manifiestos, actualizaciones y convocatorias directamente en tu bandeja de entrada. Ningún spam, solo verdad.
@@ -30,7 +30,7 @@ export default function Newsletter() {
                         ¡Te has unido exitosamente! Revisa tu correo pronto.
                     </div>
                 ) : (
-                    <form onSubmit={handleSubmit} className="newsletter-form" style={{ display: 'flex', gap: '1rem', maxWidth: '500px', margin: '0 auto', flexWrap: 'wrap' }}>
+                    <form onSubmit={handleSubmit} className="join-form" style={{ display: 'flex', gap: '1rem', maxWidth: '500px', margin: '0 auto', flexWrap: 'wrap' }}>
                         <input 
                             type="email" 
                             placeholder="tu@correo.com" 
