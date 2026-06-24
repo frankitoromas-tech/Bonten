@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
@@ -21,8 +22,6 @@ export default function Navbar() {
         localStorage.setItem('theme', newTheme);
     };
 
-    const location = { pathname };
-
     return (
         <header className="navbar">
             <div className="navbar-header">
@@ -31,7 +30,7 @@ export default function Navbar() {
                         <h1 className="logo">BONTEN</h1>
                         <span className="badge-ng">NG</span>
                     </div>
-                    <img src="/BONTEN_LOG0.jpg" alt="Logo Bonten" className="logo-img" />
+                    <Image src="/BONTEN_LOG0.jpg" alt="Logo Bonten" className="logo-img" width={55} height={55} />
                 </Link>
 
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -64,6 +63,7 @@ export default function Navbar() {
             <nav className={`top-nav ${menuOpen ? 'open' : ''}`}>
                 <Link href="/" className={`nav-link ${pathname === '/' ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>Inicio</Link>
                 <Link href="/integrantes" className={`nav-link ${pathname === '/integrantes' ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>Integrantes</Link>
+                <Link href="/manifiestos" className={`nav-link ${pathname === '/manifiestos' ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>Manifiestos</Link>
                 <a href="#" className="nav-link" onClick={() => setMenuOpen(false)}>Debates</a>
             </nav>
         </header>

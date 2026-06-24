@@ -1,6 +1,7 @@
 import React from 'react';
 import Hero from '../components/Hero';
 import Library from '../components/Library';
+import Newsletter from '../components/Newsletter';
 
 export const metadata = {
   title: 'BONTEN | Inicio',
@@ -17,6 +18,7 @@ export default function HomePage() {
     <>
       <Hero />
       <Library />
+      <Newsletter />
     </>
   );
 }

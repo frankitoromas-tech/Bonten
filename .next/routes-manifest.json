@@ -46,6 +46,12 @@
       "regex": "^/integrantes(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/integrantes(?:/)?$"
+    },
+    {
+      "page": "/manifiestos",
+      "regex": "^/manifiestos(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/manifiestos(?:/)?$"
     }
   ],
   "dataRoutes": [],

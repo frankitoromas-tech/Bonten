@@ -232,11 +232,17 @@ body {
     padding: 3rem;
     color: var(--text-light);
     box-shadow: var(--shadow-glow);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
     transform-style: preserve-3d;
     perspective: 1000px;
+    cursor: pointer;
+}
+
+.box-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(219, 56, 194, 0.4);
 }
 
 .box-card::before {
