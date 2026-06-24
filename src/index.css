@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* =========================================
    1. VARIABLES GLOBALES (Neuro-Sales & Identidad)
@@ -23,7 +25,7 @@
 }
 
 [data-theme="dark"] {
-    --bg-base: #050505;
+    --bg-base: #0f172a;
     --surface-color: #1e293b;
     --text-dark: #f8fafc;
     --text-muted: #94a3b8;

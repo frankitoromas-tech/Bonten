@@ -3,9 +3,6 @@ import '../index.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTop from '../components/BackToTop';
-import SmoothScroll from '../components/ui/SmoothScroll';
-import Preloader from '../components/ui/Preloader';
-import CustomCursor from '../components/ui/CustomCursor';
 
 export const metadata = {
   title: 'BONTEN',
@@ -23,19 +20,17 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
+  // Nota: El tema será manejado en un Client Component, 
+  // pero mantendremos la etiqueta html.
   return (
-    <html lang="es" data-theme="dark">
-      <body className="cursor-none"> {/* Ocultamos cursor default */}
-        <CustomCursor />
-        <Preloader />
-        <SmoothScroll>
-          <Navbar />
-          <main className="layout-container">
-            {children}
-          </main>
-          <Footer />
-          <BackToTop />
-        </SmoothScroll>
+    <html lang="es">
+      <body>
+        <Navbar />
+        <main className="layout-container">
+          {children}
+        </main>
+        <Footer />
+        <BackToTop />
       </body>
     </html>
   );

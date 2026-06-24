@@ -5,10 +5,11 @@ import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
     const pathname = usePathname();
-    const [theme, setTheme] = useState('dark');
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [theme, setTheme] = useState('light');
 
     useEffect(() => {
-        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
         document.documentElement.setAttribute('data-theme', savedTheme);
     }, []);
@@ -20,49 +21,51 @@ export default function Navbar() {
         localStorage.setItem('theme', newTheme);
     };
 
-    return (
-        <header className="w-full sticky top-0 z-50 backdrop-blur-xl bg-white/5 border-b border-white/10 p-4 md:px-8">
-            <div className="max-w-7xl mx-auto flex items-center justify-between">
-                
-                {/* Enlaces a la izquierda */}
-                <nav className="flex items-center gap-6">
-                    <Link 
-                        href="/" 
-                        className={`text-sm tracking-widest font-semibold uppercase transition-colors hover:text-[#2368b8] interactive ${pathname === '/' ? 'text-[#2368b8]' : 'text-gray-300'}`}
-                    >
-                        Inicio
-                    </Link>
-                    <Link 
-                        href="/integrantes" 
-                        className={`text-sm tracking-widest font-semibold uppercase transition-colors hover:text-[#2368b8] interactive ${pathname === '/integrantes' ? 'text-[#2368b8]' : 'text-gray-300'}`}
-                    >
-                        Integrantes
-                    </Link>
-                    <button className="text-sm tracking-widest font-semibold uppercase text-gray-500 cursor-not-allowed interactive">
-                        Debates
-                    </button>
+    const location = { pathname };
 
-                    <button onClick={toggleTheme} className="ml-4 text-xl interactive hover:scale-110 transition-transform" aria-label="Cambiar tema">
+    return (
+        <header className="navbar">
+            <div className="navbar-header">
+                <Link to="/" className="brand-container" style={{textDecoration: 'none'}}>
+                    <div className="brand-text-group">
+                        <h1 className="logo">BONTEN</h1>
+                        <span className="badge-ng">NG</span>
+                    </div>
+                    <img src="/BONTEN_LOG0.jpg" alt="Logo Bonten" className="logo-img" />
+                </Link>
+
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <button onClick={toggleTheme} className="theme-toggle" aria-label="Cambiar tema">
                         {theme === 'light' ? '🌙' : '☀️'}
                     </button>
-                </nav>
-
-                {/* Logo Anclado a la Derecha Inamovible */}
-                <div className="flex-shrink-0 ml-auto">
-                    <Link href="/" className="flex items-center gap-3 interactive" style={{textDecoration: 'none'}}>
-                        <div className="flex flex-col items-end">
-                            <h1 className="text-2xl font-black tracking-tighter uppercase m-0 leading-none">BONTEN</h1>
-                            <span className="bg-[#2368b8] text-white text-[0.6rem] font-bold px-1.5 py-0.5 rounded leading-none mt-1">NG</span>
-                        </div>
-                        <img 
-                            src="/BONTEN_LOG0.jpg" 
-                            alt="Logo Bonten" 
-                            className="w-10 h-10 rounded shadow-[0_0_15px_rgba(35,104,184,0.6)] object-cover"
-                        />
-                    </Link>
+                    <button 
+                        className="menu-btn" 
+                        onClick={() => setMenuOpen(!menuOpen)}
+                        aria-label="Abrir menú"
+                    >
+                        <svg viewBox="0 0 24 24" width="30" height="30" stroke="currentColor" strokeWidth="2.5" fill="none">
+                            {menuOpen ? (
+                                <>
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </>
+                            ) : (
+                                <>
+                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                </>
+                            )}
+                        </svg>
+                    </button>
                 </div>
-                
             </div>
+
+            <nav className={`top-nav ${menuOpen ? 'open' : ''}`}>
+                <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>Inicio</Link>
+                <Link to="/integrantes" className={`nav-link ${location.pathname === '/integrantes' ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>Integrantes</Link>
+                <a href="#" className="nav-link" onClick={() => setMenuOpen(false)}>Debates</a>
+            </nav>
         </header>
     );
 }
