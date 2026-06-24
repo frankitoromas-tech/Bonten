@@ -24,10 +24,12 @@ function AnimatedShape() {
 
 export default function Hero() {
     const [expanded, setExpanded] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const containerRef = useRef(null);
     const textRef = useRef(null);
 
     useLayoutEffect(() => {
+        setMounted(true);
         let ctx = gsap.context(() => {
             gsap.from(".hero-element", {
                 y: 50,
@@ -45,12 +47,14 @@ export default function Hero() {
         <section ref={containerRef} className="relative w-full min-h-[80vh] flex items-center justify-center p-4 overflow-hidden rounded-2xl mb-12 mt-8">
             {/* Fondo 3D */}
             <div className="absolute inset-0 z-0">
-                <Canvas camera={{ position: [0, 0, 5] }}>
-                    <ambientLight intensity={0.5} />
-                    <directionalLight position={[10, 10, 5]} intensity={1} />
-                    <AnimatedShape />
-                    <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
-                </Canvas>
+                {mounted && (
+                    <Canvas camera={{ position: [0, 0, 5] }}>
+                        <ambientLight intensity={0.5} />
+                        <directionalLight position={[10, 10, 5]} intensity={1} />
+                        <AnimatedShape />
+                        <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
+                    </Canvas>
+                )}
             </div>
 
             {/* Capa Glassmorphism Superior */}

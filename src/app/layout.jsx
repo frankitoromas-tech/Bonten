@@ -11,12 +11,15 @@ export const metadata = {
   title: 'BONTEN',
   description: 'Nuestra Resistencia - BONTEN',
   manifest: '/manifest.webmanifest',
-  themeColor: '#033266',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
     title: 'BONTEN'
   }
+};
+
+export const viewport = {
+  themeColor: '#033266',
 };
 
 export default function RootLayout({ children }) {
