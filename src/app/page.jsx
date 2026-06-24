@@ -9,7 +9,7 @@ export const metadata = {
   openGraph: {
     title: 'BONTEN | La Resistencia',
     description: 'BONTEN no es solo una organización; es un manifiesto de resistencia por aquellos que aún no tienen voz.',
-    images: ['/BONTEN_LOG0.jpg'],
+    images: ['/LOGO_BONTEN_V2.jpeg'],
   }
 };
 

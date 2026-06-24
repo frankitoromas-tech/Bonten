@@ -30,7 +30,7 @@ export default function Navbar() {
                         <h1 className="logo">BONTEN</h1>
                         <span className="badge-ng">NG</span>
                     </div>
-                    <Image src="/BONTEN_LOG0.jpg" alt="Logo Bonten" className="logo-img" width={55} height={55} />
+                    <Image src="/LOGO_BONTEN_V2.jpeg" alt="Logo Bonten" className="logo-img" width={55} height={55} />
                 </Link>
 
                 <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
