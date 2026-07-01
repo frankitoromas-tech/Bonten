@@ -32,7 +32,7 @@ export const ADMINS: Leader[] = [
   {
     name: 'Ian',
     handle: '@ianhbelmonte',
-    role: 'Administrador (Privado)',
+    role: 'Administrador',
     bio: 'La defensa de la vida humana es nuestra prioridad.',
     avatar: '/assets/b2.jpeg',
     tiktok: 'https://www.tiktok.com/@ianhbelmonte?_r=1&_t=ZT-97gBA2To8KM',
