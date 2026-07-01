@@ -16,7 +16,7 @@ export const ADMINS: Leader[] = [
     handle: '@bontenteam.provida',
     role: 'Administrador',
     bio: 'La defensa de la vida humana es nuestra prioridad.',
-    avatar: '/assets/admin1.webp',
+    avatar: '/assets/b1.jpeg',
     tiktok: 'https://www.tiktok.com/@bontenteam.provida',
     youtube: '#',
   },
@@ -24,8 +24,26 @@ export const ADMINS: Leader[] = [
     name: 'Admin Bonten 2',
     handle: '@bontenteam.provida',
     role: 'Administrador',
+    bio: 'La defensa de la vida humana es nuestra prioridad.',
+    avatar: '/assets/b2.jpeg',
+    tiktok: 'https://www.tiktok.com/@bontenteam.provida',
+    youtube: '#',
+  },
+  {
+    name: 'Admin Bonten 3',
+    handle: '@bontenteam.provida',
+    role: 'Administrador',
     bio: 'La defensa de la vida humana es nusttra prioridad.',
-    avatar: '/assets/admin2.webp',
+    avatar: '/assets/b3.jpeg',
+    tiktok: 'https://www.tiktok.com/@bontenteam.provida',
+    youtube: '#',
+  },
+  {
+    name: 'Admin Bonten 4',
+    handle: '@bontenteam.provida',
+    role: 'Administrador',
+    bio: 'La defensa de la vida humana es nusttra prioridad.',
+    avatar: '/assets/b4.jpeg',
     tiktok: 'https://www.tiktok.com/@bontenteam.provida',
     youtube: '#',
   }
@@ -52,6 +70,20 @@ export const MEMBER_DETAILS: Record<string, MemberDetails> = {
   },
   'Admin Bonten 2': {
     stats: { debates: 12, library: 3, votes: 120 },
+    activities: [
+      { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
+      { id: 2, text: 'La defensa de la vida humana es nuestra prioridad.' },
+    ],
+  },
+  'Admin Bonten 3': {
+    stats: { debates: 15, library: 4, votes: 180 },
+    activities: [
+      { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
+      { id: 2, text: 'La defensa de la vida humana es nusttra prioridad.' },
+    ],
+  },
+  'Admin Bonten 4': {
+    stats: { debates: 11, library: 2, votes: 90 },
     activities: [
       { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
       { id: 2, text: 'La defensa de la vida humana es nusttra prioridad.' },
