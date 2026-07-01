@@ -23,7 +23,6 @@ export default function Footer() {
               {s.rect && <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />}
               <path d={s.path} />
               {s.rect && <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />}
-              {s.extra}
             </svg>
             <span>{s.label}</span>
           </a>
