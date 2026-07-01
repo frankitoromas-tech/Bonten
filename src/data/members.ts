@@ -10,6 +10,27 @@ export const LEADER: Leader = {
   youtube: 'https://youtube.com/@fireboyphilosophy?si=5nOPKIestJFXdJOl',
 };
 
+export const ADMINS: Leader[] = [
+  {
+    name: 'Admin Bonten 1',
+    handle: '@bontenteam.provida',
+    role: 'Administrador',
+    bio: 'La defensa de la vida humana es nuestra prioridad.',
+    avatar: '/assets/admin1.webp',
+    tiktok: 'https://www.tiktok.com/@bontenteam.provida',
+    youtube: '#',
+  },
+  {
+    name: 'Admin Bonten 2',
+    handle: '@bontenteam.provida',
+    role: 'Administrador',
+    bio: 'La defensa de la vida humana es nusttra prioridad.',
+    avatar: '/assets/admin2.webp',
+    tiktok: 'https://www.tiktok.com/@bontenteam.provida',
+    youtube: '#',
+  }
+];
+
 export const MEMBERS: Member[] = [
   {
     name: 'Ana L.',
@@ -42,6 +63,20 @@ export const MEMBER_DETAILS: Record<string, MemberDetails> = {
       { id: 1, text: 'Fundó <strong>BONTEN</strong> y redactó el manifiesto de <strong>Nuestra Resistencia</strong>.' },
       { id: 2, text: 'Publica contenido de apologética y filosofía en <strong>TikTok</strong> y <strong>YouTube</strong>.' },
       { id: 3, text: 'Dirige la Mesa Directiva y coordina los debates de la comunidad.' },
+    ],
+  },
+  'Admin Bonten 1': {
+    stats: { debates: 10, library: 5, votes: 150 },
+    activities: [
+      { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
+      { id: 2, text: 'La defensa de la vida humana es nuestra prioridad.' },
+    ],
+  },
+  'Admin Bonten 2': {
+    stats: { debates: 12, library: 3, votes: 120 },
+    activities: [
+      { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
+      { id: 2, text: 'La defensa de la vida humana es nusttra prioridad.' },
     ],
   },
   'Ana L.': {
