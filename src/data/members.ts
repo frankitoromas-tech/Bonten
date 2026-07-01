@@ -36,6 +36,14 @@ export const MEMBERS: Member[] = [
 
 /** Detalle ampliado por miembro para el modal de perfil. */
 export const MEMBER_DETAILS: Record<string, MemberDetails> = {
+  [LEADER.name]: {
+    stats: { debates: 48, library: 9, votes: 512 },
+    activities: [
+      { id: 1, text: 'Fundó <strong>BONTEN</strong> y redactó el manifiesto de <strong>Nuestra Resistencia</strong>.' },
+      { id: 2, text: 'Publica contenido de apologética y filosofía en <strong>TikTok</strong> y <strong>YouTube</strong>.' },
+      { id: 3, text: 'Dirige la Mesa Directiva y coordina los debates de la comunidad.' },
+    ],
+  },
   'Ana L.': {
     stats: { debates: 14, library: 4, votes: 142 },
     activities: [

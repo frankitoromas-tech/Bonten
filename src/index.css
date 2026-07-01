@@ -1514,6 +1514,8 @@ body {
     height: 120px;
     background: var(--gradient-hero);
     position: relative;
+    /* Evita que el contenedor flex colapse la banda a 0 (el avatar va absoluto). */
+    flex-shrink: 0;
 }
 
 .profile-modal-avatar {
@@ -1526,6 +1528,7 @@ body {
     left: 2.5rem;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
@@ -1555,7 +1558,9 @@ body {
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* minmax(0, 1fr) permite que las columnas se encojan por debajo del
+       min-content y evita el desbordamiento horizontal en móvil. */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
     margin-bottom: 2rem;
 }
@@ -1709,5 +1714,54 @@ html {
 
     .layout-container > * {
         opacity: 1;
+    }
+}
+
+/* =========================================
+   14. RESPONSIVE: MODALES EN MÓVIL
+   Reduce el padding para aprovechar el ancho en pantallas pequeñas.
+========================================= */
+@media (max-width: 480px) {
+    .modal-overlay {
+        padding: 0.75rem;
+    }
+
+    .profile-modal-content {
+        padding: 3.5rem 1.25rem 1.5rem;
+    }
+
+    .profile-modal-avatar {
+        left: 1.25rem;
+    }
+
+    .stats-grid {
+        gap: 0.6rem;
+    }
+
+    .stat-card {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .stat-value {
+        font-size: 1.4rem;
+    }
+
+    .stat-label {
+        font-size: 0.68rem;
+        letter-spacing: 0.3px;
+    }
+
+    .document-reader-header {
+        padding: 1.5rem 1.25rem 1rem;
+    }
+
+    .document-reader-body,
+    .document-reader-footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .document-reader-footer {
+        flex-wrap: wrap;
     }
 }
