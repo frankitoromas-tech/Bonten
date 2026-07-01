@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import ProfileModal from './ProfileModal';
-import { LEADER, ADMINS, MEMBERS } from '@/data/members';
+import { LEADER, ADMINS } from '@/data/members';
 import type { Member, Leader } from '@/types';
 import { motion } from 'framer-motion';
 
