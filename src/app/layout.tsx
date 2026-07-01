@@ -25,9 +25,7 @@ export const viewport: Viewport = {
   themeColor: '#033266',
 };
 
-// Evita el flash de tema claro (FOUC): aplica el tema guardado antes del
-// primer pintado, de forma síncrona.
-const themeInitScript = `(function(){try{var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 export default function RootLayout({
   children,
@@ -36,14 +34,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${outfit.variable} ${bangers.variable}`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
       <body>
-        <Navbar />
-        <main className="layout-container">{children}</main>
-        <Footer />
-        <BackToTop />
+        <ThemeProvider>
+          <Navbar />
+          <main className="layout-container">{children}</main>
+          <Footer />
+          <BackToTop />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import ProfileModal from './ProfileModal';
 import { LEADER, ADMINS, MEMBERS } from '@/data/members';
 import type { Member, Leader } from '@/types';
+import { motion } from 'framer-motion';
 
 export default function Members() {
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
@@ -17,13 +18,24 @@ export default function Members() {
 
   return (
     <>
-      <div className="page-header">
+      <motion.div 
+        className="page-header"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <h2 className="page-title">Mesa Directiva</h2>
         <p className="page-subtitle">Conoce al fundador y a los miembros de nuestra comunidad.</p>
-      </div>
+      </motion.div>
 
       <section className="leader-section">
-        <article className="leader-card">
+        <motion.article 
+          className="leader-card"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          whileHover={{ y: -5, scale: 1.02 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="leader-avatar-wrapper">
             <div className="leader-avatar" style={{ backgroundImage: `url("${LEADER.avatar}")` }} />
             <div className="leader-ring" />
@@ -53,16 +65,29 @@ export default function Members() {
               </button>
             </div>
           </div>
-        </article>
+        </motion.article>
       </section>
 
-      <div className="divider">
+      <motion.div 
+        className="divider"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+      >
         <span>Equipo BONTEN</span>
-      </div>
+      </motion.div>
 
       <section className="admin-directory" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', width: '100%', marginBottom: '4rem' }}>
         {ADMINS.map((person, idx) => (
-          <article key={idx} className="leader-card">
+          <motion.article 
+            key={idx} 
+            className="leader-card"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: idx * 0.15 }}
+            whileHover={{ y: -8, scale: 1.02 }}
+          >
             <div className="leader-avatar-wrapper">
               <div className="leader-avatar" style={{ backgroundImage: `url("${person.avatar}")` }} />
               <div className="leader-ring" />
@@ -92,7 +117,7 @@ export default function Members() {
                 </button>
               </div>
             </div>
-          </article>
+          </motion.article>
         ))}
       </section>
 
