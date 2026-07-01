@@ -121,21 +121,7 @@ export default function Members() {
         ))}
       </section>
 
-      <motion.div 
-        className="general-tiktok-section"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '2rem', marginBottom: '4rem' }}
-      >
-        <p style={{ color: 'var(--text-muted)', marginBottom: '1rem', fontSize: '1.1rem' }}>Sigue a la comunidad en nuestra cuenta general</p>
-        <a href="https://www.tiktok.com/@bontenteam.provida?_r=1&_t=ZT-97gB0s2v0jF" target="_blank" rel="noopener noreferrer" className="tiktok-btn" style={{ display: 'inline-flex', padding: '0.75rem 1.5rem', fontSize: '1.1rem', gap: '0.5rem' }}>
-          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-          </svg>
-          <span>TikTok Oficial BONTEN</span>
-        </a>
-      </motion.div>
+
 
       {selectedMember && <ProfileModal member={selectedMember} onClose={() => setSelectedMember(null)} />}
     </>
