@@ -1,3 +1,0 @@
-module.exports=[64321,a=>{"use strict";var b=a.i(87924);a.i(72131);var c=a.i(38246);a.s(["default",0,function(){return(0,b.jsxs)("div",{style:{textAlign:"center",padding:"100px 20px",minHeight:"60vh"},children:[(0,b.jsx)("h1",{children:"404 - Página No Encontrada"}),(0,b.jsx)("p",{style:{margin:"20px 0"},children:"La página que buscas no existe."}),(0,b.jsx)(c.default,{href:"/",children:"Volver al Inicio"})]})}])}];
-
-//# sourceMappingURL=src_app_not-found_jsx_0ieuct7._.js.map

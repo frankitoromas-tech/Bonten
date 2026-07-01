@@ -1,14 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
   async headers() {
     return [
       {
-        source: '/(.*)',
+        // Cachea agresivamente los assets inmutables servidos desde /assets.
+        source: '/assets/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },

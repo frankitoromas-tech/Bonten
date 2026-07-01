@@ -1,16 +1,42 @@
-# React + Vite
+# BONTEN_WEB
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sitio de la comunidad **BONTEN** — *Nuestra Resistencia*. Manifiestos, biblioteca documental y foro de debates.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Next.js 16** (App Router) + **React 19**
+- **TypeScript** (estricto)
+- **Tailwind CSS 3** + sistema de tokens CSS (`src/index.css`)
+- Fuentes auto-optimizadas con `next/font` (Outfit + Bangers)
+- Desplegado en **Vercel**
 
-## React Compiler
+## Arquitectura
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```
+src/
+  app/            Rutas (App Router): home, integrantes, manifiestos/[slug], debates
+                  + metadata routes: manifest, sitemap, robots
+                  + estados: loading, error, not-found
+  components/     Componentes de UI (client/server) en .tsx
+  data/           Fuente de datos tipada (members, library, debates, manifiestos)
+  types/          Modelo de datos central compartido
+  index.css       Design system: tokens, tema claro/oscuro, componentes
+```
 
-## Expanding the ESLint configuration
+Los datos viven separados de la UI en `src/data`, tipados por `src/types`, para poder
+conectarlos a un backend/CMS en el futuro sin tocar los componentes.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Comandos
+
+```bash
+npm run dev        # desarrollo
+npm run build      # build de producción
+npm run start      # servir el build
+npm run lint       # ESLint
+npm run typecheck  # comprobación de tipos (tsc --noEmit)
+```
+
+## Temas
+
+El tema (claro/oscuro) se controla con el atributo `data-theme` en `<html>`, se
+persiste en `localStorage` y se aplica antes del primer pintado para evitar parpadeo.
