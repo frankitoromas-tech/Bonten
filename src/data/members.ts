@@ -5,46 +5,46 @@ export const LEADER: Leader = {
   handle: '@fireboyphilosophy',
   role: 'Líder Fundador',
   bio: 'El único impulso que no puede ser frenado es la curiosidad 🔥 #BontenTeam',
-  avatar: '/assets/fireboy_client.webp',
+  avatar: '/assets/b1.jpeg',
   tiktok: 'https://www.tiktok.com/@fireboyphilosophy',
   youtube: 'https://youtube.com/@fireboyphilosophy?si=5nOPKIestJFXdJOl',
 };
 
 export const ADMINS: Leader[] = [
   {
-    name: 'Admin Bonten 1',
-    handle: '@bontenteam.provida',
-    role: 'Administrador',
-    bio: 'La defensa de la vida humana es nuestra prioridad.',
-    avatar: '/assets/b1.jpeg',
-    tiktok: 'https://www.tiktok.com/@bontenteam.provida',
-    youtube: '#',
-  },
-  {
-    name: 'Admin Bonten 2',
-    handle: '@bontenteam.provida',
+    name: 'Daniel',
+    handle: '@brightburn.1895.t',
     role: 'Administrador',
     bio: 'La defensa de la vida humana es nuestra prioridad.',
     avatar: '/assets/b2.jpeg',
-    tiktok: 'https://www.tiktok.com/@bontenteam.provida',
+    tiktok: 'https://www.tiktok.com/@brightburn.1895.t?_r=1&_t=ZT-97gBFTR4uCL',
     youtube: '#',
   },
   {
-    name: 'Admin Bonten 3',
-    handle: '@bontenteam.provida',
+    name: 'Mijail',
+    handle: '@mijail0712',
     role: 'Administrador',
-    bio: 'La defensa de la vida humana es nusttra prioridad.',
+    bio: 'La defensa de la vida humana es nuestra prioridad.',
     avatar: '/assets/b3.jpeg',
-    tiktok: 'https://www.tiktok.com/@bontenteam.provida',
+    tiktok: 'https://www.tiktok.com/@mijail0712?_r=1&_t=ZT-97gBFoakkAQ',
     youtube: '#',
   },
   {
-    name: 'Admin Bonten 4',
-    handle: '@bontenteam.provida',
-    role: 'Administrador',
-    bio: 'La defensa de la vida humana es nusttra prioridad.',
+    name: 'Ian',
+    handle: '@ianhbelmonte',
+    role: 'Administrador (Privado)',
+    bio: 'La defensa de la vida humana es nuestra prioridad.',
     avatar: '/assets/b4.jpeg',
-    tiktok: 'https://www.tiktok.com/@bontenteam.provida',
+    tiktok: 'https://www.tiktok.com/@ianhbelmonte?_r=1&_t=ZT-97gBA2To8KM',
+    youtube: '#',
+  },
+  {
+    name: 'Laura',
+    handle: '@lauhernandez982',
+    role: 'Administradora',
+    bio: 'La defensa de la vida humana es nuestra prioridad.',
+    avatar: '/assets/b5.jpeg',
+    tiktok: 'https://www.tiktok.com/@lauhernandez982?_r=1&_t=ZT-97gBFKjk9eQ',
     youtube: '#',
   }
 ];
@@ -61,28 +61,28 @@ export const MEMBER_DETAILS: Record<string, MemberDetails> = {
       { id: 3, text: 'Dirige la Mesa Directiva y coordina los debates de la comunidad.' },
     ],
   },
-  'Admin Bonten 1': {
+  'Daniel': {
     stats: { debates: 10, library: 5, votes: 150 },
     activities: [
       { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
       { id: 2, text: 'La defensa de la vida humana es nuestra prioridad.' },
     ],
   },
-  'Admin Bonten 2': {
+  'Mijail': {
     stats: { debates: 12, library: 3, votes: 120 },
     activities: [
       { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
       { id: 2, text: 'La defensa de la vida humana es nuestra prioridad.' },
     ],
   },
-  'Admin Bonten 3': {
+  'Ian': {
     stats: { debates: 15, library: 4, votes: 180 },
     activities: [
       { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
       { id: 2, text: 'La defensa de la vida humana es nusttra prioridad.' },
     ],
   },
-  'Admin Bonten 4': {
+  'Laura': {
     stats: { debates: 11, library: 2, votes: 90 },
     activities: [
       { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
