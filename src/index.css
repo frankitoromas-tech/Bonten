@@ -442,7 +442,7 @@ body {
     font-size: 3.5rem;
     font-weight: 400;
     letter-spacing: 0.05em;
-    color: var(--header-blue);
+    color: var(--title-color);
     margin-bottom: 0.5rem;
 }
 
