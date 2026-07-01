@@ -22,7 +22,7 @@ export default function Members() {
         <p className="page-subtitle">Conoce al fundador y a los miembros de nuestra comunidad.</p>
       </div>
 
-      <section className="leader-section" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <section className="leader-section" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', width: '100%' }}>
         {[LEADER, ...ADMINS].map((person, idx) => (
           <article key={idx} className="leader-card">
             <div className="leader-avatar-wrapper">
@@ -56,36 +56,6 @@ export default function Members() {
             </div>
           </article>
         ))}
-      </section>
-
-      <div className="divider">
-        <span>Equipo BONTEN</span>
-      </div>
-
-      <section className="members-directory">
-        <div className="members-grid-large">
-          {MEMBERS.map((m, i) => (
-            <article key={m.name} className={`member-card ${i === 0 ? 'profile-glow' : ''}`}>
-              <div
-                className="member-avatar"
-                style={{
-                  backgroundImage: `url("${m.avatar}")`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  border: '3px solid var(--accent-blue)',
-                }}
-              />
-              <div className="member-info">
-                <h3 className="member-name">{m.name}</h3>
-                <span className={`role-badge ${m.roleClass}`}>{m.role}</span>
-                <p className="member-bio">{m.bio}</p>
-                <button className="btn-outline" onClick={() => setSelectedMember(m)}>
-                  Ver Perfil
-                </button>
-              </div>
-            </article>
-          ))}
-        </div>
       </section>
 
       {selectedMember && <ProfileModal member={selectedMember} onClose={() => setSelectedMember(null)} />}
