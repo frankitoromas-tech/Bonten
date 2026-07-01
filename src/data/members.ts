@@ -15,7 +15,7 @@ export const ADMINS: Leader[] = [
     name: 'Daniel',
     handle: '@brightburn.1895.t',
     role: 'Administrador',
-    bio: 'La defensa de la vida humana es nuestra prioridad.',
+    bio: 'Defensor incansable de los valores y la ética pro-vida. Construyendo un futuro con bases sólidas. 🛡️',
     avatar: '/assets/b4.jpeg',
     tiktok: 'https://www.tiktok.com/@brightburn.1895.t?_r=1&_t=ZT-97gBFTR4uCL',
     youtube: '#',
@@ -24,7 +24,7 @@ export const ADMINS: Leader[] = [
     name: 'Mijail',
     handle: '@mijail0712',
     role: 'Administrador',
-    bio: 'La defensa de la vida humana es nuestra prioridad.',
+    bio: 'Analizando la realidad desde una perspectiva crítica y fundamentada. Por la verdad y la vida. 🧠',
     avatar: '/assets/b3.jpeg',
     tiktok: 'https://www.tiktok.com/@mijail0712?_r=1&_t=ZT-97gBFoakkAQ',
     youtube: '#',
@@ -33,7 +33,7 @@ export const ADMINS: Leader[] = [
     name: 'Ian',
     handle: '@ianhbelmonte',
     role: 'Administrador',
-    bio: 'La defensa de la vida humana es nuestra prioridad.',
+    bio: 'Comprometido con la difusión de argumentos racionales a favor de la vida y la dignidad humana. ⚖️',
     avatar: '/assets/b2.jpeg',
     tiktok: 'https://www.tiktok.com/@ianhbelmonte?_r=1&_t=ZT-97gBA2To8KM',
     youtube: '#',
@@ -42,7 +42,7 @@ export const ADMINS: Leader[] = [
     name: 'Laura',
     handle: '@lauhernandez982',
     role: 'Administradora',
-    bio: 'La defensa de la vida humana es nuestra prioridad.',
+    bio: 'Llevando la voz de la resistencia a cada rincón. Inspirando acción y conciencia en nuestra generación. 🌟',
     avatar: '/assets/b1.jpeg',
     tiktok: 'https://www.tiktok.com/@lauhernandez982?_r=1&_t=ZT-97gBFKjk9eQ',
     youtube: '#',
@@ -64,29 +64,29 @@ export const MEMBER_DETAILS: Record<string, MemberDetails> = {
   'Daniel': {
     stats: { debates: 10, library: 5, votes: 150 },
     activities: [
-      { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
-      { id: 2, text: 'La defensa de la vida humana es nuestra prioridad.' },
+      { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong> y modera debates pro-vida.' },
+      { id: 2, text: 'Aporta perspectivas éticas a los fundamentos del grupo.' },
     ],
   },
   'Mijail': {
     stats: { debates: 12, library: 3, votes: 120 },
     activities: [
-      { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
-      { id: 2, text: 'La defensa de la vida humana es nuestra prioridad.' },
+      { id: 1, text: 'Estratega y pilar en la administración de <strong>BONTEN</strong>.' },
+      { id: 2, text: 'Fomenta el diálogo crítico en plataformas digitales.' },
     ],
   },
   'Ian': {
     stats: { debates: 15, library: 4, votes: 180 },
     activities: [
-      { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
-      { id: 2, text: 'La defensa de la vida humana es nusttra prioridad.' },
+      { id: 1, text: 'Desarrolla argumentos racionales para la defensa de la vida humana.' },
+      { id: 2, text: 'Asesora en temas de bioética y derechos humanos en la comunidad.' },
     ],
   },
   'Laura': {
     stats: { debates: 11, library: 2, votes: 90 },
     activities: [
-      { id: 1, text: 'Co-administra la comunidad de <strong>BONTEN</strong>.' },
-      { id: 2, text: 'La defensa de la vida humana es nusttra prioridad.' },
+      { id: 1, text: 'Dirige las estrategias de comunicación y activismo en <strong>BONTEN</strong>.' },
+      { id: 2, text: 'Inspira a nuevos miembros a unirse a la causa de la resistencia.' },
     ],
   },
 };
