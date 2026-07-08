@@ -31,7 +31,7 @@ export default function Navbar() {
       <div className="navbar-header">
         <Link href="/" className="brand-container" style={{ textDecoration: 'none' }}>
           <div className="brand-text-group">
-            <h1 className="logo">BONTEN</h1>
+            <div className="logo">BONTEN</div>
             <span className="badge-ng">NG</span>
           </div>
           <Image src="/LOGO_BONTEN_V2.jpeg" alt="Logo Bonten" className="logo-img" width={55} height={55} priority />

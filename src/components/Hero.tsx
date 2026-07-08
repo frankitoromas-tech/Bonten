@@ -16,7 +16,7 @@ export default function Hero() {
           backgroundPosition: 'center',
         }}
       >
-        <h2 className="section-title">Nuestra Resistencia</h2>
+        <h1 className="section-title">Nuestra Resistencia</h1>
 
         <div className="text-lines">
           <p className="preview-text">
