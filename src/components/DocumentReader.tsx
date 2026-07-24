@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import type { LibraryDocument } from '@/types';
 import { motion } from 'framer-motion';
+import { useToast } from '@/components/ui/Toast';
 
 interface DocumentReaderProps {
   document: LibraryDocument | null;
@@ -11,11 +12,27 @@ interface DocumentReaderProps {
 export default function DocumentReader({ document: doc, onClose }: DocumentReaderProps) {
   const [fontSize, setFontSize] = useState(1.1); // en rem
   const [copied, setCopied] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const { showToast } = useToast();
+
+  // Detener la reproducción de voz cuando se desmonta o cierra el modal
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
   // Cierre con Escape + bloqueo de scroll del fondo mientras el modal está abierto.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+        onClose();
+      }
     };
     window.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
@@ -36,15 +53,49 @@ export default function DocumentReader({ document: doc, onClose }: DocumentReade
       .writeText(fullText)
       .then(() => {
         setCopied(true);
+        showToast('Cita copiada al portapapeles con éxito', 'success');
         setTimeout(() => setCopied(false), 2000);
       })
-      .catch((err) => console.error('Error al copiar: ', err));
+      .catch(() => showToast('No se pudo copiar la cita', 'warning'));
+  };
+
+  const toggleAudio = () => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      showToast('Tu navegador no soporta lectura por voz', 'warning');
+      return;
+    }
+
+    if (isPlayingAudio) {
+      window.speechSynthesis.cancel();
+      setIsPlayingAudio(false);
+      showToast('Audio pausado', 'info');
+    } else {
+      window.speechSynthesis.cancel();
+      const plainText = `${doc.title}. ${doc.content.map((p) => p.replace(/<[^>]*>/g, '')).join('. ')}`;
+      const utterance = new SpeechSynthesisUtterance(plainText);
+      utterance.lang = 'es-ES';
+      utterance.rate = 1.0;
+      
+      utterance.onend = () => setIsPlayingAudio(false);
+      utterance.onerror = () => setIsPlayingAudio(false);
+
+      window.speechSynthesis.speak(utterance);
+      setIsPlayingAudio(true);
+      showToast('Reproduciendo audio del manifiesto...', 'info');
+    }
+  };
+
+  const handleClose = () => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    onClose();
   };
 
   return (
     <motion.div 
       className="modal-overlay" 
-      onClick={onClose} 
+      onClick={handleClose} 
       role="dialog" 
       aria-modal="true" 
       aria-label={doc.title}
@@ -61,7 +112,7 @@ export default function DocumentReader({ document: doc, onClose }: DocumentReade
         exit={{ scale: 0.92, opacity: 0, y: 20 }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       >
-        <button className="modal-close-btn" onClick={onClose} aria-label="Cerrar modal">
+        <button className="modal-close-btn" onClick={handleClose} aria-label="Cerrar modal">
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -79,7 +130,15 @@ export default function DocumentReader({ document: doc, onClose }: DocumentReade
           <h2 className="document-reader-title">{doc.title}</h2>
 
           <div className="document-reader-controls">
-            <span className="font-size-label">Tamaño de letra:</span>
+            <button
+              className="font-btn"
+              onClick={toggleAudio}
+              style={{ width: 'auto', padding: '0 0.8rem', gap: '0.4rem' }}
+              title="Escuchar audio"
+            >
+              <span>{isPlayingAudio ? '⏸ Pausar Voz' : '🔊 Escuchar Audio'}</span>
+            </button>
+            <span className="font-size-label">Letra:</span>
             <button className="font-btn" onClick={decreaseFont} title="Disminuir letra" aria-label="Disminuir letra" disabled={fontSize <= 0.8}>
               A-
             </button>
@@ -107,7 +166,7 @@ export default function DocumentReader({ document: doc, onClose }: DocumentReade
             </svg>
             {copied ? '¡Copiado!' : 'Copiar Cita'}
           </button>
-          <button className="btn-primary" style={{ width: 'auto' }} onClick={onClose}>
+          <button className="btn-primary" style={{ width: 'auto' }} onClick={handleClose}>
             Cerrar Lectura
           </button>
         </footer>
@@ -115,4 +174,3 @@ export default function DocumentReader({ document: doc, onClose }: DocumentReade
     </motion.div>
   );
 }
-

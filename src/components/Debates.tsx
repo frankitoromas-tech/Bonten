@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { INITIAL_DEBATES, DEBATE_TAGS } from '@/data/debates';
 import type { Debate, DebateArgument, ReactionType, ArgumentStance } from '@/types';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useToast } from '@/components/ui/Toast';
 
 const STORAGE_KEY = 'bonten:debates';
 
@@ -12,8 +13,18 @@ const REACTIONS: { key: ReactionType; label: string }[] = [
   { key: 'respetuoso', label: '🤝 Respetuoso' },
 ];
 
+function getStanceRatio(debate: Debate) {
+  const pro = debate.arguments.filter((a) => a.type === 'pro').length;
+  const contra = debate.arguments.filter((a) => a.type === 'contra').length;
+  const total = pro + contra;
+  if (total === 0) return { proPercent: 50, contraPercent: 50, proCount: 0, contraCount: 0 };
+  const proPercent = Math.round((pro / total) * 100);
+  const contraPercent = 100 - proPercent;
+  return { proPercent, contraPercent, proCount: pro, contraCount: contra };
+}
+
 // -----------------------------------------------------------------------------
-// Subcomponente: burbuja de argumento con animaciones Framer Motion
+// Subcomponente: burbuja de argumento
 // -----------------------------------------------------------------------------
 interface ArgumentBubbleProps {
   arg: DebateArgument;
@@ -67,6 +78,7 @@ export default function Debates() {
   const [selectedDebateId, setSelectedDebateId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string>('Todos');
+  const { showToast } = useToast();
 
   // Formulario de opinión
   const [newAuthor, setNewAuthor] = useState('');
@@ -104,6 +116,7 @@ export default function Debates() {
   });
 
   const handleReaction = (argId: number, reactionType: ReactionType) => {
+    let actionDone: 'voted' | 'removed' = 'voted';
     setDebates((prev) =>
       prev.map((d) => {
         if (d.id !== selectedDebateId) return d;
@@ -112,6 +125,7 @@ export default function Debates() {
           arguments: d.arguments.map((arg) => {
             if (arg.id !== argId) return arg;
             const hasReacted = arg.userReactions.includes(reactionType);
+            actionDone = hasReacted ? 'removed' : 'voted';
             const userReactions = hasReacted
               ? arg.userReactions.filter((r) => r !== reactionType)
               : [...arg.userReactions, reactionType];
@@ -124,6 +138,7 @@ export default function Debates() {
         };
       })
     );
+    showToast(actionDone === 'voted' ? '¡Reacción registrada!' : 'Reacción retirada', 'info');
   };
 
   const handleAddOpinion = (e: React.FormEvent<HTMLFormElement>) => {
@@ -150,6 +165,7 @@ export default function Debates() {
       )
     );
 
+    showToast('¡Tu opinión ha sido añadida al debate!', 'success');
     setNewAuthor('');
     setNewText('');
   };
@@ -160,6 +176,7 @@ export default function Debates() {
   if (activeDebate) {
     const proArguments = activeDebate.arguments.filter((a) => a.type === 'pro');
     const contraArguments = activeDebate.arguments.filter((a) => a.type === 'contra');
+    const ratio = getStanceRatio(activeDebate);
 
     return (
       <motion.div 
@@ -188,6 +205,19 @@ export default function Debates() {
             {activeDebate.title}
           </h2>
           <p className="debate-card-description">{activeDebate.description}</p>
+          
+          {/* Barra Versus Porcentual */}
+          <div style={{ margin: '1.5rem 0 1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', fontWeight: 800, marginBottom: '0.4rem' }}>
+              <span style={{ color: '#10b981' }}>🟢 A Favor: {ratio.proPercent}% ({ratio.proCount})</span>
+              <span style={{ color: '#ef4444' }}>🔴 En Contra: {ratio.contraPercent}% ({ratio.contraCount})</span>
+            </div>
+            <div style={{ height: '10px', background: 'var(--bg-base)', borderRadius: '10px', overflow: 'hidden', display: 'flex', border: '1px solid var(--border-color)' }}>
+              <div style={{ width: `${ratio.proPercent}%`, background: '#10b981', transition: 'width 0.5s ease', boxShadow: '0 0 10px rgba(16,185,129,0.5)' }} />
+              <div style={{ width: `${ratio.contraPercent}%`, background: '#ef4444', transition: 'width 0.5s ease', boxShadow: '0 0 10px rgba(239,68,68,0.5)' }} />
+            </div>
+          </div>
+
           <div className="debate-stats">
             <div className="debate-stat-item">
               <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none">
@@ -337,50 +367,67 @@ export default function Debates() {
             No se encontraron debates que coincidan con la búsqueda.
           </p>
         ) : (
-          filteredDebates.map((debate, idx) => (
-            <motion.article
-              key={debate.id}
-              className="debate-card"
-              onClick={() => setSelectedDebateId(debate.id)}
-              role="button"
-              tabIndex={0}
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: idx * 0.1 }}
-              whileHover={{ y: -5, scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setSelectedDebateId(debate.id);
-                }
-              }}
-            >
-              <div className="debate-card-header">
-                <span className="debate-tag">{debate.tag}</span>
-                <div className="debate-stats">
-                  <div className="debate-stat-item">
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
-                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                    </svg>
-                    <span>{debate.arguments.length}</span>
-                  </div>
-                  <div className="debate-stat-item">
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
-                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                    </svg>
-                    <span>{debate.voters}</span>
+          filteredDebates.map((debate, idx) => {
+            const ratio = getStanceRatio(debate);
+            return (
+              <motion.article
+                key={debate.id}
+                className="debate-card"
+                onClick={() => setSelectedDebateId(debate.id)}
+                role="button"
+                tabIndex={0}
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: idx * 0.1 }}
+                whileHover={{ y: -5, scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setSelectedDebateId(debate.id);
+                  }
+                }}
+              >
+                <div className="debate-card-header">
+                  <span className="debate-tag">{debate.tag}</span>
+                  <div className="debate-stats">
+                    <div className="debate-stat-item">
+                      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                      </svg>
+                      <span>{debate.arguments.length}</span>
+                    </div>
+                    <div className="debate-stat-item">
+                      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                      </svg>
+                      <span>{debate.voters}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <h3 className="debate-card-title">{debate.title}</h3>
-              <p className="debate-card-description">{debate.description}</p>
-              <span className="btn-outline" style={{ display: 'inline-block', width: 'auto' }}>
-                Entrar al Debate
-              </span>
-            </motion.article>
-          ))
+
+                <h3 className="debate-card-title">{debate.title}</h3>
+                <p className="debate-card-description">{debate.description}</p>
+
+                {/* Barra Versus Porcentual en Tarjeta */}
+                <div style={{ margin: '1rem 0 1.2rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', fontWeight: 800, marginBottom: '0.3rem' }}>
+                    <span style={{ color: '#10b981' }}>{ratio.proPercent}% A Favor</span>
+                    <span style={{ color: '#ef4444' }}>{ratio.contraPercent}% En Contra</span>
+                  </div>
+                  <div style={{ height: '6px', background: 'var(--bg-base)', borderRadius: '6px', overflow: 'hidden', display: 'flex' }}>
+                    <div style={{ width: `${ratio.proPercent}%`, background: '#10b981' }} />
+                    <div style={{ width: `${ratio.contraPercent}%`, background: '#ef4444' }} />
+                  </div>
+                </div>
+
+                <span className="btn-outline" style={{ display: 'inline-block', width: 'auto' }}>
+                  Entrar al Debate
+                </span>
+              </motion.article>
+            );
+          })
         )}
       </div>
     </motion.div>

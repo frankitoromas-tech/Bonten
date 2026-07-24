@@ -5,9 +5,13 @@ import { outfit, bangers } from './fonts';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
+import AmbientBackground from '@/components/AmbientBackground';
+import QuickSearch from '@/components/QuickSearch';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import { ToastProvider } from '@/components/ui/Toast';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://bonten-bice.vercel.app'),
+  metadataBase: new URL('https://bonten.vercel.app'),
   title: {
     default: 'BONTEN | Nuestra Resistencia',
     template: '%s | BONTEN',
@@ -22,10 +26,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#033266',
+  themeColor: '#03254c',
 };
-
-import { ThemeProvider } from '@/components/ThemeProvider';
 
 export default function RootLayout({
   children,
@@ -36,10 +38,14 @@ export default function RootLayout({
     <html lang="es" className={`${outfit.variable} ${bangers.variable}`} suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <Navbar />
-          <main className="layout-container">{children}</main>
-          <Footer />
-          <BackToTop />
+          <ToastProvider>
+            <AmbientBackground />
+            <Navbar />
+            <QuickSearch />
+            <main className="layout-container">{children}</main>
+            <Footer />
+            <BackToTop />
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

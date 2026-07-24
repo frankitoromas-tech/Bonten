@@ -1,12 +1,14 @@
 'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useToast } from '@/components/ui/Toast';
 
 type Status = 'idle' | 'loading' | 'success';
 
 export default function Newsletter() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<Status>('idle');
+  const { showToast } = useToast();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,6 +17,7 @@ export default function Newsletter() {
     setStatus('loading');
     setTimeout(() => {
       setStatus('success');
+      showToast('Suscripción confirmada. ¡Bienvenido a BONTEN!', 'success');
       setEmail('');
     }, 1500);
   };

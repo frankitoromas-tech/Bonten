@@ -45,6 +45,20 @@ export default function Navbar() {
 
         <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
           <motion.button 
+            onClick={() => {
+              window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }));
+            }} 
+            className="theme-toggle" 
+            aria-label="Buscar"
+            title="Buscar (Ctrl + K)"
+            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.1 }}
+            style={{ marginRight: '0.4rem' }}
+          >
+            🔍
+          </motion.button>
+
+          <motion.button 
             onClick={toggleTheme} 
             className="theme-toggle" 
             aria-label="Cambiar tema"
