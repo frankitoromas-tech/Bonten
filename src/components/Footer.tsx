@@ -1,4 +1,6 @@
+'use client';
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const SOCIALS = [
   { label: 'Facebook', href: '#', path: 'M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z' },
@@ -13,11 +15,13 @@ export default function Footer() {
       <h3 className="footer-title">BLOQUE PROTESTANTE</h3>
       <div className="social-grid">
         {SOCIALS.map((s) => (
-          <a 
+          <motion.a 
             key={s.label} 
             href={s.href} 
             className="social-box" 
             aria-label={s.label}
+            whileHover={{ y: -4, scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             {...(s.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           >
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -27,7 +31,7 @@ export default function Footer() {
               {s.extra}
             </svg>
             <span>{s.label}</span>
-          </a>
+          </motion.a>
         ))}
       </div>
     </footer>

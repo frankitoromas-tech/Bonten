@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type Status = 'idle' | 'loading' | 'success';
 
@@ -12,7 +13,6 @@ export default function Newsletter() {
     if (!email) return;
 
     setStatus('loading');
-    // Simula el envío a una API de suscripción.
     setTimeout(() => {
       setStatus('success');
       setEmail('');
@@ -20,79 +20,105 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="join-section" style={{ marginTop: '2rem' }}>
+    <motion.section 
+      className="join-section" 
+      style={{ marginTop: '2rem' }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+    >
       <article
         className="box-card join-card"
         style={{
-          padding: '2.5rem',
+          padding: '2.8rem',
           textAlign: 'center',
-          background: 'var(--surface-color)',
+          background: 'var(--surface-card)',
           border: '1px solid var(--border-color)',
           color: 'var(--text-dark)',
+          borderRadius: 'var(--radius-xl)',
+          boxShadow: 'var(--shadow-soft)'
         }}
       >
-        <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: 'var(--title-color)' }}>Únete a la Resistencia</h3>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
-          Recibe manifiestos, actualizaciones y convocatorias directamente en tu bandeja de entrada. Ningún spam, solo
-          verdad.
+        <h3 style={{ fontSize: '2rem', marginBottom: '0.8rem', color: 'var(--title-color)', fontWeight: 800 }}>
+          Únete a la Resistencia
+        </h3>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '1.8rem', maxWidth: '600px', margin: '0 auto 2rem', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          Recibe manifiestos, actualizaciones y convocatorias directamente en tu bandeja de entrada. Ningún spam, solo verdad.
         </p>
 
-        {status === 'success' ? (
-          <div
-            className="success-message"
-            role="status"
-            style={{
-              color: 'var(--accent-blue)',
-              fontWeight: 'bold',
-              padding: '1rem',
-              background: 'rgba(59, 164, 230, 0.1)',
-              borderRadius: 'var(--radius-md)',
-            }}
-          >
-            ¡Te has unido exitosamente! Revisa tu correo pronto.
-          </div>
-        ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="join-form"
-            style={{ display: 'flex', gap: '1rem', maxWidth: '500px', margin: '0 auto', flexWrap: 'wrap' }}
-          >
-            <input
-              type="email"
-              placeholder="tu@correo.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              aria-label="Correo electrónico"
+        <AnimatePresence mode="wait">
+          {status === 'success' ? (
+            <motion.div
+              key="success"
+              className="success-message"
+              role="status"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.4 }}
               style={{
-                flex: '1',
-                padding: '0.8rem 1.2rem',
-                borderRadius: 'var(--radius-md)',
-                border: '1px solid var(--border-color)',
-                outline: 'none',
-                background: 'transparent',
-                color: 'var(--text-dark)',
-              }}
-            />
-            <button
-              type="submit"
-              className="primary-btn"
-              disabled={status === 'loading'}
-              style={{
-                padding: '0.8rem 2rem',
-                borderRadius: 'var(--radius-md)',
-                background: 'var(--gradient-hero)',
-                color: 'white',
-                border: 'none',
-                cursor: 'pointer',
+                color: '#38bdf8',
                 fontWeight: 'bold',
+                padding: '1.2rem',
+                background: 'rgba(56, 189, 248, 0.12)',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid rgba(56, 189, 248, 0.3)',
+                maxWidth: '500px',
+                margin: '0 auto'
               }}
             >
-              {status === 'loading' ? 'Enviando...' : 'Suscribirme'}
-            </button>
-          </form>
-        )}
+              ✨ ¡Te has unido exitosamente! Revisa tu correo pronto.
+            </motion.div>
+          ) : (
+            <motion.form
+              key="form"
+              onSubmit={handleSubmit}
+              className="join-form"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{ display: 'flex', gap: '1rem', maxWidth: '500px', margin: '0 auto', flexWrap: 'wrap' }}
+            >
+              <input
+                type="email"
+                placeholder="tu@correo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                aria-label="Correo electrónico"
+                style={{
+                  flex: '1',
+                  padding: '0.9rem 1.4rem',
+                  borderRadius: '30px',
+                  border: '1px solid var(--border-color)',
+                  outline: 'none',
+                  background: 'var(--bg-base)',
+                  color: 'var(--text-dark)',
+                  fontSize: '1rem'
+                }}
+              />
+              <motion.button
+                type="submit"
+                className="btn-primary"
+                disabled={status === 'loading'}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                style={{
+                  padding: '0.9rem 2.2rem',
+                  borderRadius: '30px',
+                  color: 'white',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                }}
+              >
+                {status === 'loading' ? 'Enviando...' : 'Suscribirme'}
+              </motion.button>
+            </motion.form>
+          )}
+        </AnimatePresence>
       </article>
-    </section>
+    </motion.section>
   );
 }

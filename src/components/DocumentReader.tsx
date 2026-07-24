@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import type { LibraryDocument } from '@/types';
+import { motion } from 'framer-motion';
 
 interface DocumentReaderProps {
   document: LibraryDocument | null;
@@ -41,8 +42,25 @@ export default function DocumentReader({ document: doc, onClose }: DocumentReade
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label={doc.title}>
-      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+    <motion.div 
+      className="modal-overlay" 
+      onClick={onClose} 
+      role="dialog" 
+      aria-modal="true" 
+      aria-label={doc.title}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <motion.div 
+        className="modal-container" 
+        onClick={(e) => e.stopPropagation()}
+        initial={{ scale: 0.92, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.92, opacity: 0, y: 20 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      >
         <button className="modal-close-btn" onClick={onClose} aria-label="Cerrar modal">
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">
             <line x1="18" y1="6" x2="6" y2="18" />
@@ -93,7 +111,8 @@ export default function DocumentReader({ document: doc, onClose }: DocumentReade
             Cerrar Lectura
           </button>
         </footer>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
+

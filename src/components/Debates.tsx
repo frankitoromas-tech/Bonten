@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { INITIAL_DEBATES, DEBATE_TAGS } from '@/data/debates';
 import type { Debate, DebateArgument, ReactionType, ArgumentStance } from '@/types';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const STORAGE_KEY = 'bonten:debates';
 
@@ -12,7 +13,7 @@ const REACTIONS: { key: ReactionType; label: string }[] = [
 ];
 
 // -----------------------------------------------------------------------------
-// Subcomponente: burbuja de argumento (antes duplicado para pro y contra).
+// Subcomponente: burbuja de argumento con animaciones Framer Motion
 // -----------------------------------------------------------------------------
 interface ArgumentBubbleProps {
   arg: DebateArgument;
@@ -21,7 +22,13 @@ interface ArgumentBubbleProps {
 
 function ArgumentBubble({ arg, onReact }: ArgumentBubbleProps) {
   return (
-    <div className="argument-bubble">
+    <motion.div 
+      className="argument-bubble"
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -3 }}
+    >
       <div className="argument-author-bar">
         <div className="argument-author-avatar" style={{ backgroundImage: `url(${arg.avatar})` }} />
         <div>
@@ -34,18 +41,20 @@ function ArgumentBubble({ arg, onReact }: ArgumentBubbleProps) {
       <p className="argument-text">{arg.text}</p>
       <div className="argument-reactions">
         {REACTIONS.map((r) => (
-          <button
+          <motion.button
             key={r.key}
             className={`reaction-btn ${arg.userReactions.includes(r.key) ? 'voted' : ''}`}
             onClick={() => onReact(arg.id, r.key)}
             aria-pressed={arg.userReactions.includes(r.key)}
+            whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.92 }}
           >
             <span>{r.label}</span>
             <strong>{arg.reactions[r.key]}</strong>
-          </button>
+          </motion.button>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -64,18 +73,18 @@ export default function Debates() {
   const [newType, setNewType] = useState<ArgumentStance>('pro');
   const [newText, setNewText] = useState('');
 
-  // Carga el estado persistido tras el montaje (evita desajuste de hidratación).
+  // Carga el estado persistido tras el montaje.
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) setDebates(JSON.parse(saved) as Debate[]);
     } catch {
-      /* almacenamiento no disponible: se usan los datos por defecto */
+      /* almacenamiento no disponible */
     }
     setHydrated(true);
   }, []);
 
-  // Persiste los cambios (reacciones y nuevas opiniones) del usuario.
+  // Persiste los cambios del usuario.
   useEffect(() => {
     if (!hydrated) return;
     try {
@@ -153,14 +162,25 @@ export default function Debates() {
     const contraArguments = activeDebate.arguments.filter((a) => a.type === 'contra');
 
     return (
-      <div className="debates-section">
-        <button className="back-btn" onClick={() => setSelectedDebateId(null)}>
+      <motion.div 
+        className="debates-section"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.4 }}
+      >
+        <motion.button 
+          className="back-btn" 
+          onClick={() => setSelectedDebateId(null)}
+          whileHover={{ x: -4 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">
             <line x1="19" y1="12" x2="5" y2="12" />
             <polyline points="12 19 5 12 12 5" />
           </svg>
           <span>Volver a la lista de debates</span>
-        </button>
+        </motion.button>
 
         <article className="debate-detail-card">
           <span className="debate-tag">{activeDebate.tag}</span>
@@ -245,12 +265,17 @@ export default function Debates() {
                 required
               />
             </div>
-            <button type="submit" className="btn-primary">
+            <motion.button 
+              type="submit" 
+              className="btn-primary"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
               Enviar Postura
-            </button>
+            </motion.button>
           </form>
         </section>
-      </div>
+      </motion.div>
     );
   }
 
@@ -258,13 +283,23 @@ export default function Debates() {
   // Vista de lista de debates
   // ---------------------------------------------------------------------------
   return (
-    <div className="debates-section">
-      <div className="page-header">
+    <motion.div 
+      className="debates-section"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div 
+        className="page-header"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <h2 className="page-title">Foro de Debates</h2>
         <p className="page-subtitle">
           Espacio para dialogar sobre la verdad, la teología y nuestra postura ante el mundo moderno.
         </p>
-      </div>
+      </motion.div>
 
       <div className="search-filter-bar">
         <div className="search-input-wrapper">
@@ -283,9 +318,15 @@ export default function Debates() {
 
         <div className="tags-filter">
           {DEBATE_TAGS.map((tag) => (
-            <button key={tag} onClick={() => setSelectedTag(tag)} className={`tag-btn ${selectedTag === tag ? 'active' : ''}`}>
+            <motion.button 
+              key={tag} 
+              onClick={() => setSelectedTag(tag)} 
+              className={`tag-btn ${selectedTag === tag ? 'active' : ''}`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               {tag}
-            </button>
+            </motion.button>
           ))}
         </div>
       </div>
@@ -296,13 +337,18 @@ export default function Debates() {
             No se encontraron debates que coincidan con la búsqueda.
           </p>
         ) : (
-          filteredDebates.map((debate) => (
-            <article
+          filteredDebates.map((debate, idx) => (
+            <motion.article
               key={debate.id}
               className="debate-card"
               onClick={() => setSelectedDebateId(debate.id)}
               role="button"
               tabIndex={0}
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: idx * 0.1 }}
+              whileHover={{ y: -5, scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
@@ -333,10 +379,10 @@ export default function Debates() {
               <span className="btn-outline" style={{ display: 'inline-block', width: 'auto' }}>
                 Entrar al Debate
               </span>
-            </article>
+            </motion.article>
           ))
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

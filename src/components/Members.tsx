@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import ProfileModal from './ProfileModal';
 import { LEADER, ADMINS } from '@/data/members';
 import type { Member, Leader } from '@/types';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Members() {
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
@@ -120,7 +120,10 @@ export default function Members() {
 
 
 
-      {selectedMember && <ProfileModal member={selectedMember} onClose={() => setSelectedMember(null)} />}
+      <AnimatePresence>
+        {selectedMember && <ProfileModal member={selectedMember} onClose={() => setSelectedMember(null)} />}
+      </AnimatePresence>
     </>
   );
 }
+
