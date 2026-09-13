@@ -61,12 +61,35 @@ test('4. Estilos Responsive y adaptabilidad en index.css', () => {
   assert.ok(cssContent.includes('@media (max-width: 480px)'), 'Debe incluir media query de 480px para móviles');
 });
 
-test('5. Contenido de referencia filosófica (Prof. Ilan / Platón Gorgias)', () => {
-  const membersPath = path.join(rootDir, 'src/data/members.ts');
-  const membersContent = fs.readFileSync(membersPath, 'utf8');
+test('5. Contenido de referencia filosófica en módulo desacoplado publications.ts', () => {
+  const pubPath = path.join(rootDir, 'src/data/publications.ts');
+  const pubContent = fs.readFileSync(pubPath, 'utf8');
 
-  assert.ok(membersContent.includes('Sócrates sobre el placer, la virtud y el bien'), 'Debe incluir el título del ensayo');
-  assert.ok(membersContent.includes('La alegoría de los dos toneles'), 'Debe incluir el subtítulo de la alegoría');
-  assert.ok(membersContent.includes('metaética antihedonista'), 'Debe incluir la tesis metaética');
-  assert.ok(membersContent.includes('https://www.filosofia.org/cla/pla/img/azf05115.pdf'), 'Debe incluir la cita de fuente');
+  assert.ok(pubContent.includes('Sócrates sobre el placer, la virtud y el bien'), 'Debe incluir el título del ensayo');
+  assert.ok(pubContent.includes('La alegoría de los dos toneles'), 'Debe incluir el subtítulo de la alegoría');
+  assert.ok(pubContent.includes('metaética antihedonista'), 'Debe incluir la tesis metaética');
+  assert.ok(pubContent.includes('https://www.filosofia.org/cla/pla/img/azf05115.pdf'), 'Debe incluir la cita de fuente');
+});
+
+test('6. Arquitectura Modular y Fácilmente Auditable (archivos concisos < 100 líneas)', () => {
+  const filesToCheck = [
+    'src/data/members.ts',
+    'src/data/publications.ts',
+    'src/data/member_details.ts',
+    'src/app/integrantes/[slug]/page.tsx',
+    'src/components/integrantes/IntegranteHero.tsx',
+    'src/components/integrantes/IntegranteStats.tsx',
+    'src/components/integrantes/IntegrantePublication.tsx',
+    'src/components/integrantes/IntegranteNavFooter.tsx',
+  ];
+
+  for (const relativePath of filesToCheck) {
+    const fullPath = path.join(rootDir, relativePath);
+    assert.ok(fs.existsSync(fullPath), `El archivo modular ${relativePath} debe existir`);
+    const lineCount = fs.readFileSync(fullPath, 'utf8').split('\n').length;
+    assert.ok(
+      lineCount <= 120,
+      `El archivo ${relativePath} tiene ${lineCount} líneas (debe ser conciso <= 120 líneas para fácil auditoría)`
+    );
+  }
 });
