@@ -22,7 +22,7 @@ const INITIAL_POSTS: CommunityPost[] = [
     id: 'post-1',
     author: 'Fireboy',
     role: 'Fundador & Superadmin',
-    avatar: '/assets/avatar_fireboy_1781973753933.webp',
+    avatar: '/assets/fireboy_dorsal_7.webp',
     timestamp: 'Hace 2 horas',
     tag: 'Proclama Oficial',
     content: 'La defensa de la vida no es una postura negociable ni una moda coyuntural: es un imperativo ontológico. Invitamos a todos los nuevos miembros a estudiar a fondo el nuevo tratado sobre la Posmodernidad en la sección de Manifiestos.',

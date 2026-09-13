@@ -26,7 +26,7 @@ export default function ManifiestosPage() {
         <div className="relative z-10 max-w-2xl space-y-3">
           <div className="flex items-center gap-2">
             <span className="badge-premium badge-magenta-neon text-[10px]">
-              🔥 Tratado Mayor • Frank Vargas (Fireboy)
+              🔥 Tratado Mayor • Fireboy (Líder Fundador)
             </span>
             <span className="text-xs text-slate-400">12 min de lectura</span>
           </div>

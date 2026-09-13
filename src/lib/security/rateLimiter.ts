@@ -22,6 +22,7 @@ export interface SecurityEvent {
     | 'IP_MANUALLY_BANNED'
     | 'IP_UNBANNED'
     | 'SUSPICIOUS_PROBE'
+    | 'PROMPT_INJECTION_BLOCKED'
     | 'SESSION_HIJACK_ATTEMPT';
   detail: string;
 }

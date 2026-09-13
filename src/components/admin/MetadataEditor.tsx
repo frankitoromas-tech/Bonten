@@ -129,7 +129,7 @@ export function MetadataEditor({ initialMetadata }: Props) {
             <div className="flex items-center gap-3 pt-3 border-t border-slate-200/80 dark:border-white/10">
               <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-sky-400/40 shadow-sm shrink-0">
                 <Image
-                  src={data.fireboy.avatar || '/assets/avatar_fireboy_1781973753933.webp'}
+                  src={data.fireboy.avatar || '/assets/fireboy_dorsal_7.webp'}
                   alt={data.fireboy.fullName}
                   fill
                   sizes="40px"
@@ -242,7 +242,7 @@ export function MetadataEditor({ initialMetadata }: Props) {
             </label>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-2.5">
               {FIREBOY_GALLERY.map((photo) => {
-                const isSelected = (data.fireboy.avatar || '/assets/avatar_fireboy_1781973753933.webp') === photo.url;
+                const isSelected = (data.fireboy.avatar || '/assets/fireboy_dorsal_7.webp') === photo.url;
                 return (
                   <button
                     key={photo.url}

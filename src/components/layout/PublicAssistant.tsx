@@ -29,11 +29,15 @@ export default function PublicAssistant() {
     {
       id: 'welcome',
       sender: 'assistant',
-      text: '¡Hola! Soy la **Guía de Orientación BONTEN** ⚡\nPuedo orientarte sobre nuestra filosofía, el Tratado de Posmodernidad de Fireboy, el Decálogo Provida, o indicarte cómo navegar por cualquier sección de la web.',
+      text:
+        'Paz y firmeza ontológica. Soy **Aegis**, el Centinela y Guía Soberano de **BONTEN** ⚡\n\n' +
+        'Custodio los tratados de la biblioteca, la doctrina provida de Fireboy y la orientación canónica del sitio. ' +
+        '¿En qué verdad filosófica o sección de nuestra resistencia deseas profundizar?',
       routes: [
         { label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' },
+        { label: 'Biblioteca Doctrinal (6)', href: '#biblioteca-seccion' },
+        { label: 'Mesa Directiva', href: '/integrantes' },
         { label: 'Comunidad Provida', href: '/comunidad' },
-        { label: 'Integrantes', href: '/integrantes' },
       ],
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
@@ -229,14 +233,14 @@ export default function PublicAssistant() {
                 />
               </div>
               <div>
-                <h3 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
-                  <span className="shimmer-text-delight">Guía BONTEN</span>
-                  <span className="text-[9.5px] font-mono px-1.5 py-0.2 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30">
-                    Soberana
+                <h3 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5 flex-wrap">
+                  <span className="shimmer-text-delight">Aegis • Guía BONTEN</span>
+                  <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/35 flex items-center gap-1">
+                    🛡️ Anti-Injection L7
                   </span>
                 </h3>
                 <p className="text-[10px] text-slate-400">
-                  Orientación doctrinal y navegación de élite
+                  Centinela doctrinal, bioética y navegación soberana
                 </p>
               </div>
             </div>
@@ -365,6 +369,28 @@ export default function PublicAssistant() {
             )}
 
             <div ref={chatBottomRef} />
+          </div>
+
+          {/* Fila de Sugerencias Rápidas / Prompt Chips */}
+          <div className="px-3 py-2 bg-slate-950/60 border-t border-slate-800/60 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+            {[
+              '🔥 ¿Quién es Fireboy?',
+              '⚡ ¿Quién desarrolló la web?',
+              '📚 Biblioteca (6 Tratados)',
+              '📜 Tratado de Posmodernidad',
+              '⚖️ Argumentos Provida',
+              '🌐 Unirme a la Comunidad',
+            ].map((chip, cIdx) => (
+              <button
+                key={cIdx}
+                type="button"
+                disabled={loading}
+                onClick={() => handleSend(chip)}
+                className="whitespace-nowrap text-[10.5px] px-2.5 py-1 rounded-full bg-slate-900/90 hover:bg-sky-950/80 border border-slate-700/60 hover:border-sky-500/40 text-slate-300 hover:text-sky-300 transition-all cursor-pointer disabled:opacity-50"
+              >
+                {chip}
+              </button>
+            ))}
           </div>
 
           {/* Formulario de Entrada */}

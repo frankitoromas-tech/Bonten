@@ -118,30 +118,44 @@ export default function PosmodernidadPage() {
             Una investigación crítica sobre el ocaso de los metarrelatos, la mercantilización biopolítica y la fundamentación del derecho inalienable a la vida frente al relativismo moral contemporáneo.
           </p>
 
-          {/* Tarjeta de Autor: Fireboy */}
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200/80 dark:border-white/10 shadow-sm flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-sky-400/40 shadow-sm">
+          {/* Tarjeta de Autor Ultra-Premium: Fireboy (Fundador de BONTEN) */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-white/90 dark:bg-slate-900/80 border border-amber-400/30 dark:border-amber-400/25 shadow-lg shadow-amber-950/5 dark:shadow-[0_10px_30px_-10px_rgba(245,158,11,0.15)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 backdrop-blur-xl relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-80" />
+            
+            <div className="flex items-center gap-3.5">
+              <div className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-2xl overflow-hidden border-2 border-amber-400/50 shadow-md shadow-amber-500/20 flex-shrink-0">
                 <Image
-                  src="/assets/avatar_fireboy_1781973753933.webp"
-                  alt="Fireboy"
-                  width={48}
-                  height={48}
-                  className="w-full h-full object-cover"
+                  src="/assets/fireboy_dorsal_7.webp"
+                  alt="Fireboy (Fundador de BONTEN)"
+                  width={56}
+                  height={56}
+                  className="w-full h-full object-cover object-top"
+                  priority
                 />
               </div>
-              <div>
-                <span className="text-sm font-bold text-[var(--title-color)] block">
-                  Frank Vargas (Fireboy)
-                </span>
-                <span className="text-xs text-sky-600 dark:text-sky-400 font-medium">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-base sm:text-lg font-extrabold text-[var(--title-color)]">
+                    Fireboy
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-600 dark:text-amber-400 text-[10px] font-bold uppercase tracking-wider">
+                    👑 Líder Fundador
+                  </span>
+                </div>
+                <span className="text-xs sm:text-sm text-sky-600 dark:text-sky-400 font-medium block">
                   Fundador y Presidente de BONTEN • Bloque Provida
                 </span>
               </div>
             </div>
-            <span className="text-[11px] font-mono text-[var(--text-muted)] hidden sm:block">
-              Edición Oficial BONTEN 2026
-            </span>
+
+            <div className="flex flex-col sm:items-end gap-1 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200/60 dark:border-slate-800">
+              <span className="text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400">
+                Edición Canónica BONTEN 2026
+              </span>
+              <span className="text-[10px] text-[var(--text-muted)]">
+                Registro Doctrinal #001 • Acceso Público
+              </span>
+            </div>
           </div>
         </header>
 
@@ -211,8 +225,8 @@ export default function PosmodernidadPage() {
               La batalla cultural de nuestro tiempo no se librará con consignas vacías ni con descalificaciones emotivas, sino con la contundencia de la verdad fundamentada. Invitamos a cada joven, a cada estudiante y a cada ciudadano a sumarse a esta fraternidad de resistencia intelectual y compromiso moral.
             </p>
             <div className="pt-3 flex flex-wrap items-center justify-between gap-3">
-              <span className="text-xs font-semibold text-sky-600 dark:text-sky-400">
-                — Frank Vargas (Fireboy) • Fundador de BONTEN
+              <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
+                <span>🔥</span> — Fireboy • Fundador y Presidente de BONTEN
               </span>
               <Link
                 href="/comunidad"
@@ -220,6 +234,12 @@ export default function PosmodernidadPage() {
               >
                 Unirse a la Comunidad Provida →
               </Link>
+            </div>
+
+            {/* Colofón Editorial & Créditos Técnicos */}
+            <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between text-[11px] text-[var(--text-muted)] gap-2">
+              <span>✍️ <strong>Autor del Tratado:</strong> Fireboy (Líder Doctrinal BONTEN)</span>
+              <span>⚡ <strong>Ingeniería & Arquitectura Web:</strong> Frank Vargas</span>
             </div>
           </section>
         </div>
