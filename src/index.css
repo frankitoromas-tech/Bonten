@@ -716,7 +716,7 @@ body {
     border-radius: var(--radius-lg);
     text-decoration: none;
     color: var(--text-dark);
-    transition: var(--transition);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
     box-shadow: var(--shadow-soft);
     height: 100%;
     position: relative;
@@ -724,9 +724,8 @@ body {
 }
 
 .quick-hub-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent-pink);
-    box-shadow: var(--shadow-hover);
+    border-color: rgba(56, 189, 248, 0.45);
+    box-shadow: 0 16px 36px -10px rgba(56, 189, 248, 0.22), var(--shadow-hover);
 }
 
 .quick-hub-header {

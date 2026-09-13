@@ -169,11 +169,12 @@ export function AdminCopilot({ onMetadataUpdated }: Props) {
   };
 
   const automatedWorkflows = [
+    { label: '⚡ Fireboy Dorsal 7', prompt: 'Cambiar el avatar oficial de Fireboy a la nueva foto del dorsal 7 en el estadio (/assets/fireboy_dorsal_7.webp)' },
     { label: '🚀 Campaña Provida', prompt: 'Lanzar campaña provida con título y slogan actualizados' },
     { label: '🛡️ Aislar IP Maliciosa', prompt: 'Bloquea la IP sospechosa 198.51.100.42 por intento reiterado de intrusión' },
     { label: '⚖️ Ética Socrática (Gorgias 493a)', prompt: 'Explícame la alegoría socrática de los dos toneles perforados de Gorgias 493a y su aplicación ética' },
     { label: '💬 Crear Debate Doctrinal', prompt: 'Crear un nuevo debate sobre bioética y deontología provida' },
-    { label: '🖼️ Actualizar Foto Fireboy', prompt: 'Cambiar avatar oficial de Fireboy a /assets/avatar_fireboy_1781973753933.webp' },
+    { label: '🖼️ Avatar Estudio', prompt: 'Cambiar avatar oficial de Fireboy a /assets/avatar_fireboy_1781973753933.webp' },
     { label: '🛡️ Auditoría WAF & Seguridad', prompt: 'Realiza una auditoría completa de vulnerabilidades y seguridad' },
     { label: '📚 Publicar Ensayo Bioética', prompt: 'Publicar ensayo sobre bioética titulado "La Dignidad del Ser en Gestación"' },
     { label: '✨ Optimizar Metadatos SEO', prompt: 'Optimiza los metadatos y SEO para posicionamiento' },

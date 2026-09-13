@@ -21,6 +21,36 @@ export default function ManifiestosPage() {
         </p>
       </div>
 
+      {/* Tratado Mayor de Fireboy Destacado */}
+      <div className="mb-10 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#06183a] via-[#120f33] to-[#1c0828] text-white border border-purple-500/30 shadow-2xl relative overflow-hidden">
+        <div className="relative z-10 max-w-2xl space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="badge-premium badge-magenta-neon text-[10px]">
+              🔥 Tratado Mayor • Frank Vargas (Fireboy)
+            </span>
+            <span className="text-xs text-slate-400">12 min de lectura</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            La Fractura Posmoderna: Desconstrucción del Nihilismo y Reivindicación de la Dignidad Humana
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Una investigación crítica profunda sobre el colapso de los metarrelatos éticos, la biopolítica del descarte y la fundamentación ontológica irrenunciable del derecho a la vida.
+          </p>
+          <div className="pt-2 flex flex-wrap items-center gap-3">
+            <Link
+              href="/manifiestos/posmodernidad"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold text-xs shadow-lg shadow-sky-500/25 transition-all inline-flex items-center gap-2"
+            >
+              <span>Leer Tratado Filosófico Completo</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <div className="cards-grid">
         {MANIFIESTOS.map((m, i) => {
           const isFeatured = i === 0;

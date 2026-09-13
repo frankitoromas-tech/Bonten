@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 
@@ -38,6 +39,24 @@ export default function Footer() {
             <span>{s.label}</span>
           </motion.a>
         ))}
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-slate-200/40 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+        <p>© 2026 BONTEN • Resistencia Provida & Nueva Generación. Todos los derechos reservados.</p>
+        <div className="flex items-center gap-3">
+          <Link href="/comunidad" className="hover:text-sky-400 transition-colors">
+            Comunidad
+          </Link>
+          <span className="opacity-30">•</span>
+          {/* Enlace sutil y discreto exclusivo para administradores */}
+          <Link 
+            href="/admin/login" 
+            className="opacity-20 hover:opacity-75 transition-opacity text-[11px] font-mono flex items-center gap-1"
+            title="Acceso reservado a Mesa Directiva (Ctrl+Shift+A)"
+          >
+            <span>🔒</span> Gobernanza
+          </Link>
+        </div>
       </div>
     </footer>
   );

@@ -133,9 +133,10 @@ export async function POST(req: NextRequest) {
         }
 
         case 'FIREBOY_UPDATE_PHOTO':
+        case 'UPDATE_FIREBOY_PHOTO':
           updatedMeta.fireboy = {
             ...updatedMeta.fireboy,
-            avatar: sanitizePlainText((payload.avatar || payload.avatarUrl) as string),
+            avatar: sanitizePlainText(((payload.avatar || payload.avatarUrl || payload.targetImg) as string) || '/assets/fireboy_dorsal_7.webp'),
           };
           updateSiteMetadata(updatedMeta);
           break;
@@ -508,10 +509,18 @@ Sócrates refuta el hedonismo radical de Calicles comparando el alma humana con 
     }
 
     // I3. ACCIONES PUNTUALES: Actualizar Foto / Avatar de Fireboy
-    if (lower.includes('foto') || lower.includes('avatar') || lower.includes('imagen')) {
-      let targetImg = '/assets/avatar_fireboy_1781973753933.webp';
-      let label = 'Oficial (Estudio)';
-      if (lower.includes('gala') || lower.includes('premium')) {
+    if (lower.includes('foto') || lower.includes('avatar') || lower.includes('imagen') || lower.includes('dorsal') || lower.includes('estadio')) {
+      let targetImg = '/assets/fireboy_dorsal_7.webp';
+      let label = 'Dorsal 7 (Estadio & Lluvia)';
+
+      const explicitPath = prompt.match(/(\/assets\/[a-zA-Z0-9_\-\.]+\.(?:webp|jpg|jpeg|png))/i);
+      if (explicitPath && explicitPath[1]) {
+        targetImg = explicitPath[1];
+        label = targetImg.includes('dorsal') ? 'Dorsal 7 (Estadio)' : 'Imagen Personalizada';
+      } else if (lower.includes('7') || lower.includes('dorsal') || lower.includes('estadio') || lower.includes('lluvia') || lower.includes('nueva')) {
+        targetImg = '/assets/fireboy_dorsal_7.webp';
+        label = 'Dorsal 7 (Estadio & Lluvia)';
+      } else if (lower.includes('gala') || lower.includes('premium')) {
         targetImg = '/assets/fireboy_premium_1781974414658.webp';
         label = 'Gala & Eventos';
       } else if (lower.includes('deporte') || lower.includes('futbol') || lower.includes('fútbol')) {
@@ -520,6 +529,9 @@ Sócrates refuta el hedonismo radical de Calicles comparando el alma humana con 
       } else if (lower.includes('b5') || lower.includes('bonten')) {
         targetImg = '/assets/b5.jpeg';
         label = 'BONTEN Simbólico';
+      } else if (lower.includes('estudio') || lower.includes('oficial')) {
+        targetImg = '/assets/avatar_fireboy_1781973753933.webp';
+        label = 'Oficial (Estudio)';
       }
 
       return NextResponse.json({

@@ -6,12 +6,45 @@ import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const NAV_ICONS: Record<string, React.ReactNode> = {
+  '/': (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" className="nav-svg-icon text-amber-400">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.25" />
+    </svg>
+  ),
+  '/integrantes': (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" className="nav-svg-icon text-sky-400">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.25" />
+    </svg>
+  ),
+  '/manifiestos': (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" className="nav-svg-icon text-orange-400">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.2" />
+      <polyline points="14 2 14 8 20 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  ),
+  '/debates': (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" className="nav-svg-icon text-purple-400">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.25" />
+    </svg>
+  ),
+  '/comunidad': (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" className="nav-svg-icon text-emerald-400">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+      <line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" strokeWidth="2" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" strokeWidth="2" fill="currentColor" fillOpacity="0.2" />
+    </svg>
+  ),
+};
+
 const NAV_LINKS = [
-  { href: '/', label: 'Inicio', icon: '⚡' },
-  { href: '/integrantes', label: 'Integrantes', icon: '🛡️' },
-  { href: '/manifiestos', label: 'Manifiestos', icon: '📜' },
-  { href: '/debates', label: 'Debates', icon: '💬' },
-  { href: '/admin', label: 'Admin', icon: '🔐' },
+  { href: '/', label: 'Inicio' },
+  { href: '/integrantes', label: 'Integrantes' },
+  { href: '/manifiestos', label: 'Manifiestos' },
+  { href: '/debates', label: 'Debates' },
+  { href: '/comunidad', label: 'Comunidad' },
 ];
 
 export default function Navbar() {
@@ -21,6 +54,18 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    // Atajo discreto para administradores: Ctrl + Shift + A
+    const handleAdminShortcut = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        e.preventDefault();
+        window.location.href = '/admin/login';
+      }
+    };
+    window.addEventListener('keydown', handleAdminShortcut);
+    return () => window.removeEventListener('keydown', handleAdminShortcut);
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -104,7 +149,7 @@ export default function Navbar() {
                     href={link.href}
                     className={`nav-link ${isActive ? 'active' : ''}`}
                   >
-                    <span className="nav-link-icon">{link.icon}</span>
+                    <span className="nav-link-icon flex items-center justify-center">{NAV_ICONS[link.href]}</span>
                     <span className="nav-link-text">{link.label}</span>
                     {isActive && (
                       <motion.div
@@ -239,7 +284,7 @@ export default function Navbar() {
                         className={`mobile-nav-link ${isActive ? 'active' : ''}`}
                         onClick={() => setMenuOpen(false)}
                       >
-                        <span className="mobile-link-icon">{link.icon}</span>
+                        <span className="mobile-link-icon flex items-center justify-center">{NAV_ICONS[link.href]}</span>
                         <span className="mobile-link-text">{link.label}</span>
                         {isActive && <span className="mobile-active-dot" />}
                       </Link>

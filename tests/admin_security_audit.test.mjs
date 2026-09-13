@@ -271,4 +271,38 @@ test('8. Gestión de Debates y Cuentas de Administrador (PBKDF2 SHA-256)', () =>
   updateAdminPassword(fireboyAdmin.id, 'fireboy_nueva_clave_2026', 'fireboy_bonten_2026');
 });
 
+test('9. Actualización y Sincronización de Avatar de Fireboy (Dorsal 7 en Estadio)', () => {
+  const metaBefore = getSiteMetadata();
+  const dorsal7Path = '/assets/fireboy_dorsal_7.webp';
+
+  // Simular la acción ejecutada por el Copilot de IA (UPDATE_FIREBOY_PHOTO / FIREBOY_UPDATE_PHOTO)
+  const updated = {
+    ...metaBefore,
+    fireboy: {
+      ...metaBefore.fireboy,
+      avatar: dorsal7Path,
+    },
+  };
+  updateSiteMetadata(updated);
+
+  const metaAfter = getSiteMetadata();
+  assert.equal(metaAfter.fireboy.avatar, dorsal7Path, 'El avatar oficial de Fireboy debe sincronizarse a Dorsal 7');
+
+  // Comprobar sanitización de URL ante rutas sospechosas
+  const maliciousAttempt = {
+    ...metaAfter,
+    fireboy: {
+      ...metaAfter.fireboy,
+      avatar: 'javascript:alert(1)',
+    },
+  };
+  updateSiteMetadata(maliciousAttempt);
+  const metaSecure = getSiteMetadata();
+  assert.notEqual(metaSecure.fireboy.avatar, 'javascript:alert(1)', 'Debe rechazar protocolos maliciosos en avatar');
+  
+  // Reestablecer a Dorsal 7
+  updateSiteMetadata({ ...metaSecure, fireboy: { ...metaSecure.fireboy, avatar: dorsal7Path } });
+});
+
+
 

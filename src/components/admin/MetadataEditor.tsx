@@ -19,6 +19,7 @@ const ROLE_PRESETS = [
 ];
 
 const FIREBOY_GALLERY = [
+  { url: '/assets/fireboy_dorsal_7.webp', label: 'Dorsal 7' },
   { url: '/assets/avatar_fireboy_1781973753933.webp', label: 'Oficial' },
   { url: '/assets/fireboy_premium_1781974414658.webp', label: 'Gala' },
   { url: '/assets/fireboy_football_1781974649200.webp', label: 'Deporte' },
@@ -239,7 +240,7 @@ export function MetadataEditor({ initialMetadata }: Props) {
             <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
               Fotografía Oficial de Fireboy (Selección en 1 Clic):
             </label>
-            <div className="grid grid-cols-5 gap-2.5">
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2.5">
               {FIREBOY_GALLERY.map((photo) => {
                 const isSelected = (data.fireboy.avatar || '/assets/avatar_fireboy_1781973753933.webp') === photo.url;
                 return (
