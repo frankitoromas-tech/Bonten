@@ -4,6 +4,9 @@ import { sanitizePlainText } from '@/lib/security/sanitizer';
 import { getAllLeaders } from '@/data/members';
 import { DOCUMENTS } from '@/data/library';
 import { INITIAL_DEBATES } from '@/data/debates';
+import { MEMBER_PUBLICATIONS } from '@/data/publications';
+import { MEMBER_DETAILS } from '@/data/member_details';
+import { MANIFIESTOS } from '@/data/manifiestos';
 import { getSiteMetadata } from '@/lib/data/runtimeStore';
 
 interface NavigationRoute {
@@ -202,178 +205,478 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // 5. Motor Semántico Grounded (Personalidad Socrática y Precisión Doctrinal)
+    // 5. Motor Semántico de Alta Inteligencia (Dialéctica Socrática, Bioética y Epistemología)
     const metadata = getSiteMetadata();
     const leaders = getAllLeaders();
 
     let reply = '';
     const routes: NavigationRoute[] = [];
-    const reasoningSteps: string[] = [
-      'Examinando semántica socrática en el corpus BONTEN...',
-      'Extrayendo axiomas ontológicos y referencias canónicas...',
-      'Generando orientación personalizada con rigor filosófico...',
+    let reasoningSteps: string[] = [
+      'Analizando morfología semántica y ontología de la consulta...',
+      'Accediendo al corpus canónico y tratados de BONTEN...',
+      'Sintetizando disquisición dialéctica con rigor bioético y filosófico...',
     ];
 
-    // Caso 1: Desarrollo Técnico y Arquitectura de la Plataforma
+    // =========================================================================
+    // DOMINIO A: OBJECIONES BIOÉTICAS Y CIENTÍFICAS ESPECÍFICAS
+    // =========================================================================
+
+    // Sub-caso A1: Autonomía Corporal ("Mi cuerpo, mi decisión")
     if (
-      lower.includes('quién hizo la web') ||
-      lower.includes('quien desarrollo') ||
-      lower.includes('desarrollador') ||
-      lower.includes('programador') ||
-      lower.includes('creador de la web') ||
-      lower.includes('tecnologia') ||
-      lower.includes('quien creo la web')
+      lower.includes('mi cuerpo') ||
+      lower.includes('autonomía corporal') ||
+      lower.includes('autonomia corporal') ||
+      lower.includes('propiedad de su cuerpo') ||
+      lower.includes('derecho a decidir')
     ) {
+      reasoningSteps = [
+        'Identificado tópico de autonomía corporal y bioética ontológica...',
+        'Consultando genética embriológica (diferenciación genómica y singamia)...',
+        'Articulando refutación socrática basada en la alteridad del concebido...',
+      ];
       reply =
-        '⚡ **Tecnología & Arquitectura de la Plataforma BONTEN**\n\n' +
-        '• **Equipo de Tecnología BONTEN**: La plataforma web ha sido desarrollada de forma profesional con Next.js, ' +
-        'cifrado HMAC-SHA256, diseño responsivo de alto impacto y una experiencia interactiva moderna.\n' +
-        '• **Fireboy**: Es el **Fundador y Presidente** de BONTEN, autor de los tratados filosóficos y líder del movimiento provida.\n\n' +
-        'Toda la estructura técnica y de diseño está al servicio de la misión formativa de BONTEN.';
-      routes.push({ label: 'Tratado de Fireboy', href: '/manifiestos/posmodernidad' });
-      routes.push({ label: 'Mesa Directiva BONTEN', href: '/integrantes' });
+        '🧬 **Refutación Bioética: La Alteridad Genética frente a "Mi Cuerpo, Mi Decisión"**\n\n' +
+        'El argumento de la autonomía corporal adolece de un error ontológico y biológico fundamental: **la confusión entre huésped y órgano**.\n\n' +
+        '• **Alteridad Genética Irrefutable**: En la fecundación (singamia) se constituye un genoma diploide humano de 46 cromosomas enteramente nuevo, único e irrepetible, con 50% de información paterna y 50% materna. El concebido no es un tejido, apéndice ni órgano de la madre.\n' +
+        '• **Individuo Teleológico Autoorganizado**: La embriología moderna (desde Jérôme Lejeune) demuestra que el embrión coordina activamente su propio desarrollo biológico en una trayectoria continua y no contingente.\n' +
+        '• **Límite Metaético de la Autonomía**: Todo principio de libertad personal halla su límite infranqueable en la alteridad: nadie posee derecho moral o jurídico de disponer de la vida física de otro individuo humano inocente.\n\n' +
+        'La verdadera justicia social no sacrifica al indefenso para resolver un conflicto circunstancial; ampara a ambos.';
+      routes.push({ label: 'Tratado de Bioética (Ilan)', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Decálogo Provida en Comunidad', href: '/comunidad' });
+      routes.push({ label: 'Debates sobre Bioética', href: '/debates' });
+    }
+
+    // Sub-caso A2: Aborto Terapéutico & Principio del Doble Efecto
+    else if (
+      lower.includes('terapéutico') ||
+      lower.includes('terapeutico') ||
+      lower.includes('salvar a la madre') ||
+      lower.includes('riesgo de vida') ||
+      lower.includes('ectópico') ||
+      lower.includes('ectopico') ||
+      lower.includes('doble efecto')
+    ) {
+      reasoningSteps = [
+        'Analizando dilemas bioéticos perinatales y colisión de bienes jurídicos...',
+        'Aplicando principio del voluntario indirecto (Doble Efecto tomista)...',
+        'Contrastando acto médico terapéutico vs eliminación directa del concebido...',
+      ];
+      reply =
+        '⚖️ **Bioética Perinatal: Principio del Doble Efecto vs. Aborto Directo**\n\n' +
+        'En la bioética personalista, la distinción entre un tratamiento médico necesario y un aborto provocado radica en la **intencionalidad y causalidad del acto moral**:\n\n' +
+        '• **Principio del Doble Efecto (Santo Tomás de Aquino)**: Si una intervención médica busca salvar la vida amenazada de la madre (ej. salpingectomía por embarazo ectópico roto o extirpación de tumor uterino), y la muerte del concebido sobreviene como un efecto secundario indirecto, previsto pero jamás buscado ni como fin ni como medio, el acto es moralmente lícito.\n' +
+        '• **Rechazo al Aborto Directo**: El denominado "aborto terapéutico" que procura deliberadamente la muerte del feto como mecanismo de solución clínica contradice el principio hipocrático de primum non nocere (lo primero es no dañar).\n' +
+        '• **Doctrina Médica Integral**: El deber de la obstetricia de vanguardia es salvaguardar siempre a ambos pacientes: madre e hijo.';
+      routes.push({ label: 'Bases Ontológicas (Daniel)', href: '/integrantes/daniel' });
+      routes.push({ label: 'Biblioteca Doctrinal', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Foro de Debates', href: '/debates' });
+    }
+
+    // Sub-caso A3: Violación o Traumas Complejos
+    else if (
+      lower.includes('violación') ||
+      lower.includes('violacion') ||
+      lower.includes('abuso') ||
+      lower.includes('incesto')
+    ) {
+      reasoningSteps = [
+        'Procesando caso límite de trauma bioético y victimología...',
+        'Diferenciando responsabilidad penal del agresor vs estatuto del inocente...',
+        'Articulando protocolo de acogida, justicia y protección de la vida...',
+      ];
+      reply =
+        '🛡️ **Trauma y Dignidad: Justicia frente al Crimen sin Represalias al Inocente**\n\n' +
+        'La violación es un crimen atroz que merece la máxima condena penal y el repudio absoluto de la sociedad. Sin embargo, el análisis ontológico exige rigor y coherencia moral:\n\n' +
+        '• **El Inocente no Hereda la Culpa**: Ningún ser humano elige las circunstancias biológicas o morales de su procreación. Condenar a muerte al hijo no nacido por el crimen perpetrado por su progenitor paterno constituye una traslación injusta de la pena capital hacia una tercera persona enteramente inocente.\n' +
+        '• **No Sanación mediante Eliminación**: La experiencia clínica perinatal confirma que el aborto no repara el trauma de la violencia sexual; por el contrario, suma una segunda herida traumática (síndrome post-aborto) sobre la víctima.\n' +
+        '• **Compromiso Provida Radical**: El Estado y la comunidad deben proveer asistencia psicológica, médica, legal y financiera irrestricta a la madre, garantizando opciones dignas de maternidad protegida o adopción inmediata.';
+      routes.push({ label: 'Manifiesto de Resistencia NG', href: '#biblioteca-seccion' });
       routes.push({ label: 'Comunidad Provida', href: '/comunidad' });
     }
 
-    // Caso 2: Fireboy (Fundador de BONTEN, Dorsal 7, Imagen Actualizada)
+    // Sub-caso A4: Estatus del Cigoto / Embrión / "¿Desde cuándo es persona?"
+    else if (
+      lower.includes('desde cuando') ||
+      lower.includes('cigoto') ||
+      lower.includes('embrion') ||
+      lower.includes('embrión') ||
+      lower.includes('feto') ||
+      lower.includes('es persona') ||
+      lower.includes('ser humano') ||
+      lower.includes('concepción') ||
+      lower.includes('concepcion')
+    ) {
+      reasoningSteps = [
+        'Accediendo a la embriología humana canónica y personalismo ontológico...',
+        'Desmontando criterios funcionalistas gradualistas (Singer / Tooley)...',
+        'Confirmando continuidad ontológica desde la singamia...',
+      ];
+      reply =
+        '🧬 **Estatuto Biológico y Ontológico del Ser Humano desde la Concepción**\n\n' +
+        'La pregunta sobre el inicio de la vida no es un dilema de consenso político; es un hecho zanjado por la genética y la embriología moderna:\n\n' +
+        '• **Continuidad Biológica Ininterrumpida**: Desde el instante en que el espermatozoide fertiliza el óvulo, se inicia un proceso continuo, coordinado y gradual. No existen "saltos metafísicos" entre cigoto, embrión, feto, recién nacido o anciano; es el mismo ser humano en distintas fases de maduración biológica.\n' +
+        '• **Falacia Funcionalista**: Corrientes utilitaristas pretenden supeditar la "condición de persona" a la presencia de corteza cerebral, viabilidad extrauterina o autoconciencia. Esta postura es discriminatoria: la dignidad humana radica en la **naturaleza sustancial** del ser, no en el ejercicio transitorio de funciones accesorias.\n' +
+        '• **Principio Pro Homine**: Ante cualquier duda epistémica, el derecho internacional y la ética natural exigen salvaguardar incondicionalmente la vida del concebido.';
+      routes.push({ label: 'Tratado de Bioética (Ilan)', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Bases Ontológicas (Daniel)', href: '/integrantes/daniel' });
+      routes.push({ label: 'Manifiesto Fundamentos', href: '/manifiestos/fundamentos' });
+    }
+
+    // Sub-caso A5: Eutanasia, Transhumanismo & Manipulación Genética
+    else if (
+      lower.includes('eutanasia') ||
+      lower.includes('transhumanismo') ||
+      lower.includes('manipulación génica') ||
+      lower.includes('crispr') ||
+      lower.includes('eugenesia') ||
+      lower.includes('enfermos terminales')
+    ) {
+      reasoningSteps = [
+        'Consultando tratado de Bioética Personalista vs Transhumanismo (Ilan)...',
+        'Examinando principios de Elio Sgreccia y mercantilización genética...',
+        'Conectando biopoder con descarte contemporáneo de la vulnerabilidad...',
+      ];
+      reply =
+        '🔬 **Bioética Personalista frente al Transhumanismo y la Eutanasia**\n\n' +
+        'En su tratado magistral, **Ilan** deconstruye las derivas mecanicistas que amenazan la antropología integral:\n\n' +
+        '• **Los Cuatro Principios de Elio Sgreccia**: 1) Defensa de la vida física, 2) Principio de totalidad o terapéutico, 3) Libertad y responsabilidad, 4) Solidaridad y subsidiariedad.\n' +
+        '• **El Engaño Transhumanista**: Prometer inmortalidad tecnológica mediante edición CRISPR o hibridación artificial convierte al cuerpo en mercancía descartable. La verdadera vanguardia no es rediseñar al hombre, sino custodiar su dignidad intrínseca.\n' +
+        '• **Eutanasia como Abandono Social**: La eutanasia es la claudicación del sistema de salud ante el sufrimiento evitable. BONTEN defiende los cuidados paliativos integrales y el acompañamiento afectivo hasta la muerte natural, repudiando la eutanasia como eugenesia selectiva disfrazada de compasión.';
+      routes.push({ label: 'Tratado de Bioética Completo', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Perfil de Ilan', href: '/integrantes/ilan' });
+      routes.push({ label: 'Foro de Debates', href: '/debates' });
+    }
+
+    // =========================================================================
+    // DOMINIO B: FILOSOFÍA CLÁSICA, POSMODERNIDAD & SOCIOLOGÍA CRÍTICA
+    // =========================================================================
+
+    // Sub-caso B1: Alegoría del Tonel Agujereado (Gorgias 493a)
+    else if (
+      lower.includes('tonel') ||
+      lower.includes('gorgias') ||
+      lower.includes('calicles') ||
+      lower.includes('sócrates') ||
+      lower.includes('socrates') ||
+      lower.includes('hedonismo') ||
+      lower.includes('templanza') ||
+      lower.includes('criba')
+    ) {
+      reasoningSteps = [
+        'Localizando alegoría socrática en Platón (Gorgias 493a-d)...',
+        'Contrastando sophrosyne socrática con apetito insaciable calicleano...',
+        'Conectando hedonismo clásico con consumismo existencial posmoderno...',
+      ];
+      reply =
+        '🏺 **El Mito del Tonel Agujereado (Gorgias 493a): Deseo Insaciable vs. Templanza Socrática**\n\n' +
+        'En el diálogo platónico *Gorgias*, Sócrates refuta la tesis tiránica de Calicles sobre la felicidad entendida como satisfacción sin freno de los deseos:\n\n' +
+        '• **La Alegoría de los Dos Hombres**: Uno posee toneles sanos; los llena una vez con esfuerzo moderado y goza de paz interior y autosuficiencia. El otro tiene toneles rotos y agujereados; vive condenado día y noche a intentar llenarlos con una criba, bajo tormento y zozobra perpetua.\n' +
+        '• **La Esclavitud del Hedonismo**: Quien no domina sus pasiones no es libre; es un esclavo de sus estímulos biológicos y del consumo incesante.\n' +
+        '• **Aplicación a BONTEN**: La resistencia moral frente a la cultura de la muerte exige sobriedad intelectual, carácter austero y autodominio para no sucumbir a la seducción del conformismo masivo.';
+      routes.push({ label: 'Tratado del Mito del Tonel (Daniel)', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Publicación de Ilan (Gorgias)', href: '/integrantes/ilan' });
+      routes.push({ label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' });
+    }
+
+    // Sub-caso B2: Tratado de Posmodernidad (Fireboy) & Nihilismo
+    else if (
+      lower.includes('posmodernidad') ||
+      lower.includes('fractura') ||
+      lower.includes('nihilismo') ||
+      lower.includes('telos') ||
+      lower.includes('verdad') && lower.includes('relativismo')
+    ) {
+      reasoningSteps = [
+        'Accediendo al tratado cumbre de Fireboy (La Fractura Posmoderna)...',
+        'Analizando deconstrucción ontológica del telos humano...',
+        'Estructurando tesis del tránsito del Ser al Deseo...',
+      ];
+      reply =
+        '📜 **Tratado Insignia: La Fractura Posmoderna y la Deconstrucción del Nihilismo (Fireboy)**\n\n' +
+        'En este ensayo fundacional, Fireboy desmonta la patología espiritual de la era contemporánea:\n\n' +
+        '• **La Ruptura del Telos Humano**: La posmodernidad abandonó los grandes relatos y la verdad ontológica inmutable, reduciendo la libertad humana al mero derecho de elegir entre simulacros de consumo efímero.\n' +
+        '• **Primacía del Deseo sobre el Ser**: Cuando el deseo individual se erige en árbitro supremo de la moralidad, el ser humano más indefenso (el no nacido) se convierte en un obstáculo pragmático que el sistema utilitarista busca eliminar.\n' +
+        '• **El Escándalo de la Inocencia**: El concebido interpela a la sociedad posmoderna porque existe sin consumir, interpela sin hablar y exige amor incondicional sin contraprestación mercantil.\n' +
+        '• **Llamado a la Resistencia**: Construir una vanguardia de jóvenes que rearticulen la fe, la razón y la bioética con rigor intelectual innegociable.';
+      routes.push({ label: 'Leer Tratado Completo', href: '/manifiestos/posmodernidad' });
+      routes.push({ label: 'Perfil de Fireboy', href: '/integrantes/fireboy' });
+      routes.push({ label: 'Todos los Manifiestos', href: '/manifiestos' });
+    }
+
+    // Sub-caso B3: Biopolítica & Modernidad Líquida (Foucault, Agamben, Bauman)
+    else if (
+      lower.includes('biopolítica') ||
+      lower.includes('biopolitica') ||
+      lower.includes('foucault') ||
+      lower.includes('agamben') ||
+      lower.includes('bauman') ||
+      lower.includes('homo sacer') ||
+      lower.includes('modernidad líquida') ||
+      lower.includes('modernidad liquida')
+    ) {
+      reasoningSteps = [
+        'Sintetizando tratados de biopolítica y teoría crítica contemporánea...',
+        'Conectando biopoder ("hacer vivir / dejar morir") con Homo Sacer...',
+        'Evaluando impacto de la modernidad líquida en la desvinculación ética...',
+      ];
+      reply =
+        '🏛️ **Biopolítica y Modernidad Líquida: Del Biopoder al Homo Sacer Contemporáneo**\n\n' +
+        'Nuestra biblioteca articula una crítica profunda a las estructuras de dominación modernas:\n\n' +
+        '• **Michel Foucault (Biopoder)**: La soberanía pasó del tradicional "hacer morir o dejar vivir" a la biopolítica del "hacer vivir y dejar morir", donde el Estado contemporáneo gestiona biológicamente qué poblaciones son rentables y cuáles resultan gravosas.\n' +
+        '• **Giorgio Agamben (Homo Sacer)**: El no nacido y el enfermo terminal son arrojados a un estado de excepción permanente: vidas desprovistas de estatuto jurídico que pueden ser eliminadas sin que la ley lo compute como homicidio.\n' +
+        '• **Zygmunt Bauman (Modernidad Líquida)**: La fragilidad extrema de los compromisos humanos engendra una cultura del descarte donde la procreación se percibe como una amenaza a la autonomía consumista antes que como el don supremo de la existencia.';
+      routes.push({ label: 'Tratado de Biopolítica (Comité)', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' });
+      routes.push({ label: 'Debates Activos', href: '/debates' });
+    }
+
+    // =========================================================================
+    // DOMINIO C: MESA DIRECTIVA, INTEGRANTES Y PUBLICACIONES
+    // =========================================================================
+
+    // Sub-caso C1: Fireboy (Fundador, Dorsal 7, Presidente)
     else if (
       lower.includes('fireboy') ||
       lower.includes('fundador') ||
       lower.includes('presidente') ||
       lower.includes('dorsal 7') ||
-      lower.includes('líder') ||
-      lower.includes('lider')
+      lower.includes('dorsal #7')
     ) {
+      const pub = MEMBER_PUBLICATIONS.fireboy;
       reply =
-        '🔥 **Fireboy — Fundador y Presidente de BONTEN**\n\n' +
-        '• **Rol y Visión**: Líder Fundador del Bloque Provida, ensayista principal y apologeta presuposicional de BONTEN.\n' +
-        '• **Pensamiento Central**: Sostiene que defender la vida no es un convencionalismo temporal, sino una exigencia ontológica inquebrantable frente al nihilismo de la época.\n' +
-        '• **Iconografía Oficial**: Su imagen canónica lo representa con la **camiseta dorsal #7 en el estadio bajo la lluvia**, ' +
-        'apuntando hacia lo alto como testimonio de fe, entereza y perseverancia ante la adversidad.\n' +
-        '• **Obra Cumbre**: Autor del tratado magistral *"La Fractura Posmoderna: Desconstrucción del Nihilismo y Reivindicación de la Dignidad Humana"*.\n' +
-        '• **Canales Oficiales**: Activo en TikTok (@fireboyphilosophy) y YouTube transmitiendo formación filosófica.';
-      routes.push({ label: 'Leer Tratado de Fireboy', href: '/manifiestos/posmodernidad' });
-      routes.push({ label: 'Perfil de Fireboy', href: '/integrantes/fireboy' });
-      routes.push({ label: 'Muro de la Comunidad', href: '/comunidad' });
+        '🔥 **Fireboy — Líder Fundador y Presidente de BONTEN**\n\n' +
+        '• **Rol en la Resistencia**: Ensayista principal, orador y apologeta presuposicional. Encabeza la dirección doctrinal y estratégica del movimiento provida.\n' +
+        '• **Iconografía Canónica**: Representado con la **camiseta dorsal #7 en el estadio bajo la lluvia**, apuntando al cielo como símbolo de perseverancia inquebrantable, fe y rectitud ante la tormenta cultural.\n' +
+        '• **Publicación Destacada**: *"La Necesidad Ineludible de la Resistencia Intelectual"*, donde expone por qué el letargo del pensamiento es la antesala de la sumisión cultural.\n' +
+        '• **Tratado Insignia**: Autor de *"La Fractura Posmoderna: Desconstrucción del Nihilismo y Reivindicación de la Dignidad Humana"*.\n' +
+        '• **Redes Oficiales**: TikTok: @fireboyphilosophy | YouTube: Fireboy Philosophy.';
+      routes.push({ label: 'Leer Ensayo de Fireboy', href: '/manifiestos/posmodernidad' });
+      routes.push({ label: 'Ficha de Fireboy', href: '/integrantes/fireboy' });
+      routes.push({ label: 'Mesa Directiva', href: '/integrantes' });
     }
 
-    // Caso 3: Biblioteca & Corpus de Tratados (6 Tratados)
+    // Sub-caso C2: Daniel (Administrador & Bioética Jurídica)
+    else if (lower.includes('daniel') || lower.includes('brightburn')) {
+      const pub = MEMBER_PUBLICATIONS.daniel;
+      reply =
+        '🛡️ **Daniel — Administrador y Co-administrador de Comunidad**\n\n' +
+        '• **Rol & Especialidad**: Administrador de BONTEN, moderador del foro de debates y defensor del derecho natural y la ética personalista.\n' +
+        '• **Publicación Destacada**: *"Bases Ontológicas y Éticas de la Defensa de la Vida"*, donde fundamenta que la dignidad humana es un límite infranqueable a la tiranía y al arbitrio estatal.\n' +
+        '• **Tratado en Biblioteca**: Autor del ensayo pedagógico sobre *El Mito del Tonel Agujereado (Gorgias 493a)*.\n' +
+        '• **Canales**: Activo en TikTok (@brightburn.1895.t) coordinando la formación ética de la comunidad.';
+      routes.push({ label: 'Ficha de Daniel', href: '/integrantes/daniel' });
+      routes.push({ label: 'Ver Publicación de Daniel', href: '/integrantes/daniel' });
+      routes.push({ label: 'Foro de Debates', href: '/debates' });
+    }
+
+    // Sub-caso C3: Mijail (Estratega & Lógica Dialéctica)
+    else if (lower.includes('mijail') || lower.includes('falacias')) {
+      const pub = MEMBER_PUBLICATIONS.mijail;
+      reply =
+        '🧠 **Mijail — Administrador y Estratega Dialéctico**\n\n' +
+        '• **Rol & Especialidad**: Pilar estratégico de BONTEN, analista de discurso crítico y detector de falacias lógicas en debates de alta polarización.\n' +
+        '• **Publicación Destacada**: *"Desmontando Falacias: Dialéctica y Rigor en el Discurso Público"*, un manual analítico contra el ad hominem, el falso dilema y el hombre de paja.\n' +
+        '• **Misión**: Fomentar el pensamiento analítico riguroso y la disciplina intelectual en las plataformas digitales.\n' +
+        '• **Canales**: TikTok (@mijail0712) liderando refutaciones dialécticas en tiempo real.';
+      routes.push({ label: 'Ficha de Mijail', href: '/integrantes/mijail' });
+      routes.push({ label: 'Mesa Directiva', href: '/integrantes' });
+      routes.push({ label: 'Debates de la Comunidad', href: '/debates' });
+    }
+
+    // Sub-caso C4: Ilan / Ian (Consejo Doctrinal & Bioética)
+    else if (lower.includes('ilan') || lower.includes('ian') || lower.includes('belmonte')) {
+      const pub = MEMBER_PUBLICATIONS.ilan;
+      reply =
+        '⚖️ **Ilan J. Jiménez R. — Consejo Doctrinal y Especialista en Bioética**\n\n' +
+        '• **Rol & Especialidad**: Administrador y asesor doctrinario en bioética personalista, hermenéutica clásica y diálogo socrático.\n' +
+        '• **Publicación Destacada**: *"Sócrates sobre el placer, la virtud y el bien (Alegoría de los dos toneles)"*, disquisición metaética basada en el Gorgias platónico.\n' +
+        '• **Tratado en Biblioteca**: Autor de *"Bioética Personalista frente al Transhumanismo y la Manipulación Génica"*, aplicando los 4 principios de Elio Sgreccia.\n' +
+        '• **Canales**: TikTok (@ianhbelmonte) difundiendo argumentos racionales y bioéticos.';
+      routes.push({ label: 'Ficha de Ilan', href: '/integrantes/ilan' });
+      routes.push({ label: 'Tratado de Bioética (Ilan)', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Mesa Directiva', href: '/integrantes' });
+    }
+
+    // Sub-caso C5: Laura (Comunicaciones & Juventud Provida)
+    else if (lower.includes('laura') || lower.includes('comunicación')) {
+      reply =
+        '🌟 **Laura — Administradora y Coordinadora de Comunicaciones**\n\n' +
+        '• **Rol & Especialidad**: Líder de activismo, dirección de estrategias de comunicación pública y movilización de nuevas generaciones en defensa de la vida.\n' +
+        '• **Misión**: Extender la voz de la resistencia provida a nivel intergeneracional, inspirando compromiso y disciplina comunitaria.\n' +
+        '• **Canales**: TikTok (@lauhernandez982) impulsando campañas de concientización ética.';
+      routes.push({ label: 'Ficha de Laura', href: '/integrantes/laura' });
+      routes.push({ label: 'Muro de la Comunidad', href: '/comunidad' });
+      routes.push({ label: 'Mesa Directiva', href: '/integrantes' });
+    }
+
+    // Sub-caso C6: Mesa Directiva General
+    else if (
+      lower.includes('integrante') ||
+      lower.includes('directiva') ||
+      lower.includes('mesa directiva') ||
+      lower.includes('equipo') ||
+      lower.includes('quiénes son') ||
+      lower.includes('quienes son')
+    ) {
+      const list = leaders.map((l) => `• **${l.name}** — *${l.role}* (${l.handle})`).join('\n');
+      reply =
+        '🛡️ **Mesa Directiva y Consejo de Conducción BONTEN**\n\n' +
+        'Nuestra estructura directiva combina liderazgo apologético, rigor jurídico y vocación formativa:\n\n' +
+        list +
+        '\n\nPuedes explorar el perfil individual de cada líder con sus disquisiciones, métricas y publicaciones académicas:';
+      routes.push({ label: 'Directorio de Integrantes', href: '/integrantes' });
+      routes.push({ label: 'Ficha de Fireboy', href: '/integrantes/fireboy' });
+      routes.push({ label: 'Ficha de Daniel', href: '/integrantes/daniel' });
+    }
+
+    // =========================================================================
+    // DOMINIO D: BIBLIOTECA EDITORIAL & ARCHIVO DOCTRINAL (6 TRATADOS)
+    // =========================================================================
     else if (
       lower.includes('biblioteca') ||
       lower.includes('tratados') ||
       lower.includes('documentos') ||
       lower.includes('libros') ||
       lower.includes('recursos') ||
-      lower.includes('lecturas')
+      lower.includes('leer') ||
+      lower.includes('archivo')
     ) {
-      const docList = DOCUMENTS.map(
-        (d) => `• **${d.title}**\n  ↳ *Autor:* ${d.author} | *Cat:* ${d.category} | *Tiempo:* ${d.readTime}`
+      const docSummaries = DOCUMENTS.map(
+        (d) => `• **${d.title}**\n  ↳ *Autor:* ${d.author} | *Nivel:* ${d.level ?? 'Intermedio'} | *Lectura:* ${d.readTime}`
       ).join('\n\n');
 
       reply =
-        '📚 **Biblioteca y Archivo Doctrinal BONTEN (6 Tratados de Élite)**\n\n' +
-        'Nuestra biblioteca alberga un corpus riguroso categorizado por disciplinas filosóficas y bioéticas:\n\n' +
-        docList +
-        '\n\nPuedes buscar en tiempo real, filtrar por categoría o escuchar la locución por voz en el visor interactivo:';
+        '📚 **Biblioteca Editorial & Archivo Doctrinal BONTEN (6 Tratados de Élite)**\n\n' +
+        'Disponemos de un corpus clasificado con visor interactivo a pantalla completa y locución por voz:\n\n' +
+        docSummaries +
+        '\n\nPuedes filtrar por categoría (Posmodernidad, Bioética, Doctrina, Filosofía Clásica o Teología) y acceder a la lectura integral inmediata:';
       routes.push({ label: 'Explorar Biblioteca Doctrinal', href: '#biblioteca-seccion' });
       routes.push({ label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' });
-      routes.push({ label: 'Todos los Manifiestos', href: '/manifiestos' });
+      routes.push({ label: 'Ver Todos los Manifiestos', href: '/manifiestos' });
     }
 
-    // Caso 4: Tratado de Posmodernidad & Filosofía Clásica
+    // =========================================================================
+    // DOMINIO E: DEBATES COMUNITARIOS & DIALÉCTICA EN EL FORO
+    // =========================================================================
     else if (
-      lower.includes('posmodernidad') ||
-      lower.includes('nihilismo') ||
-      lower.includes('bauman') ||
-      lower.includes('foucault') ||
-      lower.includes('gorgias') ||
-      lower.includes('tonel') ||
-      lower.includes('deconstructivismo')
+      lower.includes('debate') ||
+      lower.includes('foro') ||
+      lower.includes('argumentar') ||
+      lower.includes('postura') ||
+      lower.includes('votar') ||
+      lower.includes('fe y razon') ||
+      lower.includes('fe y razón')
+    ) {
+      const debateList = INITIAL_DEBATES.map(
+        (deb) => `• **${deb.title}** [${deb.tag}] — *${deb.voters} votos* | *${deb.commentsCount} argumentos registrados*`
+      ).join('\n');
+
+      reply =
+        '💬 **Foro de Debates & Dialéctica Argumentativa BONTEN**\n\n' +
+        'Nuestra plataforma promueve el combate intelectual honesto mediante argumentos fundamentados:\n\n' +
+        debateList +
+        '\n\n• **Participación Verificada**: Para preservar el rigor y evitar spam, debes iniciar sesión con tu cuenta de la Comunidad para votar y subir posturas.\n' +
+        '• **Estructura Dialéctica**: Argumentos clasificados en Pro (apoyo al manifiesto) y Contra (crítica constructiva), sujetos a reacciones de rigor socrático.';
+      routes.push({ label: 'Ingresar al Foro de Debates', href: '/debates' });
+      routes.push({ label: 'Iniciar Sesión para Debatir', href: '/auth/login?redirect=/debates' });
+      routes.push({ label: 'Comunidad Provida', href: '/comunidad' });
+    }
+
+    // =========================================================================
+    // DOMINIO F: MANIFIESTOS DOCTRINALES & ÉTICA EN LA DESINFORMACIÓN
+    // =========================================================================
+    else if (
+      lower.includes('manifiesto') ||
+      lower.includes('fundamentos') ||
+      lower.includes('desinformación') ||
+      lower.includes('desinformacion') ||
+      lower.includes('ética') ||
+      lower.includes('etica')
     ) {
       reply =
-        '📜 **Tratado Insignia: Crítica a la Posmodernidad (Fireboy)**\n\n' +
-        'En esta disquisición cumbre, Fireboy desarticula la crisis ética de la civilización occidental:\n\n' +
-        '1. **El Mito del Tonel Agujereado (Gorgias 493a)**: Sócrates demuestra que quien busca la libertad en el placer sin freno es como quien carga agua en un cántaro roto. El hedonismo posmoderno engendra esclavitud existencial.\n' +
-        '2. **Biopolítica del Descarte**: Siguiendo a Foucault y Agamben, se expone cómo el poder contemporáneo divide a los seres humanos entre "vidas rentables" y "vidas prescindibles", justificando la eliminación del inocente.\n' +
-        '3. **Modernidad Líquida (Bauman)**: La fragilidad extrema de los compromisos humanos convierte la concepción en una amenaza percibida, cuando en realidad es el origen sagrado del porvenir.';
-      routes.push({ label: 'Leer Tratado Completo', href: '/manifiestos/posmodernidad' });
-      routes.push({ label: 'Ver en la Biblioteca', href: '#biblioteca-seccion' });
+        '📜 **Manifiestos Doctrinales de la Resistencia BONTEN**\n\n' +
+        '1. **Fundamentos del Bloque Provida**: Una exégesis rigurosa sobre por qué la resistencia contemporánea requiere basarse en principios inmutables y no en las modas culturales efímeras.\n' +
+        '2. **La Ética en la Era de la Desinformación**: Frente a la saturación de ruido mediático y relativismo, BONTEN postula tres disciplinas éticas cardinales:\n' +
+        '   • *Verificar antes de compartir*: Rigor epistémico sobre las fuentes primarias.\n' +
+        '   • *Argumentar antes de reaccionar*: Demolición serena del sofisma sin caer en la provocación.\n' +
+        '   • *Respetar antes de refutar*: La contienda es contra la falacia, no contra la persona.';
+      routes.push({ label: 'Manifiesto de Fundamentos', href: '/manifiestos/fundamentos' });
+      routes.push({ label: 'La Ética en la Desinformación', href: '/manifiestos/etica' });
+      routes.push({ label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' });
     }
 
-    // Caso 5: Bioética Provida y Embriología Científica
+    // =========================================================================
+    // DOMINIO G: ARQUITECTURA TÉCNICA, SEGURIDAD & GOBERNANZA SOBERANA
+    // =========================================================================
     else if (
-      lower.includes('provida') ||
-      lower.includes('aborto') ||
-      lower.includes('bioética') ||
-      lower.includes('bioetica') ||
-      lower.includes('concepción') ||
-      lower.includes('embrión') ||
-      lower.includes('vida humana')
+      lower.includes('gobernanza') ||
+      lower.includes('admin') ||
+      lower.includes('administrador') && lower.includes('panel') ||
+      lower.includes('seguridad') ||
+      lower.includes('desarrollador') ||
+      lower.includes('quien creo') ||
+      lower.includes('quién creó') ||
+      lower.includes('tecnología') ||
+      lower.includes('tecnologia') ||
+      lower.includes('aegis')
     ) {
       reply =
-        '⚖️ **Los Fundamentos Científicos y Bioéticos Provida de BONTEN**\n\n' +
-        'Nuestra postura no se sustenta en dogmatismos ciegos, sino en la convergencia de la ciencia y la metafísica:\n\n' +
-        '• **Genética y Embriología**: En la fertilización se forma el cigoto con un genoma humano completo, único, autoorganizado y teleológicamente orientado. No es una masa celular informe; es un ser humano en su etapa inicial.\n' +
-        '• **Bioética Personalista (Elio Sgreccia)**: El cuerpo humano comparte indisolublemente la dignidad intrínseca de la persona. Ningún ser humano puede ser reducido a medio instrumental.\n' +
-        '• **Defensa Jurídica Innegociable**: El derecho a la vida es el presupuesto ontológico previo de todos los demás derechos humanos.';
-      routes.push({ label: 'Decálogo Provida en Comunidad', href: '/comunidad' });
-      routes.push({ label: 'Debates sobre Bioética', href: '/debates' });
-      routes.push({ label: 'Tratado de Bioética (Ilan)', href: '#biblioteca-seccion' });
+        '⚡ **Arquitectura, Seguridad & Gobernanza Soberana de BONTEN**\n\n' +
+        '• **Stack Técnico de Grado Enterprise**: Next.js 16 (App Router), React 19, TypeScript estricto, Tailwind CSS y motor háptico de audio neuro-acústico 3D.\n' +
+        '• **Suite Defensiva Aegis**: Protección L7 con rate-limiting en memoria, sanitización anti-XSS, cookies seguras HTTP-Only y tokenización de sesión con HMAC-SHA256.\n' +
+        '• **Ruta Soberana de Gobernanza (`/gobernanza`)**: Portal protegido con **Desafío Doctrinal** interactivo para la Mesa Directiva (accesible discretamente con el atajo `Ctrl+Shift+A` o desde el enlace sutil del pie de página).\n' +
+        '• **Liderazgo Institucional**: Fireboy lidera la visión doctrinal y directiva de BONTEN, respaldado por un equipo de ingeniería de élite.';
+      routes.push({ label: 'Portal de Gobernanza', href: '/gobernanza' });
+      routes.push({ label: 'Mesa Directiva', href: '/integrantes' });
+      routes.push({ label: 'Comunidad Provida', href: '/comunidad' });
     }
 
-    // Caso 6: Mesa Directiva y Miembros
-    else if (
-      lower.includes('integrante') ||
-      lower.includes('directiva') ||
-      lower.includes('equipo') ||
-      lower.includes('daniel') ||
-      lower.includes('mijail') ||
-      lower.includes('ilan') ||
-      lower.includes('laura')
-    ) {
-      const list = leaders.map((l) => `• **${l.name}**: ${l.role} (${l.handle})`).join('\n');
-      reply =
-        '🛡️ **Mesa Directiva de BONTEN**\n\n' +
-        'Nuestra conducción combina liderazgo apologético, rigor académico y vocación de servicio:\n\n' +
-        list +
-        '\n\nPuedes consultar la ficha completa de cada integrante con sus publicaciones destacadas:';
-      routes.push({ label: 'Directorio de Integrantes', href: '/integrantes' });
-      routes.push({ label: 'Ficha de Fireboy', href: '/integrantes/fireboy' });
-      routes.push({ label: 'Ficha de Daniel', href: '/integrantes/daniel' });
-    }
-
-    // Caso 7: Comunidad y Adhesión
+    // =========================================================================
+    // DOMINIO H: COMUNIDAD, REGISTRO & DECÁLOGO DE HONOR
+    // =========================================================================
     else if (
       lower.includes('comunidad') ||
       lower.includes('unirme') ||
+      lower.includes('registro') ||
+      lower.includes('cuenta') ||
       lower.includes('adhesión') ||
-      lower.includes('participar') ||
-      lower.includes('muro')
+      lower.includes('adhesion') ||
+      lower.includes('decálogo') ||
+      lower.includes('decalogo')
     ) {
       reply =
-        '🌐 **Comunidad de Resistencia Provida BONTEN**\n\n' +
-        'Te invitamos a sumar tu voz a nuestra causa activa:\n' +
-        '• **Muro de la Fraternidad**: Comparte testimonios y convicciones con miembros de todo el país.\n' +
-        '• **Decálogo de Honor**: Conoce los 5 preceptos inmutables de nuestra defensa ética.\n' +
-        '• **Compromiso Activo**: Regístrate para intervenir en debates y acceder a documentos exclusivos.';
-      routes.push({ label: 'Entrar a la Comunidad', href: '/comunidad' });
+        '🌐 **Comunidad de Resistencia Provida BONTEN & Decálogo de Honor**\n\n' +
+        'Sumarse a BONTEN implica un compromiso fraterno con la verdad y la defensa de la vida humana:\n\n' +
+        '• **Muro de la Fraternidad**: Espacio interactivo donde miembros de toda la región comparten reflexiones y testimonios provida.\n' +
+        '• **El Decálogo de Honor**: Principios inmutables de respeto, rigor apologético, estudio continuo y defensa incondicional del no nacido.\n' +
+        '• **Membresía Activa**: Al crear tu cuenta accedes a votaciones en tiempo real, publicación de argumentos en debates y notificaciones de nuevos tratados.';
+      routes.push({ label: 'Ingresar a la Comunidad', href: '/comunidad' });
       routes.push({ label: 'Crear Cuenta de Miembro', href: '/auth/register' });
-      routes.push({ label: 'Foro de Debates', href: '/debates' });
+      routes.push({ label: 'Iniciar Sesión', href: '/auth/login' });
     }
 
-    // Caso 8: Orientación General de la Plataforma
+    // =========================================================================
+    // RESPUESTA SINTÉTICA GENERAL / ORIENTACIÓN SOCRÁTICA
+    // =========================================================================
     else {
+      reasoningSteps = [
+        'Examinando horizonte conceptual de la consulta...',
+        'Compaginando tratados filosóficos, bioética e integrantes...',
+        'Presentando brújula de orientación integral...',
+      ];
       reply =
-        `🏛️ **Asistente Virtual BONTEN**\n\n` +
-        `Bienvenido a **${metadata.title}**. Estoy para orientarte en la navegación y contenidos de la plataforma:\n\n` +
-        `• 📚 **Biblioteca Doctrinal**: Tratados y ensayos filosóficos completos.\n` +
-        `• 🔥 **Tratado de Posmodernidad**: El ensayo cumbre de Fireboy.\n` +
-        `• 🛡️ **Mesa Directiva**: Perfiles oficiales de los integrantes.\n` +
-        `• 💬 **Foro de Debates**: Dialéctica apologética y argumentación provida.\n` +
-        `• 🌐 **Comunidad Provida**: Adhesión fraterna y decálogo de honor.\n\n` +
-        `¿En qué sección o tema te gustaría que te oriente?`;
-      routes.push({ label: 'Explorar Biblioteca', href: '#biblioteca-seccion' });
+        `🏛️ **Guía Doctrinal BONTEN — Inteligencia Axiomática**\n\n` +
+        `Te doy la bienvenida al compendio de **${metadata.title}**. Como inteligencia guía de la plataforma, puedo asistirte con precisión filosófica y bioética en los siguientes núcleos de conocimiento:\n\n` +
+        `• 🧬 **Bioética & Embriología**: Singularidad genética del cigoto, refutación al utilitarismo de "mi cuerpo mi decisión", objeción al transhumanismo y medicina perinatal.\n` +
+        `• 📜 **Crítica a la Posmodernidad**: El tratado insignia de **Fireboy**, la deconstrucción del nihilismo y la transición del Ser al Deseo.\n` +
+        `• 🏺 **Filosofía Clásica**: La alegoría socrática del tonel agujereado (*Gorgias 493a*) de Platón, sophrosyne y templanza moral.\n` +
+        `• 🛡️ **Mesa Directiva**: Conoce a **Fireboy (dorsal 7)**, Daniel, Mijail, Ilan y Laura con sus publicaciones y roles.\n` +
+        `• 📚 **Biblioteca de Tratados**: 6 obras doctrinarias de nivel universitario con visor integral y locución por voz.\n` +
+        `• 💬 **Foro de Debates**: Participación dialéctica en controversias éticas y apologéticas contemporáneas.\n\n` +
+        `Formula tu pregunta con libertad o selecciona una de las rutas directas:`;
       routes.push({ label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' });
+      routes.push({ label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Mesa Directiva', href: '/integrantes' });
       routes.push({ label: 'Comunidad Provida', href: '/comunidad' });
     }
 

@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 interface NavigationRoute {
   label: string;
@@ -180,53 +181,73 @@ export default function PublicAssistant() {
   };
 
   const quickPrompts = [
-    { label: '📖 Tratado de Posmodernidad', prompt: '¿De qué trata el Tratado de Posmodernidad de Fireboy y dónde puedo leerlo?' },
-    { label: '⚖️ Doctrina Provida', prompt: '¿Cuál es la postura bioética provida que defiende BONTEN?' },
-    { label: '👥 Mesa Directiva', prompt: '¿Quiénes conforman la directiva de BONTEN y qué rol tiene cada uno?' },
-    { label: '💬 Debates Activos', prompt: '¿Cómo puedo participar en los debates de la comunidad?' },
-    { label: '🧭 Mapa de Navegación', prompt: '¿Cuáles son las rutas principales del sitio web?' },
+    { label: '📖 Tratado de Posmodernidad', prompt: '¿De qué trata el Tratado de Posmodernidad de Fireboy y cuáles son sus tesis centrales?' },
+    { label: '🧬 Bioética: Inicio de la Vida', prompt: '¿Cuáles son los fundamentos biológicos y ontológicos de la concepción humana?' },
+    { label: '⚖️ Refutar "Mi Cuerpo Mi Decisión"', prompt: '¿Cómo responde BONTEN desde la ciencia y la ética al argumento de la autonomía corporal?' },
+    { label: '🏺 El Mito del Tonel Agujereado', prompt: 'Explícame la alegoría del tonel agujereado en el Gorgias de Platón y su crítica al hedonismo' },
+    { label: '🛡️ Mesa Directiva & Autores', prompt: '¿Quiénes conforman la Mesa Directiva de BONTEN y qué publicaciones tienen?' },
+    { label: '💬 Debates Comunitarios', prompt: '¿Cuáles son los debates activos en la plataforma y cómo puedo participar?' },
   ];
 
   return (
     <>
-      {/* Botón Flotante en Pantalla (Esquina Inferior Derecha con Aurora Breathing) */}
+      {/* Botón Flotante en Pantalla (Minimalista, Estético & Moderno) */}
       <div className="fixed bottom-5 right-5 z-40 select-none">
-        <div className="relative group">
-          {/* Halo Aurora Respirante */}
-          <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-600 opacity-70 blur-md group-hover:opacity-100 transition-all duration-500 aurora-breathing" />
-
-          <button
-            type="button"
-            onClick={() => {
-              triggerAudio('toggle');
-              setIsOpen(!isOpen);
-            }}
-            className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#070e22]/90 hover:bg-[#0a1533] border border-sky-400/40 hover:border-sky-300 text-white shadow-2xl shadow-sky-950/60 backdrop-blur-2xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
-            title="Abrir Asistente de Navegación BONTEN"
-          >
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-gradient-to-tr from-sky-500 to-cyan-300 shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
-            </span>
-
-            <div className="relative w-5 h-5 rounded-full overflow-hidden border border-sky-400/50 shadow-[0_0_8px_rgba(56,189,248,0.4)]">
-              <Image
-                src="/LOGO_BONTEN_V2.jpeg"
-                alt="Logo BONTEN"
-                width={20}
-                height={20}
-                className="object-cover"
-              />
+        <motion.button
+          type="button"
+          onClick={() => {
+            triggerAudio('toggle');
+            setIsOpen(!isOpen);
+          }}
+          whileHover={{ scale: 1.05, y: -1 }}
+          whileTap={{ scale: 0.95 }}
+          className={`group relative flex items-center gap-2.5 h-10 px-3.5 sm:px-4 rounded-full backdrop-blur-2xl transition-all duration-300 cursor-pointer ${
+            isOpen
+              ? 'bg-slate-900/90 border border-rose-500/40 text-rose-300 shadow-[0_4px_20px_rgba(244,63,94,0.25)]'
+              : 'bg-[#060c1d]/85 hover:bg-[#0a1532]/95 border border-sky-500/30 hover:border-sky-400/60 text-slate-200 shadow-[0_4px_24px_rgba(0,0,0,0.5),0_0_15px_rgba(56,189,248,0.12)] hover:shadow-[0_6px_28px_rgba(56,189,248,0.28)]'
+          }`}
+          aria-label={isOpen ? 'Cerrar Asistente' : 'Abrir Asistente BONTEN AI'}
+          title={isOpen ? 'Cerrar Asistente' : 'Abrir Guía Doctrinal BONTEN AI'}
+        >
+          {isOpen ? (
+            <div className="flex items-center gap-1.5 text-xs font-semibold">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+              <span>Cerrar</span>
             </div>
+          ) : (
+            <>
+              {/* Icono AI Sparkle 4-point Star con micro-resplandor */}
+              <div className="relative flex items-center justify-center">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="15"
+                  height="15"
+                  className="text-sky-400 group-hover:text-cyan-300 transition-colors duration-200"
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z" />
+                </svg>
+                <span className="absolute -inset-1 rounded-full bg-sky-400/20 blur-[2px] group-hover:bg-sky-400/40 transition-all" />
+              </div>
 
-            <span className="text-xs font-semibold tracking-wide text-slate-100 group-hover:text-white">
-              {isOpen ? 'Cerrar Asistente' : 'Asistente BONTEN'}
-            </span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gradient-to-r from-sky-500/20 to-purple-500/20 text-sky-300 font-mono border border-sky-400/30">
-              IA
-            </span>
-          </button>
-        </div>
+              {/* Tipografía Ejecutiva & Micro-Badge */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11.5px] font-bold tracking-wider text-slate-200 group-hover:text-white uppercase font-mono">
+                  BONTEN
+                </span>
+                <span className="text-[9px] px-1 py-0.2 rounded bg-sky-500/20 text-sky-300 font-mono font-semibold border border-sky-400/30">
+                  AI
+                </span>
+              </div>
+
+              {/* Beacon sutil de estado en vivo */}
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+            </>
+          )}
+        </motion.button>
       </div>
 
       {/* Ventana Modal / Dock Flotante del Asistente */}
