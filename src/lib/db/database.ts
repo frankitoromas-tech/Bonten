@@ -58,7 +58,7 @@ users.push({
   passwordHash: adminPass.hash,
   passwordSalt: adminPass.salt,
   role: 'ROLE_SUPERADMIN',
-  avatarUrl: '/assets/fireboy_client.webp',
+  avatarUrl: '/assets/fireboy_dorsal_7.webp',
   isActive: true,
   createdAt: new Date().toISOString(),
 });

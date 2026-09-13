@@ -8,7 +8,7 @@ export const LEADER: Leader = {
   handle: '@fireboyphilosophy',
   role: 'Líder Fundador',
   bio: 'El único impulso que no puede ser frenado es la curiosidad 🔥 #BontenTeam',
-  avatar: '/assets/b5.jpeg',
+  avatar: '/assets/fireboy_dorsal_7.webp',
   tiktok: 'https://www.tiktok.com/@fireboyphilosophy',
   youtube: 'https://youtube.com/@fireboyphilosophy?si=5nOPKIestJFXdJOl',
   publication: MEMBER_PUBLICATIONS.fireboy,

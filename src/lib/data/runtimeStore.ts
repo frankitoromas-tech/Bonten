@@ -35,7 +35,7 @@ let currentMetadata: SiteMetadata = {
   fireboy: {
     fullName: 'Fireboy (Fundador)',
     handle: '@fireboyphilosophy',
-    avatar: '/assets/fireboy_client.webp',
+    avatar: '/assets/fireboy_dorsal_7.webp',
     bio: 'Fundador y líder de la comunidad BONTEN. Especialista en apologética, debate presuposicional y análisis cultural.',
     tiktok: 'https://www.tiktok.com/@fireboyphilosophy',
     youtube: 'https://youtube.com/@fireboyphilosophy?si=5nOPKIestJFXdJOl',
