@@ -25,6 +25,11 @@ import {
   deleteLibraryDocument,
 } from '../src/lib/data/runtimeStore.ts';
 import { validateRequestOrigin } from '../src/lib/security/csrf.ts';
+import {
+  authenticateAdmin,
+  updateAdminRole,
+  deleteAdmin,
+} from '../src/lib/db/database.ts';
 
 test('1. Rate Limiting: Mitigación de Fuerza Bruta y DoS L7 por IP', () => {
   const testIp = '198.51.100.42';
@@ -173,4 +178,32 @@ test('5. Protección Anti-CSRF y Validación de Encabezados Origin/Referer', () 
   };
   assert.equal(validateRequestOrigin(validPost).valid, true, 'Debe autorizar el mismo origen');
 });
+
+test('6. Multi-Admin & Gobernanza RBAC: Fireboy como Superadmin Principal y Directiva', () => {
+  // 1. Autenticación de Fireboy como ROLE_SUPERADMIN
+  const fireboyAuth = authenticateAdmin('fireboy', 'fireboy_bonten_2026');
+  assert.equal(fireboyAuth.success, true);
+  assert.equal(fireboyAuth.user?.role, 'ROLE_SUPERADMIN');
+
+  // 2. Autenticación de Administrador Secundario (Daniel)
+  const danielAuth = authenticateAdmin('daniel', 'daniel_bonten_2026');
+  assert.equal(danielAuth.success, true);
+  assert.equal(danielAuth.user?.role, 'ROLE_ADMIN');
+
+  // 3. Usuario regular no puede autenticarse como administrador
+  const normalUserAuth = authenticateAdmin('estudiante_filo', 'bonten_member_123');
+  assert.equal(normalUserAuth.success, false, 'Miembro regular no tiene rol de admin');
+
+  // 4. Inmutabilidad del Superadmin: Nadie puede degradar o eliminar a Fireboy
+  const demoteFireboy = updateAdminRole(1, 'ROLE_ADMIN', 'ROLE_SUPERADMIN');
+  assert.equal(demoteFireboy.success, false, 'No se debe permitir modificar el rol del Superadmin Principal');
+
+  const deleteFireboy = deleteAdmin(1, 'ROLE_SUPERADMIN');
+  assert.equal(deleteFireboy.success, false, 'No se debe permitir eliminar al Superadmin Principal');
+
+  // 5. Prevención de escalada de privilegios: Un ROLE_ADMIN no puede revocar administradores
+  const illegalRevoke = deleteAdmin(2, 'ROLE_ADMIN');
+  assert.equal(illegalRevoke.success, false, 'Un ROLE_ADMIN no tiene permisos para revocar administradores');
+});
+
 

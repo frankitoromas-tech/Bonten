@@ -6,6 +6,7 @@
 
 import { verifyPassword, verifyUsername, createSessionToken, verifySessionToken, type AdminSessionPayload } from '../security/auth';
 import { checkRateLimit, recordFailedAttempt, resetRateLimit } from '../security/rateLimiter';
+import { authenticateAdmin } from '../db/database.ts';
 
 export interface AuthResult {
   success: boolean;
@@ -38,26 +39,24 @@ class EdgeSecurityAdapter implements SecurityAdapter {
       };
     }
 
-    // 2. Verificación criptográfica timing-safe
-    const userMatches = verifyUsername(username);
-    const passMatches = verifyPassword(password);
-
-    if (!userMatches || !passMatches) {
+    // 2. Verificación criptográfica con la base de datos de administradores
+    const adminAuth = authenticateAdmin(username, password);
+    if (!adminAuth.success || !adminAuth.user) {
       recordFailedAttempt(ip);
       const remaining = checkRateLimit(ip).remaining;
       return {
         success: false,
-        error: `Credenciales inválidas. Intentos restantes: ${remaining}`,
+        error: `Credenciales de administrador inválidas. Intentos restantes: ${remaining}`,
       };
     }
 
-    // 3. Éxito: Resetear contador de fallos y emitir token
+    // 3. Éxito: Resetear contador de fallos y emitir token con rol asignado
     resetRateLimit(ip);
-    const token = createSessionToken(username, 'ROLE_SUPERADMIN');
+    const token = createSessionToken(adminAuth.user.username, adminAuth.user.role as any);
     return {
       success: true,
       token,
-      user: { username, role: 'ROLE_SUPERADMIN' },
+      user: { username: adminAuth.user.username, role: adminAuth.user.role },
     };
   }
 

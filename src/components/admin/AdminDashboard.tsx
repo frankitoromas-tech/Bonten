@@ -6,13 +6,14 @@ import type { LibraryDocument } from '@/types';
 import { MetadataEditor } from './MetadataEditor';
 import { LibraryEditor } from './LibraryEditor';
 import { SecurityMonitor } from './SecurityMonitor';
+import { AdminTeamManager } from './AdminTeamManager';
 
 interface Props {
   initialMetadata: SiteMetadata;
   initialDocuments: LibraryDocument[];
 }
 
-type TabKey = 'metadata' | 'library' | 'security';
+type TabKey = 'metadata' | 'library' | 'team' | 'security';
 
 export function AdminDashboard({ initialMetadata, initialDocuments }: Props) {
   const [activeTab, setActiveTab] = useState<TabKey>('metadata');
@@ -20,6 +21,7 @@ export function AdminDashboard({ initialMetadata, initialDocuments }: Props) {
   const tabs: { key: TabKey; label: string; icon: string }[] = [
     { key: 'metadata', label: 'Metadatos & Fireboy', icon: '🔥' },
     { key: 'library', label: 'Biblioteca & Ensayos', icon: '📚' },
+    { key: 'team', label: 'Equipo & Roles (RBAC)', icon: '👥' },
     { key: 'security', label: 'Seguridad & Telemetría', icon: '🛡️' },
   ];
 
@@ -45,6 +47,7 @@ export function AdminDashboard({ initialMetadata, initialDocuments }: Props) {
       <div className="transition-all duration-300">
         {activeTab === 'metadata' && <MetadataEditor initialMetadata={initialMetadata} />}
         {activeTab === 'library' && <LibraryEditor initialDocuments={initialDocuments} />}
+        {activeTab === 'team' && <AdminTeamManager />}
         {activeTab === 'security' && <SecurityMonitor />}
       </div>
     </div>

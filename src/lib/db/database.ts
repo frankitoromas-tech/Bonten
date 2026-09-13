@@ -49,7 +49,7 @@ let nextUserId = 1;
 let nextResetId = 1;
 let nextArgId = 100; // Inicia después de los argumentos estáticos iniciales
 
-// Semilla inicial: Fireboy como SUPERADMIN
+// Semilla inicial: Fireboy como SUPERADMIN PRINCIPAL
 const adminPass = hashPassword('fireboy_bonten_2026');
 users.push({
   id: nextUserId++,
@@ -62,6 +62,29 @@ users.push({
   isActive: true,
   createdAt: new Date().toISOString(),
 });
+
+// Semillas iniciales: Mesa Directiva como Administradores Secundarios (ROLE_ADMIN)
+const adminSeeds = [
+  { username: 'daniel', email: 'daniel@bonten.org', pass: 'daniel_bonten_2026', avatar: '/assets/daniel_client.webp' },
+  { username: 'mijail', email: 'mijail@bonten.org', pass: 'mijail_bonten_2026', avatar: '/assets/mijail_client.webp' },
+  { username: 'ilan', email: 'ilan@bonten.org', pass: 'ilan_bonten_2026', avatar: '/assets/ilan_client.webp' },
+  { username: 'laura', email: 'laura@bonten.org', pass: 'laura_bonten_2026', avatar: '/assets/laura_client.webp' },
+];
+
+for (const seed of adminSeeds) {
+  const hp = hashPassword(seed.pass);
+  users.push({
+    id: nextUserId++,
+    username: seed.username,
+    email: seed.email,
+    passwordHash: hp.hash,
+    passwordSalt: hp.salt,
+    role: 'ROLE_ADMIN',
+    avatarUrl: seed.avatar,
+    isActive: true,
+    createdAt: new Date().toISOString(),
+  });
+}
 
 // Semilla inicial: Miembro de prueba de la comunidad
 const memberPass = hashPassword('bonten_member_123');
@@ -233,3 +256,82 @@ export function addDebateArgument(arg: {
 export function getDebateArguments(debateId: number): StoredDebateArgument[] {
   return debateArguments.filter((a) => a.debateId === debateId);
 }
+
+/** Lista de administradores activos (sin credenciales sensibles) */
+export function listAdmins(): Omit<User, 'passwordHash' | 'passwordSalt'>[] {
+  return users
+    .filter((u) => u.isActive && ['ROLE_SUPERADMIN', 'ROLE_ADMIN'].includes(u.role))
+    .map(({ passwordHash, passwordSalt, ...safe }) => safe);
+}
+
+/** Autenticar administrador con soporte para Fireboy y directiva */
+export function authenticateAdmin(
+  usernameOrEmail: string,
+  passwordAttempt: string
+): { success: boolean; user?: User; error?: string } {
+  const norm = usernameOrEmail.trim().toLowerCase();
+  const user = users.find(
+    (u) => (u.username.toLowerCase() === norm || u.email.toLowerCase() === norm) && u.isActive
+  );
+
+  if (!user || !['ROLE_SUPERADMIN', 'ROLE_ADMIN'].includes(user.role)) {
+    return { success: false, error: 'Usuario o rol no autorizado' };
+  }
+
+  const secret = process.env.ADMIN_JWT_SECRET || 'bonten_enterprise_crypto_shield_secret_key_frank_vargas_2026';
+  const computedHash = crypto
+    .createHmac('sha256', secret)
+    .update(`${user.passwordSalt}:${passwordAttempt}`)
+    .digest('hex');
+
+  const bufA = Buffer.from(computedHash);
+  const bufB = Buffer.from(user.passwordHash);
+
+  if (bufA.length !== bufB.length || !crypto.timingSafeEqual(bufA, bufB)) {
+    return { success: false, error: 'Credenciales inválidas' };
+  }
+
+  return { success: true, user };
+}
+
+/** Fireboy (Superadmin) puede actualizar el rol de administradores secundarios */
+export function updateAdminRole(
+  targetUserId: number,
+  newRole: User['role'],
+  requestingRole: string
+): { success: boolean; error?: string } {
+  if (requestingRole !== 'ROLE_SUPERADMIN') {
+    return { success: false, error: 'Solo el Superadmin Principal (Fireboy) puede modificar roles de administración' };
+  }
+
+  const target = users.find((u) => u.id === targetUserId);
+  if (!target) return { success: false, error: 'Usuario no encontrado' };
+
+  if (target.username === 'fireboy') {
+    return { success: false, error: 'No se puede modificar el rol del Superadmin Principal' };
+  }
+
+  target.role = newRole;
+  return { success: true };
+}
+
+/** Fireboy (Superadmin) puede remover privilegios de administración */
+export function deleteAdmin(
+  targetUserId: number,
+  requestingRole: string
+): { success: boolean; error?: string } {
+  if (requestingRole !== 'ROLE_SUPERADMIN') {
+    return { success: false, error: 'Solo el Superadmin Principal (Fireboy) puede revocar administradores' };
+  }
+
+  const target = users.find((u) => u.id === targetUserId);
+  if (!target) return { success: false, error: 'Usuario no encontrado' };
+
+  if (target.username === 'fireboy') {
+    return { success: false, error: 'El Superadmin Principal no puede ser eliminado' };
+  }
+
+  target.role = 'ROLE_MEMBER';
+  return { success: true };
+}
+
