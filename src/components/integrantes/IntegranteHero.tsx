@@ -1,11 +1,32 @@
+'use client';
 import React from 'react';
 import type { Leader } from '@/types';
+import { useToast } from '@/components/ui/Toast';
 
 interface IntegranteHeroProps {
   member: Leader;
 }
 
+const SPECIALTY_TAGS: Record<string, string[]> = {
+  fireboy: ['🔥 Fundador', '🛡️ Apologética & Doctrina', '🎙️ Productor'],
+  ilan: ['🏛️ Filosofía Clásica', '⚖️ Bioética & Lógica', '📜 Diálogo Socrático'],
+  ian: ['🏛️ Filosofía Clásica', '⚖️ Bioética & Lógica', '📜 Diálogo Socrático'],
+  daniel: ['⚖️ Bioética Médica', '💬 Moderador de Debates', '🛡️ Co-Administración'],
+  mijail: ['🌐 Estrategia Digital', '🔍 Análisis Crítico', '💬 Apologética'],
+  laura: ['🌟 Activismo Juvenil', '📢 Comunicación', '✨ Formación Provida'],
+};
+
 export default function IntegranteHero({ member }: IntegranteHeroProps) {
+  const { showToast } = useToast();
+  const tags = SPECIALTY_TAGS[member.slug.toLowerCase()] || ['🛡️ Mesa Directiva'];
+
+  const handleShare = () => {
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.writeText(window.location.href);
+      showToast(`¡Enlace del perfil de ${member.name} copiado al portapapeles!`, 'success');
+    }
+  };
+
   return (
     <article className="leader-card" style={{ width: '100%' }}>
       <div className="leader-avatar-wrapper">
@@ -28,8 +49,15 @@ export default function IntegranteHero({ member }: IntegranteHeroProps) {
         <p className="leader-handle">{member.handle}</p>
         <p className="leader-bio">&quot;{member.bio}&quot;</p>
 
-        {/* Canales sociales verificados */}
-        <div className="leader-actions">
+        {/* Insignias de especialidad */}
+        <div className="specialty-tags-row">
+          {tags.map((tag) => (
+            <span key={tag} className="specialty-chip">{tag}</span>
+          ))}
+        </div>
+
+        {/* Canales sociales verificados y acciones */}
+        <div className="leader-actions" style={{ marginTop: '1.2rem' }}>
           {member.tiktok && (
             <a href={member.tiktok} target="_blank" rel="noopener noreferrer" className="tiktok-btn">
               <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -48,6 +76,15 @@ export default function IntegranteHero({ member }: IntegranteHeroProps) {
               <span>YouTube</span>
             </a>
           )}
+
+          <button onClick={handleShare} className="btn-share-profile" title="Copiar enlace de este perfil">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+              <polyline points="16 6 12 2 8 6" />
+              <line x1="12" y1="2" x2="12" y2="15" />
+            </svg>
+            <span>Compartir</span>
+          </button>
         </div>
       </div>
     </article>

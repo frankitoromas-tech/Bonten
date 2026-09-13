@@ -2228,6 +2228,117 @@ html {
     flex-wrap: wrap;
 }
 
+/* Insignias de Especialidad & Reputación */
+.specialty-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.8rem;
+}
+
+.specialty-chip {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    color: #38bdf8;
+    backdrop-filter: blur(5px);
+}
+
+.btn-share-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1.1rem;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-light);
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: var(--transition);
+    backdrop-filter: blur(5px);
+}
+
+.btn-share-profile:hover {
+    background: rgba(217, 70, 239, 0.2);
+    border-color: var(--accent-pink);
+    color: var(--accent-pink);
+    transform: translateY(-2px);
+}
+
+/* Barra de Herramientas de Ensayo */
+.essay-meta-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+}
+
+.essay-toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.essay-tool-btn {
+    background: var(--bg-base);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.essay-tool-btn:hover {
+    border-color: var(--accent-blue);
+    color: var(--text-dark);
+}
+
+.document-reader-body.text-large {
+    font-size: clamp(1.15rem, 2.6vw, 1.3rem) !important;
+    line-height: 2 !important;
+}
+
+.interactive-quote-block {
+    position: relative;
+    margin: 1.8rem 0;
+}
+
+.interactive-quote-block blockquote {
+    margin: 0 !important;
+}
+
+.btn-copy-quote {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.6rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 9999px;
+    background: var(--bg-base);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-copy-quote:hover {
+    background: rgba(217, 70, 239, 0.15);
+    border-color: var(--accent-pink);
+    color: var(--accent-pink);
+}
+
 .integrante-nav-footer {
     margin-top: 1rem;
     padding-top: 2rem;
