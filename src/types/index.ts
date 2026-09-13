@@ -68,6 +68,9 @@ export interface LibraryDocument {
   author: string;
   readTime: string;
   image: string;
+  excerpt?: string;
+  level?: 'Esencial' | 'Intermedio' | 'Avanzado';
+  featured?: boolean;
   /** Párrafos; los que empiezan por <blockquote> se renderizan como cita. */
   content: string[];
 }
