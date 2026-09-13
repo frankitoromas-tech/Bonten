@@ -50,7 +50,7 @@ export default function Footer() {
           <span className="opacity-30">•</span>
           {/* Enlace sutil y discreto exclusivo para administradores */}
           <Link 
-            href="/admin/login" 
+            href="/gobernanza" 
             className="opacity-20 hover:opacity-75 transition-opacity text-[11px] font-mono flex items-center gap-1"
             title="Acceso reservado a Mesa Directiva (Ctrl+Shift+A)"
           >

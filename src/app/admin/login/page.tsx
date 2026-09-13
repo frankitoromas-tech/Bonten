@@ -56,8 +56,7 @@ export default function AdminLoginPage() {
       }
 
       triggerAudio('success');
-      router.push('/admin');
-      router.refresh();
+      window.location.href = '/admin';
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Fallo en autenticación';
       setError(msg);

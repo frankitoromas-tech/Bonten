@@ -60,7 +60,7 @@ export default function Navbar() {
     const handleAdminShortcut = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
         e.preventDefault();
-        window.location.href = '/admin/login';
+        window.location.href = '/gobernanza';
       }
     };
     window.addEventListener('keydown', handleAdminShortcut);

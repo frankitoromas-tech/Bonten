@@ -38,6 +38,7 @@ export function AdminCopilot({ onMetadataUpdated }: Props) {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [thinkingStep, setThinkingStep] = useState('');
   const chatBottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -70,6 +71,22 @@ export function AdminCopilot({ onMetadataUpdated }: Props) {
     if (!userPrompt) setInput('');
     setLoading(true);
 
+    const cognitiveSteps = [
+      'Inspeccionando privilegios RBAC y tokens de sesión...',
+      'Evaluando orden ejecutiva y seguridad perimetral...',
+      'Estructurando propuesta atómica con salvaguarda...',
+    ];
+    setThinkingStep(cognitiveSteps[0]);
+
+    const stepTimer = setInterval(() => {
+      setThinkingStep((prev) => {
+        const nextIdx = (cognitiveSteps.indexOf(prev) + 1) % cognitiveSteps.length;
+        return cognitiveSteps[nextIdx];
+      });
+    }, 420);
+
+    const startTime = Date.now();
+
     try {
       const res = await fetch('/api/admin/copilot', {
         method: 'POST',
@@ -85,6 +102,14 @@ export function AdminCopilot({ onMetadataUpdated }: Props) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error al procesar la solicitud');
 
+      // Garantizar un margen cognitivo deliberativo de al menos 1100ms
+      const elapsed = Date.now() - startTime;
+      const remainingMargin = Math.max(0, 1100 - elapsed);
+      await new Promise((resolve) => setTimeout(resolve, remainingMargin));
+
+      clearInterval(stepTimer);
+      triggerAudio('success');
+
       const assistantMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         sender: 'assistant',
@@ -96,6 +121,7 @@ export function AdminCopilot({ onMetadataUpdated }: Props) {
 
       setMessages((prev) => [...prev, assistantMsg]);
     } catch (err: unknown) {
+      clearInterval(stepTimer);
       const msg = err instanceof Error ? err.message : 'Error desconocido';
       setMessages((prev) => [
         ...prev,
@@ -107,7 +133,9 @@ export function AdminCopilot({ onMetadataUpdated }: Props) {
         },
       ]);
     } finally {
+      clearInterval(stepTimer);
       setLoading(false);
+      setThinkingStep('');
     }
   };
 
@@ -392,6 +420,26 @@ export function AdminCopilot({ onMetadataUpdated }: Props) {
             <span className="text-[9px] text-slate-400 px-1 mt-0.5">{msg.timestamp}</span>
           </div>
         ))}
+
+        {loading && (
+          <div className="flex flex-col items-start animate-in fade-in duration-200">
+            <div className="max-w-[85%] p-3 rounded-2xl bg-slate-900/90 border border-sky-500/30 text-slate-200 rounded-bl-xs shadow-md space-y-2">
+              <div className="flex items-center gap-2 text-sky-400 font-mono text-[11px]">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-sky-500" />
+                </span>
+                <span className="font-semibold uppercase tracking-wider text-[10px]">
+                  Copilot Deliberando...
+                </span>
+              </div>
+              <div className="text-[11.5px] text-slate-300 italic flex items-center gap-1.5">
+                <span className="animate-spin text-xs">⚡</span>
+                <span>{thinkingStep}</span>
+              </div>
+            </div>
+          </div>
+        )}
         <div ref={chatBottomRef} />
       </div>
 

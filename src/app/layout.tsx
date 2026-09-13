@@ -10,6 +10,7 @@ import Interactive3DBackground from '@/components/layout/Interactive3DBackground
 import CursorSpotlight from '@/components/layout/CursorSpotlight';
 import AudioController from '@/components/layout/AudioController';
 import QuickSearch from '@/components/layout/QuickSearch';
+import PublicAssistant from '@/components/layout/PublicAssistant';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
 import { ToastProvider } from '@/components/ui/Toast';
 
@@ -50,6 +51,7 @@ export default function RootLayout({
             <main className="layout-container">{children}</main>
             <Footer />
             <BackToTop />
+            <PublicAssistant />
             <AudioController />
           </ToastProvider>
         </ThemeProvider>
