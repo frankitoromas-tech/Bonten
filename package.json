@@ -9,7 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/bonten_validation.test.mjs"
+    "test": "node --test tests/bonten_validation.test.mjs",
+    "test:security": "node --test tests/admin_security_audit.test.mjs",
+    "test:community": "node --test tests/community_and_db_audit.test.mjs",
+    "test:all": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",

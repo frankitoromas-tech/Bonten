@@ -2457,3 +2457,80 @@ html {
         display: none !important;
     }
 }
+
+/* =========================================
+   16. PANEL DE ADMINISTRACIÓN & SEGURIDAD (/admin)
+========================================= */
+.admin-card {
+    background: rgba(10, 16, 30, 0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    transition: var(--transition);
+}
+
+.admin-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: rgba(6, 11, 24, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f8fafc;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.admin-input:focus {
+    outline: none;
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+.btn-admin-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #d946ef 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.82rem;
+    font-family: monospace;
+    padding: 0.7rem 1.4rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(217, 70, 239, 0.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-admin-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(217, 70, 239, 0.4);
+}
+
+.btn-admin-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-admin-secondary {
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #38bdf8;
+    font-weight: 700;
+    font-size: 0.82rem;
+    font-family: monospace;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-admin-secondary:hover {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: #38bdf8;
+    color: #ffffff;
+}
