@@ -10,7 +10,7 @@ const rootDir = path.resolve(__dirname, '..');
 
 test('1. Doctrina: Bloque Protestante ha sido reemplazado por Bloque Provida', () => {
   const manifiestosPath = path.join(rootDir, 'src/data/manifiestos.ts');
-  const footerPath = path.join(rootDir, 'src/components/Footer.tsx');
+  const footerPath = path.join(rootDir, 'src/components/layout/Footer.tsx');
   const manifiestosContent = fs.readFileSync(manifiestosPath, 'utf8');
   const footerContent = fs.readFileSync(footerPath, 'utf8');
 
@@ -40,7 +40,7 @@ test('2. Integridad de Integrantes y Slugs en members.ts', async () => {
 });
 
 test('3. Botón Ver Perfil Completo en las cartas de Members.tsx', () => {
-  const membersComponentPath = path.join(rootDir, 'src/components/Members.tsx');
+  const membersComponentPath = path.join(rootDir, 'src/components/integrantes/Members.tsx');
   const content = fs.readFileSync(membersComponentPath, 'utf8');
 
   assert.match(content, /btn-profile-complete/, 'Debe utilizar la clase btn-profile-complete');
@@ -81,6 +81,11 @@ test('6. Arquitectura Modular y Fácilmente Auditable (archivos concisos < 100 l
     'src/components/integrantes/IntegranteStats.tsx',
     'src/components/integrantes/IntegrantePublication.tsx',
     'src/components/integrantes/IntegranteNavFooter.tsx',
+    'src/components/debates/ArgumentBubble.tsx',
+    'src/components/debates/ArgumentForm.tsx',
+    'src/components/debates/DebateCard.tsx',
+    'src/components/debates/DebateDetail.tsx',
+    'src/components/debates/Debates.tsx',
   ];
 
   for (const relativePath of filesToCheck) {
@@ -91,5 +96,23 @@ test('6. Arquitectura Modular y Fácilmente Auditable (archivos concisos < 100 l
       lineCount <= 120,
       `El archivo ${relativePath} tiene ${lineCount} líneas (debe ser conciso <= 120 líneas para fácil auditoría)`
     );
+  }
+});
+
+test('7. Organización Limpia por Dominios en src/components/', () => {
+  const componentsDir = path.join(rootDir, 'src/components');
+  const items = fs.readdirSync(componentsDir, { withFileTypes: true });
+
+  const rootFiles = items.filter((item) => item.isFile());
+  assert.equal(
+    rootFiles.length,
+    0,
+    `src/components/ no debe contener archivos sueltos en la raíz; debe organizarse por dominios. Archivos encontrados: ${rootFiles.map((f) => f.name).join(', ')}`
+  );
+
+  const expectedDirs = ['debates', 'home', 'integrantes', 'layout', 'library', 'ui'];
+  const dirNames = items.filter((item) => item.isDirectory()).map((d) => d.name).sort();
+  for (const exp of expectedDirs) {
+    assert.ok(dirNames.includes(exp), `Debe existir el dominio de componentes '${exp}'`);
   }
 });

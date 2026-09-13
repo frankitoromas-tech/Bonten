@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import Debates from '@/components/Debates';
+import Debates from '@/components/debates/Debates';
 
 export const metadata: Metadata = {
   title: 'Debates',

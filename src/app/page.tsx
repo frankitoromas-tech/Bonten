@@ -1,8 +1,8 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import Hero from '@/components/Hero';
-import Library from '@/components/Library';
-import Newsletter from '@/components/Newsletter';
+import Hero from '@/components/home/Hero';
+import Library from '@/components/library/Library';
+import Newsletter from '@/components/home/Newsletter';
 
 export const metadata: Metadata = {
   title: 'Inicio',

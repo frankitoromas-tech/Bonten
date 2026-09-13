@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import Members from '@/components/Members';
+import Members from '@/components/integrantes/Members';
 
 export const metadata: Metadata = {
   title: 'Integrantes',
