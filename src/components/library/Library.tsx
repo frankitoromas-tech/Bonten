@@ -9,7 +9,7 @@ export default function Library() {
   const [selectedDoc, setSelectedDoc] = useState<LibraryDocument | null>(null);
 
   return (
-    <section className="library-section">
+    <section className="library-section" id="biblioteca-seccion">
       <motion.h2 
         className="section-title" 
         style={{ color: 'var(--title-color)' }}

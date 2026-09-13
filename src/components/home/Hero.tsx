@@ -1,6 +1,38 @@
 'use client';
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const QUICK_SECTIONS = [
+  {
+    href: '/manifiestos',
+    title: 'Manifiestos y Doctrina',
+    desc: 'Los principios inquebrantables de la resistencia provida.',
+    icon: '📜',
+    badge: '3 Publicaciones',
+  },
+  {
+    href: '/integrantes',
+    title: 'Mesa Directiva',
+    desc: 'Conoce al fundador Fireboy y al equipo directivo.',
+    icon: '🛡️',
+    badge: '5 Miembros',
+  },
+  {
+    href: '/debates',
+    title: 'Foro de Debates',
+    desc: 'Diálogos apologéticos y argumentación de convicciones.',
+    icon: '💬',
+    badge: 'Comunidad Activa',
+  },
+  {
+    href: '#biblioteca-seccion',
+    title: 'Biblioteca y Recursos',
+    desc: 'Documentos filosóficos, bioética y lecturas esenciales.',
+    icon: '📚',
+    badge: 'Lecturas Clave',
+  },
+];
 
 export default function Hero() {
   const [expanded, setExpanded] = useState(false);
@@ -15,11 +47,18 @@ export default function Hero() {
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         style={{
           backgroundImage:
-            'linear-gradient(rgba(3, 37, 76, 0.75), rgba(134, 25, 143, 0.75)), url("/assets/hero_bg_1781465357241.webp")',
+            'linear-gradient(rgba(3, 37, 76, 0.78), rgba(134, 25, 143, 0.78)), url("/assets/hero_bg_1781465357241.webp")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
+        <div className="hero-top-meta">
+          <div className="hero-live-badge">
+            <span className="live-pulse-dot" />
+            <span>Resistencia Activa • Nueva Generación</span>
+          </div>
+        </div>
+
         <h1 className="section-title">Nuestra Resistencia</h1>
 
         <div className="text-lines">
@@ -61,19 +100,57 @@ export default function Hero() {
           </AnimatePresence>
         </div>
 
-        <motion.button 
-          className="read-more-btn" 
-          onClick={() => setExpanded(!expanded)} 
-          aria-expanded={expanded}
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.96 }}
-        >
-          <span>{expanded ? 'Ocultar manifiesto' : 'Leer manifiesto completo'}</span>
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="chevron-icon">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </motion.button>
+        <div className="hero-actions-cluster">
+          <motion.button 
+            className="read-more-btn" 
+            onClick={() => setExpanded(!expanded)} 
+            aria-expanded={expanded}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+          >
+            <span>{expanded ? 'Ocultar manifiesto' : 'Leer manifiesto completo'}</span>
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="chevron-icon">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </motion.button>
+
+          <Link href="/manifiestos" className="hero-secondary-cta">
+            <span>Explorar Manifiestos</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </Link>
+        </div>
       </motion.article>
+
+      {/* Grid de navegación rápida a dominios clave */}
+      <div className="quick-hub-grid">
+        {QUICK_SECTIONS.map((sec, idx) => (
+          <motion.div
+            key={sec.href}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 + idx * 0.08 }}
+          >
+            <Link href={sec.href} className="quick-hub-card">
+              <div className="quick-hub-header">
+                <span className="quick-hub-icon">{sec.icon}</span>
+                <span className="quick-hub-badge">{sec.badge}</span>
+              </div>
+              <h3 className="quick-hub-title">{sec.title}</h3>
+              <p className="quick-hub-desc">{sec.desc}</p>
+              <div className="quick-hub-action">
+                <span>Acceder</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </div>
+            </Link>
+          </motion.div>
+        ))}
+      </div>
     </section>
   );
 }

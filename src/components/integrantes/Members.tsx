@@ -3,10 +3,12 @@ import React from 'react';
 import Link from 'next/link';
 import { LEADER, ADMINS } from '@/data/members';
 import { motion } from 'framer-motion';
+import Breadcrumbs from '@/components/layout/Breadcrumbs';
 
 export default function Members() {
   return (
     <>
+      <Breadcrumbs items={[{ label: 'Integrantes' }]} />
       <motion.div 
         className="page-header"
         initial={{ opacity: 0, y: -20 }}

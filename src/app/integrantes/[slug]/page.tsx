@@ -8,6 +8,7 @@ import IntegranteHero from '@/components/integrantes/IntegranteHero';
 import IntegranteStats from '@/components/integrantes/IntegranteStats';
 import IntegrantePublication from '@/components/integrantes/IntegrantePublication';
 import IntegranteNavFooter from '@/components/integrantes/IntegranteNavFooter';
+import Breadcrumbs from '@/components/layout/Breadcrumbs';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -55,6 +56,13 @@ export default async function IntegranteDetailPage({ params }: PageProps) {
 
   return (
     <main className="integrante-detail-container layout-container">
+      <Breadcrumbs
+        items={[
+          { label: 'Integrantes', href: '/integrantes' },
+          { label: member.name },
+        ]}
+      />
+
       {/* Retorno */}
       <Link href="/integrantes" className="back-btn" style={{ textDecoration: 'none' }}>
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">

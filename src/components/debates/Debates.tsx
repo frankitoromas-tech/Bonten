@@ -6,6 +6,7 @@ import DebateCard from './DebateCard';
 import DebateDetail from './DebateDetail';
 import DebateFilterBar from './DebateFilterBar';
 import { useDebatesState } from './useDebatesState';
+import Breadcrumbs from '@/components/layout/Breadcrumbs';
 
 export default function Debates() {
   const { debates, handleReaction, handleAddOpinion } = useDebatesState();
@@ -37,6 +38,7 @@ export default function Debates() {
 
   return (
     <motion.div className="debates-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+      <Breadcrumbs items={[{ label: 'Debates' }]} />
       <motion.div className="page-header" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <h2 className="page-title">Foro de Debates</h2>
         <p className="page-subtitle">Espacio para dialogar sobre la verdad, la teología y nuestra postura ante el mundo moderno.</p>
