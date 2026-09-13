@@ -5,13 +5,13 @@ import type { Manifiesto } from '@/types';
 export const MANIFIESTOS: Manifiesto[] = [
   {
     slug: 'fundamentos',
-    title: 'Fundamentos del Bloque Protestante',
+    title: 'Fundamentos del Bloque Provida',
     summary:
       'Una exégesis sobre por qué la resistencia contemporánea requiere una base sólida en principios inmutables.',
     content: [
       'La resistencia sin fundamento es mera reacción. <strong>BONTEN parte de principios que no se negocian con la moda del siglo</strong>: la dignidad de la vida, la autoridad de las escrituras y la responsabilidad de custodiar la verdad.',
       '<blockquote>No construimos sobre arena. Construimos sobre la roca de aquello que ha resistido siglos de embate cultural.</blockquote>',
-      'El Bloque Protestante no es una etiqueta política, sino una postura hermenéutica: leer la realidad a la luz de un texto que nos precede y nos corrige. De ahí nace nuestra firmeza.',
+      'El Bloque Provida no es una etiqueta política, sino una postura hermenéutica y ética: defender la dignidad inalienable de la vida humana desde su concepción, fundamentar la razón frente al relativismo moral y actuar con firmeza.',
       'Invitamos a cada integrante a estudiar estos fundamentos antes de participar en los debates. La convicción se sostiene en el conocimiento, no en la emoción del momento.',
     ],
   },

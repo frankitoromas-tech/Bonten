@@ -8,20 +8,38 @@ export type RoleClass =
   | 'role-investigator'
   | 'role-contributor';
 
+/** Publicación o ensayo destacado del integrante (referencia a disquisiciones filosóficas / doctrinales). */
+export interface MemberPublication {
+  title: string;
+  category: string;
+  date: string;
+  readTime: string;
+  subtitle?: string;
+  summary?: string;
+  sourceUrl?: string;
+  sourceLabel?: string;
+  /** Párrafos con soporte de blockquote (prefijo '<blockquote>') y HTML enriquecido */
+  paragraphs: string[];
+}
+
 /** Miembro base de la comunidad. */
 export interface Member {
   name: string;
+  fullName?: string;
+  slug?: string;
   role: string;
   roleClass: RoleClass;
   bio: string;
   avatar: string;
 }
 
-/** Líder fundador: un miembro con redes y handle público. */
+/** Líder fundador / Administrador: miembro con slug, redes y publicación destacada. */
 export interface Leader extends Omit<Member, 'roleClass'> {
+  slug: string;
   handle: string;
   tiktok: string;
   youtube: string;
+  publication?: MemberPublication;
 }
 
 /** Métricas y actividad reciente mostradas en el modal de perfil. */

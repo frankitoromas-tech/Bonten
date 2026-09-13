@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
+import Link from 'next/link';
 import { MEMBER_DETAILS } from '@/data/members';
 import type { Member, MemberDetails } from '@/types';
 import { motion } from 'framer-motion';
@@ -96,9 +97,23 @@ export default function ProfileModal({ member, onClose }: ProfileModalProps) {
           </div>
         </div>
 
-        <footer className="document-reader-footer">
-          <button className="btn-primary" onClick={onClose} style={{ width: 'auto' }}>
-            Cerrar Perfil
+        <footer className="document-reader-footer" style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'center' }}>
+          {member.slug && (
+            <Link
+              href={`/integrantes/${member.slug}`}
+              className="btn-primary"
+              style={{ width: 'auto', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.75rem 1.4rem', fontSize: '0.92rem' }}
+              onClick={onClose}
+            >
+              <span>Ver Información Completa</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
+          )}
+          <button className="btn-outline" onClick={onClose} style={{ width: 'auto' }}>
+            Cerrar
           </button>
         </footer>
       </motion.div>

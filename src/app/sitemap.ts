@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { MANIFIESTOS } from '@/data/manifiestos';
+import { getAllLeaders } from '@/data/members';
 
 const BASE_URL = 'https://bonten-bice.vercel.app';
 
@@ -20,5 +21,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...manifiestoRoutes];
+  const integranteRoutes: MetadataRoute.Sitemap = getAllLeaders().map((l) => ({
+    url: `${BASE_URL}/integrantes/${l.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...manifiestoRoutes, ...integranteRoutes];
 }

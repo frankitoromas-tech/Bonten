@@ -12,7 +12,7 @@ const SOCIALS = [
 export default function Footer() {
   return (
     <footer className="site-footer">
-      <h3 className="footer-title">BLOQUE PROTESTANTE</h3>
+      <h3 className="footer-title">BLOQUE PROVIDA</h3>
       <div className="social-grid">
         {SOCIALS.map((s) => (
           <motion.a 
