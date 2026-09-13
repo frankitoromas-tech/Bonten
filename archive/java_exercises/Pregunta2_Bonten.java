@@ -67,9 +67,9 @@ class ColaPrioridadHospital {
     }
 }
 
-public class Pregunta2_Frank {
+public class Pregunta2_Bonten {
     public static void main(String[] args) {
-        System.out.println("=== Sistema de Triage Hospitalario - Desarrollado por Frank ===");
+        System.out.println("=== Sistema de Triage Hospitalario - Desarrollado por Bonten Core ===");
         ColaPrioridadHospital cola = new ColaPrioridadHospital();
 
         // 1. Registrar 8 pacientes

@@ -214,24 +214,22 @@ export async function POST(req: NextRequest) {
       'Generando orientación personalizada con rigor filosófico...',
     ];
 
-    // Caso 1: Frank Vargas (Desarrollador / Arquitecto de Software)
+    // Caso 1: Desarrollo Técnico y Arquitectura de la Plataforma
     if (
-      lower.includes('frank vargas') ||
-      lower.includes('frank') ||
       lower.includes('quién hizo la web') ||
       lower.includes('quien desarrollo') ||
       lower.includes('desarrollador') ||
       lower.includes('programador') ||
-      lower.includes('creador de la web')
+      lower.includes('creador de la web') ||
+      lower.includes('tecnologia') ||
+      lower.includes('quien creo la web')
     ) {
       reply =
-        '⚡ **Ingeniería de Software & Arquitectura de la Plataforma: Frank Vargas**\n\n' +
-        'Es fundamental hacer una **distinción clara de roles**:\n\n' +
-        '• **Frank Vargas (Frank Emiliano Vargas Huamán)**: Es el **Desarrollador Principal y Arquitecto de Software** de BONTEN WEB. ' +
-        'Responsable del diseño técnico integral, los protocolos criptográficos de gobernanza, el motor del Copilot IA, ' +
-        'la estética visual ultra-premium y la infraestructura web.\n' +
-        '• **Fireboy**: Es el **Fundador y Presidente Doctrinal** de BONTEN, autor de los manifiestos filosóficos y líder del movimiento provida.\n\n' +
-        'Son dos personas distintas: Fireboy lidera el pensamiento y la doctrina de la resistencia; Frank Vargas construye y custodia el baluarte tecnológico.';
+        '⚡ **Tecnología & Arquitectura de la Plataforma BONTEN**\n\n' +
+        '• **Equipo de Tecnología BONTEN**: La plataforma web ha sido desarrollada de forma profesional con Next.js, ' +
+        'cifrado HMAC-SHA256, diseño responsivo de alto impacto y una experiencia interactiva moderna.\n' +
+        '• **Fireboy**: Es el **Fundador y Presidente** de BONTEN, autor de los tratados filosóficos y líder del movimiento provida.\n\n' +
+        'Toda la estructura técnica y de diseño está al servicio de la misión formativa de BONTEN.';
       routes.push({ label: 'Tratado de Fireboy', href: '/manifiestos/posmodernidad' });
       routes.push({ label: 'Mesa Directiva BONTEN', href: '/integrantes' });
       routes.push({ label: 'Comunidad Provida', href: '/comunidad' });
@@ -363,18 +361,17 @@ export async function POST(req: NextRequest) {
       routes.push({ label: 'Foro de Debates', href: '/debates' });
     }
 
-    // Caso 8: Mapa de Rutas General
+    // Caso 8: Orientación General de la Plataforma
     else {
       reply =
-        `🏛️ **Orientación Canónica BONTEN (Aegis Core)**\n\n` +
-        `Paz y firmeza ontológica. Estoy a tu servicio para orientarte en la verdad y la estructura de **${metadata.title}**:\n\n` +
-        `• 📚 **Biblioteca & Archivo Doctrinal (#biblioteca-seccion)**: 6 tratados filosóficos completos.\n` +
-        `• 🔥 **Tratado de Posmodernidad (/manifiestos/posmodernidad)**: El ensayo cumbre de Fireboy.\n` +
-        `• 🛡️ **Mesa Directiva (/integrantes)**: Fichas de Fireboy, Daniel, Mijail, Ilan y Laura.\n` +
-        `• 💬 **Foro de Debates (/debates)**: Dialéctica apologética y argumentación provida.\n` +
-        `• 🌐 **Muro de la Comunidad (/comunidad)**: Adhesión fraterna y decálogo de honor.\n` +
-        `• ⚡ **Créditos Técnicos**: Plataforma web y ciberseguridad por Frank Vargas.\n\n` +
-        `¿En cuál de estas áreas deseas profundizar?`;
+        `🏛️ **Asistente Virtual BONTEN**\n\n` +
+        `Bienvenido a **${metadata.title}**. Estoy para orientarte en la navegación y contenidos de la plataforma:\n\n` +
+        `• 📚 **Biblioteca Doctrinal**: Tratados y ensayos filosóficos completos.\n` +
+        `• 🔥 **Tratado de Posmodernidad**: El ensayo cumbre de Fireboy.\n` +
+        `• 🛡️ **Mesa Directiva**: Perfiles oficiales de los integrantes.\n` +
+        `• 💬 **Foro de Debates**: Dialéctica apologética y argumentación provida.\n` +
+        `• 🌐 **Comunidad Provida**: Adhesión fraterna y decálogo de honor.\n\n` +
+        `¿En qué sección o tema te gustaría que te oriente?`;
       routes.push({ label: 'Explorar Biblioteca', href: '#biblioteca-seccion' });
       routes.push({ label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' });
       routes.push({ label: 'Comunidad Provida', href: '/comunidad' });

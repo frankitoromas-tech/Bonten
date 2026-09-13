@@ -25,7 +25,7 @@ import java.util.List;
  * BONTEN ENTERPRISE SECURITY CORE — SPRING SECURITY 6 & JAVA 17
  * =======================================================================
  * Configuración de defensa perimetral para el microservicio de autenticación
- * de Frank Vargas (Bonten Core).
+ * de BONTEN Core (Equipo de Tecnología).
  * 
  * Protecciones activadas:
  * 1. Stateless JWT con cookies HttpOnly y SameSite=Strict.

@@ -83,3 +83,6 @@ export function getMemberBySlug(slug: string): Leader | undefined {
   );
 }
 
+export { getAuthorProfile, type AuthorProfile } from './authors';
+
+

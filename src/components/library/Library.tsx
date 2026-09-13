@@ -1,8 +1,10 @@
 'use client';
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import DocumentReader from './DocumentReader';
 import { DOCUMENTS } from '@/data/library';
+import { getAuthorProfile } from '@/data/members';
 import type { LibraryDocument } from '@/types';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -98,13 +100,26 @@ export default function Library() {
             </div>
             <h3 className="featured-title">{featuredDoc.title}</h3>
             <p className="featured-excerpt">{featuredDoc.excerpt}</p>
-            <div className="featured-author-row">
-              <div className="featured-author-avatar">F</div>
-              <div>
-                <strong className="featured-author-name">{featuredDoc.author}</strong>
-                <span className="featured-author-desc">Fundador y Teórico Principal de BONTEN</span>
-              </div>
-            </div>
+            {(() => {
+              const profile = getAuthorProfile(featuredDoc.author);
+              return (
+                <div className="featured-author-row">
+                  <div className="featured-author-avatar-wrap">
+                    <Image
+                      src={profile.avatar}
+                      alt={featuredDoc.author}
+                      width={44}
+                      height={44}
+                      className="featured-author-img"
+                    />
+                  </div>
+                  <div>
+                    <strong className="featured-author-name">{featuredDoc.author}</strong>
+                    <span className="featured-author-desc">{profile.role}</span>
+                  </div>
+                </div>
+              );
+            })()}
             <div className="featured-actions">
               <button
                 className="featured-btn-primary"
@@ -248,10 +263,23 @@ export default function Library() {
               <div className="doc-card-body">
                 <h3 className="doc-card-title">{doc.title}</h3>
                 
-                <div className="doc-author-line">
-                  <span className="doc-author-dot" />
-                  <span className="doc-author-name">{doc.author}</span>
-                </div>
+                {(() => {
+                  const cardProfile = getAuthorProfile(doc.author);
+                  return (
+                    <div className="doc-author-line">
+                      <div className="doc-author-mini-avatar">
+                        <Image
+                          src={cardProfile.avatar}
+                          alt={doc.author}
+                          width={22}
+                          height={22}
+                          className="doc-author-mini-img"
+                        />
+                      </div>
+                      <span className="doc-author-name">{doc.author}</span>
+                    </div>
+                  );
+                })()}
 
                 <p className="doc-card-excerpt">
                   {doc.excerpt || 'Disquisición doctrinal y filosófica archivada en el corpus oficial de la resistencia BONTEN.'}

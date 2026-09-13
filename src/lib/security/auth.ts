@@ -16,7 +16,7 @@ export interface AdminSessionPayload {
 
 const SECRET =
   process.env.ADMIN_JWT_SECRET ||
-  'bonten_enterprise_crypto_shield_secret_key_frank_vargas_2026';
+  'bonten_enterprise_crypto_shield_secret_key_sovereign_core_2026';
 
 const DEFAULT_ADMIN_USER = process.env.ADMIN_USER || 'fireboy';
 const DEFAULT_ADMIN_PASS = process.env.ADMIN_PASS || 'fireboy_bonten_2026';

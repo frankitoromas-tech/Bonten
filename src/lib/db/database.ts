@@ -259,7 +259,7 @@ export function authenticateAdmin(
     return { success: false, error: 'Usuario o rol no autorizado' };
   }
 
-  const secret = process.env.ADMIN_JWT_SECRET || 'bonten_enterprise_crypto_shield_secret_key_frank_vargas_2026';
+  const secret = process.env.ADMIN_JWT_SECRET || 'bonten_enterprise_crypto_shield_secret_key_sovereign_core_2026';
   const computedHash = crypto
     .createHmac('sha256', secret)
     .update(`${user.passwordSalt}:${passwordAttempt}`)
@@ -327,7 +327,7 @@ export function updateAdminPassword(
     return { success: false, error: 'Administrador no encontrado o no activo' };
   }
 
-  const secret = process.env.ADMIN_JWT_SECRET || 'bonten_enterprise_crypto_shield_secret_key_frank_vargas_2026';
+  const secret = process.env.ADMIN_JWT_SECRET || 'bonten_enterprise_crypto_shield_secret_key_sovereign_core_2026';
   const computedHash = crypto
     .createHmac('sha256', secret)
     .update(`${user.passwordSalt}:${currentPasswordAttempt}`)

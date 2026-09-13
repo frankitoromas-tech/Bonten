@@ -105,9 +105,9 @@ class ArbolBST {
     }
 }
 
-public class Pregunta3_Frank {
+public class Pregunta3_Bonten {
     public static void main(String[] args) {
-        System.out.println("=== Sistema de Inventario BST - Desarrollado por Frank ===");
+        System.out.println("=== Sistema de Inventario BST - Desarrollado por Bonten Core ===");
         ArbolBST arbol = new ArbolBST();
         int[] codigos = {50, 30, 70, 20, 40, 60, 80, 35, 45, 65};
 

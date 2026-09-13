@@ -1,6 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import type { LibraryDocument } from '@/types';
+import { getAuthorProfile } from '@/data/members';
 import { motion } from 'framer-motion';
 import { useToast } from '@/components/ui/Toast';
 
@@ -122,9 +124,23 @@ export default function DocumentReader({ document: doc, onClose }: DocumentReade
         <header className="document-reader-header">
           <div className="document-reader-meta">
             <span className="debate-tag">{doc.category}</span>
-            <span>
-              Por: <strong>{doc.author}</strong>
-            </span>
+            {(() => {
+              const authorProf = getAuthorProfile(doc.author);
+              return (
+                <span className="reader-author-badge flex items-center gap-1.5">
+                  <span className="reader-author-avatar-wrap inline-block w-5 h-5 rounded-full overflow-hidden border border-white/20">
+                    <Image
+                      src={authorProf.avatar}
+                      alt={doc.author}
+                      width={20}
+                      height={20}
+                      className="w-full h-full object-cover"
+                    />
+                  </span>
+                  <span>Por: <strong>{doc.author}</strong></span>
+                </span>
+              );
+            })()}
             <span>• {doc.readTime}</span>
           </div>
           <h2 className="document-reader-title">{doc.title}</h2>

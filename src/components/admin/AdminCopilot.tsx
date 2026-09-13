@@ -72,9 +72,9 @@ export function AdminCopilot({ onMetadataUpdated }: Props) {
     setLoading(true);
 
     const cognitiveSteps = [
-      'Inspeccionando privilegios RBAC y tokens de sesión...',
-      'Evaluando orden ejecutiva y seguridad perimetral...',
-      'Estructurando propuesta atómica con salvaguarda...',
+      'Procesando solicitud...',
+      'Verificando datos...',
+      'Generando propuesta...',
     ];
     setThinkingStep(cognitiveSteps[0]);
 
@@ -228,10 +228,10 @@ export function AdminCopilot({ onMetadataUpdated }: Props) {
           />
           <div>
             <h3 className="text-sm font-semibold text-[var(--title-color)]">
-              Copilot Administrativo & Flujos Automatizados
+              Asistente Editorial & Acciones Rápidas
             </h3>
             <p className="text-xs text-[var(--text-muted)]">
-              Multi-ayuda inteligente, resolución doctrinal y mitigación perimetral activa
+              Gestión de contenidos, actualización de metadatos y soporte
             </p>
           </div>
         </div>

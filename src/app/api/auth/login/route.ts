@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Verificación criptográfica timing-safe con sal
-    const secret = process.env.ADMIN_JWT_SECRET || 'bonten_enterprise_crypto_shield_secret_key_frank_vargas_2026';
+    const secret = process.env.ADMIN_JWT_SECRET || 'bonten_enterprise_crypto_shield_secret_key_sovereign_core_2026';
     const computedHash = crypto
       .createHmac('sha256', secret)
       .update(`${user.passwordSalt}:${password}`)

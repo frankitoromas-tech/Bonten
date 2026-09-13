@@ -57,9 +57,9 @@ class PilaPaquetes {
     }
 }
 
-public class Pregunta1_Frank {
+public class Pregunta1_Bonten {
     public static void main(String[] args) {
-        System.out.println("=== Sistema de Mensajería - Desarrollado por Frank ===");
+        System.out.println("=== Sistema de Mensajería - Desarrollado por Bonten Core ===");
         PilaPaquetes pila = new PilaPaquetes(10);
 
         // 1. Registrar 10 paquetes mediante la operación Push

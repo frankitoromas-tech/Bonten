@@ -30,9 +30,9 @@ export default function PublicAssistant() {
       id: 'welcome',
       sender: 'assistant',
       text:
-        'Paz y firmeza ontológica. Soy **Aegis**, el Centinela y Guía Soberano de **BONTEN** ⚡\n\n' +
-        'Custodio los tratados de la biblioteca, la doctrina provida de Fireboy y la orientación canónica del sitio. ' +
-        '¿En qué verdad filosófica o sección de nuestra resistencia deseas profundizar?',
+        'Hola, te damos la bienvenida a **BONTEN**. Soy el **Asistente Virtual** de la plataforma.\n\n' +
+        'Puedo orientarte para explorar los tratados de la biblioteca, conocer a los integrantes de la mesa directiva y guiarte por cualquier sección del sitio. ' +
+        '¿En qué tema o sección te gustaría que te oriente?',
       routes: [
         { label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' },
         { label: 'Biblioteca Doctrinal (6)', href: '#biblioteca-seccion' },
@@ -100,9 +100,9 @@ export default function PublicAssistant() {
 
     // Margen Cognitivo y Bucle de Procesamiento de IA
     const thinkingSteps = [
-      'Analizando consulta semántica...',
-      'Consultando corpus doctrinal y grafo de rutas BONTEN...',
-      'Estructurando síntesis y referencias de navegación...',
+      'Procesando consulta...',
+      'Buscando en la biblioteca y rutas...',
+      'Preparando respuesta...',
     ];
 
     setCurrentThinkingStep(thinkingSteps[0]);
@@ -205,7 +205,7 @@ export default function PublicAssistant() {
             </div>
 
             <span className="text-xs font-semibold tracking-wide text-slate-100 group-hover:text-white">
-              {isOpen ? 'Cerrar Guía' : 'Guía BONTEN'}
+              {isOpen ? 'Cerrar Asistente' : 'Asistente BONTEN'}
             </span>
             <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gradient-to-r from-sky-500/20 to-purple-500/20 text-sky-300 font-mono border border-sky-400/30">
               IA
@@ -234,13 +234,13 @@ export default function PublicAssistant() {
               </div>
               <div>
                 <h3 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5 flex-wrap">
-                  <span className="shimmer-text-delight">Aegis • Guía BONTEN</span>
-                  <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/35 flex items-center gap-1">
-                    🛡️ Anti-Injection L7
+                  <span>Asistente BONTEN</span>
+                  <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30">
+                    Oficial
                   </span>
                 </h3>
-                <p className="text-[10px] text-slate-400">
-                  Centinela doctrinal, bioética y navegación soberana
+                <p className="text-[10.5px] text-slate-400">
+                  Orientación de temas y navegación de la plataforma
                 </p>
               </div>
             </div>
@@ -356,8 +356,8 @@ export default function PublicAssistant() {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-80" />
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-gradient-to-tr from-sky-400 to-indigo-300 shadow-[0_0_8px_rgba(56,189,248,0.9)]" />
                     </span>
-                    <span className="font-semibold uppercase tracking-wider text-[10px] shimmer-text-delight">
-                      Razonando en BONTEN Core...
+                    <span className="font-semibold uppercase tracking-wider text-[10px] text-sky-400">
+                      Procesando...
                     </span>
                   </div>
                   <div className="text-[11.5px] text-slate-300 italic flex items-center gap-2 font-mono">
@@ -374,8 +374,8 @@ export default function PublicAssistant() {
           {/* Fila de Sugerencias Rápidas / Prompt Chips */}
           <div className="px-3 py-2 bg-slate-950/60 border-t border-slate-800/60 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
             {[
-              '🔥 ¿Quién es Fireboy?',
-              '⚡ ¿Quién desarrolló la web?',
+              '🔥 Conocer a Fireboy',
+              '⚡ Tecnología de la Web',
               '📚 Biblioteca (6 Tratados)',
               '📜 Tratado de Posmodernidad',
               '⚖️ Argumentos Provida',

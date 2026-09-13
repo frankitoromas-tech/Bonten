@@ -239,7 +239,7 @@ export default function PosmodernidadPage() {
             {/* Colofón Editorial & Créditos Técnicos */}
             <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between text-[11px] text-[var(--text-muted)] gap-2">
               <span>✍️ <strong>Autor del Tratado:</strong> Fireboy (Líder Doctrinal BONTEN)</span>
-              <span>⚡ <strong>Ingeniería & Arquitectura Web:</strong> Frank Vargas</span>
+              <span>⚡ <strong>Ingeniería & Arquitectura Web:</strong> Equipo de Tecnología BONTEN</span>
             </div>
           </section>
         </div>
