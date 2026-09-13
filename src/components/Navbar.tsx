@@ -88,7 +88,7 @@ export default function Navbar() {
 
       <nav className={`top-nav ${menuOpen ? 'open' : ''}`}>
         {NAV_LINKS.map((link) => {
-          const isActive = pathname === link.href;
+          const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
           return (
             <Link
               key={link.href}

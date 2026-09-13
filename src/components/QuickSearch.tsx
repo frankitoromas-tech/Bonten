@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MANIFIESTOS } from '@/data/manifiestos';
 import { DOCUMENTS } from '@/data/library';
 import { INITIAL_DEBATES } from '@/data/debates';
-import { LEADER, ADMINS } from '@/data/members';
+import { getAllLeaders } from '@/data/members';
 
 interface SearchResult {
   id: string;
@@ -68,20 +68,22 @@ export default function QuickSearch() {
       url: '/debates',
       icon: '💬',
     })),
-    {
-      id: 'mem-leader',
-      title: LEADER.name + ' (' + LEADER.role + ')',
+    ...getAllLeaders().map((l) => ({
+      id: `mem-${l.slug}`,
+      title: `${l.name} (${l.role})`,
       category: 'Integrante',
-      url: '/integrantes',
-      icon: '👤',
-    },
-    ...ADMINS.map((a, i) => ({
-      id: `mem-admin-${i}`,
-      title: a.name + ' (' + a.role + ')',
-      category: 'Integrante',
-      url: '/integrantes',
+      url: `/integrantes/${l.slug}`,
       icon: '👤',
     })),
+    ...getAllLeaders()
+      .filter((l) => l.publication)
+      .map((l) => ({
+        id: `pub-${l.slug}`,
+        title: `${l.publication!.title} — ${l.name}`,
+        category: 'Ensayo / Disquisición',
+        url: `/integrantes/${l.slug}`,
+        icon: '✍️',
+      })),
   ];
 
   const filtered = query.trim() === ''

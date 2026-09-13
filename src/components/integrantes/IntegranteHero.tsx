@@ -7,7 +7,7 @@ interface IntegranteHeroProps {
 
 export default function IntegranteHero({ member }: IntegranteHeroProps) {
   return (
-    <article className="leader-card" style={{ marginBottom: '2.5rem', width: '100%' }}>
+    <article className="leader-card" style={{ width: '100%' }}>
       <div className="leader-avatar-wrapper">
         <div className="leader-avatar" style={{ backgroundImage: `url("${member.avatar}")` }} />
         <div className="leader-ring" />
