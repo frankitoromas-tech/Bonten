@@ -2369,3 +2369,91 @@ html {
         padding: 1rem 1.2rem;
     }
 }
+
+/* =========================================
+   15. ESTILOS 3D INMERSIVOS & EXPERIENCIA SENSORIAL (Noomo Inspired)
+========================================= */
+.interactive-3d-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.cursor-spotlight-aura {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.09) 0%, rgba(217, 70, 239, 0.05) 45%, transparent 70%);
+    will-change: transform;
+    mix-blend-mode: screen;
+}
+
+.tilt-card-3d-root {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.audio-controller-wrapper {
+    position: fixed;
+    bottom: 2.2rem;
+    left: 2.2rem;
+    z-index: 1200;
+}
+
+.audio-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 9999px;
+    background: rgba(3, 37, 76, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: var(--transition);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.audio-toggle-btn:hover {
+    border-color: var(--accent-pink);
+    color: var(--text-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(217, 70, 239, 0.35);
+}
+
+.audio-toggle-btn.active {
+    background: var(--gradient-accent);
+    color: #03254c;
+    border-color: transparent;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.45);
+}
+
+@media (max-width: 640px) {
+    .audio-controller-wrapper {
+        bottom: 1.5rem;
+        left: 1.5rem;
+    }
+    .audio-toggle-label {
+        display: none;
+    }
+    .audio-toggle-btn {
+        padding: 0.65rem;
+        border-radius: 50%;
+    }
+    .cursor-spotlight-aura {
+        display: none !important;
+    }
+}

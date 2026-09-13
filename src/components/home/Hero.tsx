@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import TiltCard3D from '@/components/ui/TiltCard3D';
 
 const QUICK_SECTIONS = [
   {
@@ -132,22 +133,25 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 + idx * 0.08 }}
+            style={{ height: '100%' }}
           >
-            <Link href={sec.href} className="quick-hub-card">
-              <div className="quick-hub-header">
-                <span className="quick-hub-icon">{sec.icon}</span>
-                <span className="quick-hub-badge">{sec.badge}</span>
-              </div>
-              <h3 className="quick-hub-title">{sec.title}</h3>
-              <p className="quick-hub-desc">{sec.desc}</p>
-              <div className="quick-hub-action">
-                <span>Acceder</span>
-                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </div>
-            </Link>
+            <TiltCard3D intensity={9} style={{ height: '100%', borderRadius: 'var(--radius-lg)' }}>
+              <Link href={sec.href} className="quick-hub-card">
+                <div className="quick-hub-header">
+                  <span className="quick-hub-icon">{sec.icon}</span>
+                  <span className="quick-hub-badge">{sec.badge}</span>
+                </div>
+                <h3 className="quick-hub-title">{sec.title}</h3>
+                <p className="quick-hub-desc">{sec.desc}</p>
+                <div className="quick-hub-action">
+                  <span>Acceder</span>
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </div>
+              </Link>
+            </TiltCard3D>
           </motion.div>
         ))}
       </div>

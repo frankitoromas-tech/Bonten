@@ -6,6 +6,9 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import BackToTop from '@/components/layout/BackToTop';
 import AmbientBackground from '@/components/layout/AmbientBackground';
+import Interactive3DBackground from '@/components/layout/Interactive3DBackground';
+import CursorSpotlight from '@/components/layout/CursorSpotlight';
+import AudioController from '@/components/layout/AudioController';
 import QuickSearch from '@/components/layout/QuickSearch';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
 import { ToastProvider } from '@/components/ui/Toast';
@@ -40,11 +43,14 @@ export default function RootLayout({
         <ThemeProvider>
           <ToastProvider>
             <AmbientBackground />
+            <Interactive3DBackground />
+            <CursorSpotlight />
             <Navbar />
             <QuickSearch />
             <main className="layout-container">{children}</main>
             <Footer />
             <BackToTop />
+            <AudioController />
           </ToastProvider>
         </ThemeProvider>
       </body>
