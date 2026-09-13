@@ -51,6 +51,21 @@ export default function PublicAssistant() {
     }
   }, [messages, loading, isOpen, currentThinkingStep]);
 
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (isOpen) {
+        document.body.setAttribute('data-assistant-open', 'true');
+      } else {
+        document.body.removeAttribute('data-assistant-open');
+      }
+    }
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.body.removeAttribute('data-assistant-open');
+      }
+    };
+  }, [isOpen]);
+
   const triggerAudio = (type: 'pop' | 'success' | 'toggle' | 'chime') => {
     if (
       typeof window !== 'undefined' &&
