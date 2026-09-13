@@ -20,11 +20,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: originCheck.reason || 'Origen no autorizado' }, { status: 403 });
   }
 
-  // 2. Verificación de sesión de administrador
+  // 2. Verificación de sesión de administrador RBAC
   const sessionToken = req.cookies.get(SESSION_COOKIE_NAME)?.value;
-  const { valid } = verifySessionToken(sessionToken || '');
-  if (!valid) {
-    return NextResponse.json({ error: 'No autorizado. Se requiere sesión de administrador.' }, { status: 401 });
+  const { valid, payload } = verifySessionToken(sessionToken || '');
+  if (!valid || (payload?.role !== 'ROLE_SUPERADMIN' && payload?.role !== 'ROLE_ADMIN')) {
+    return NextResponse.json({ error: 'No autorizado. Se requiere sesión de administrador activa.' }, { status: 401 });
   }
 
   try {

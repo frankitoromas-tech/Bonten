@@ -28,11 +28,13 @@ export default function DebateCard({ debate, index, onSelect }: DebateCardProps)
       onClick={() => onSelect(debate.id)}
       role="button"
       tabIndex={0}
-      initial={{ opacity: 0, y: 25 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.08 }}
-      whileHover={{ y: -5, scale: 1.01 }}
-      whileTap={{ scale: 0.99 }}
+      initial={{ opacity: 0, y: 40, rotateX: 18, scale: 0.96 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -6, scale: 1.015, rotateX: 3, transition: { duration: 0.2 } }}
+      whileTap={{ scale: 0.98 }}
+      style={{ perspective: 1000, transformStyle: 'preserve-3d' }}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();

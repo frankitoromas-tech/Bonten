@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: '/integrantes', label: 'Integrantes', icon: '🛡️' },
   { href: '/manifiestos', label: 'Manifiestos', icon: '📜' },
   { href: '/debates', label: 'Debates', icon: '💬' },
+  { href: '/admin', label: 'Admin', icon: '🔐' },
 ];
 
 export default function Navbar() {
@@ -55,6 +56,10 @@ export default function Navbar() {
   const isCurrentActive = (href: string) =>
     pathname === href || (href !== '/' && pathname.startsWith(href));
 
+  if (pathname && pathname.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <>
       <div
@@ -72,9 +77,11 @@ export default function Navbar() {
         <div className="navbar-container">
           <div className="navbar-brand-col">
             <Link href="/" className="brand-container" style={{ textDecoration: 'none' }}>
-              <div className="brand-text-group">
+              <div className="brand-text-group flex items-center gap-2">
                 <div className="logo">BONTEN</div>
-                <span className="badge-ng" title="Nueva Generación Provida">NG</span>
+                <span className="badge-premium badge-magenta-neon text-[10px] !py-0.5 !px-2 tracking-wider" title="Nueva Generación Provida">
+                  <span className="badge-emoji-halo">⚡</span> NG
+                </span>
               </div>
               <Image
                 src="/LOGO_BONTEN_V2.jpeg"

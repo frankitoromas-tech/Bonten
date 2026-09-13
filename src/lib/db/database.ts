@@ -63,28 +63,9 @@ users.push({
   createdAt: new Date().toISOString(),
 });
 
-// Semillas iniciales: Mesa Directiva como Administradores Secundarios (ROLE_ADMIN)
-const adminSeeds = [
-  { username: 'daniel', email: 'daniel@bonten.org', pass: 'daniel_bonten_2026', avatar: '/assets/daniel_client.webp' },
-  { username: 'mijail', email: 'mijail@bonten.org', pass: 'mijail_bonten_2026', avatar: '/assets/mijail_client.webp' },
-  { username: 'ilan', email: 'ilan@bonten.org', pass: 'ilan_bonten_2026', avatar: '/assets/ilan_client.webp' },
-  { username: 'laura', email: 'laura@bonten.org', pass: 'laura_bonten_2026', avatar: '/assets/laura_client.webp' },
-];
+// Semilla inicial: Por directiva de seguridad, Fireboy es el ÚNICO administrador inicial.
+// Fireboy decidirá y gestionará soberanamente a quién otorgar acceso posterior vía el panel.
 
-for (const seed of adminSeeds) {
-  const hp = hashPassword(seed.pass);
-  users.push({
-    id: nextUserId++,
-    username: seed.username,
-    email: seed.email,
-    passwordHash: hp.hash,
-    passwordSalt: hp.salt,
-    role: 'ROLE_ADMIN',
-    avatarUrl: seed.avatar,
-    isActive: true,
-    createdAt: new Date().toISOString(),
-  });
-}
 
 // Semilla inicial: Miembro de prueba de la comunidad
 const memberPass = hashPassword('bonten_member_123');
@@ -333,5 +314,47 @@ export function deleteAdmin(
 
   target.role = 'ROLE_MEMBER';
   return { success: true };
+}
+
+/** Permite a un administrador autenticado actualizar su contraseña de forma segura */
+export function updateAdminPassword(
+  userId: number,
+  currentPasswordAttempt: string,
+  newPassword: string
+): { success: boolean; error?: string } {
+  const user = users.find((u) => u.id === userId && u.isActive);
+  if (!user || !['ROLE_SUPERADMIN', 'ROLE_ADMIN'].includes(user.role)) {
+    return { success: false, error: 'Administrador no encontrado o no activo' };
+  }
+
+  const secret = process.env.ADMIN_JWT_SECRET || 'bonten_enterprise_crypto_shield_secret_key_frank_vargas_2026';
+  const computedHash = crypto
+    .createHmac('sha256', secret)
+    .update(`${user.passwordSalt}:${currentPasswordAttempt}`)
+    .digest('hex');
+
+  const bufA = Buffer.from(computedHash);
+  const bufB = Buffer.from(user.passwordHash);
+
+  if (bufA.length !== bufB.length || !crypto.timingSafeEqual(bufA, bufB)) {
+    return { success: false, error: 'La contraseña actual es incorrecta' };
+  }
+
+  if (!newPassword || newPassword.length < 8) {
+    return { success: false, error: 'La nueva contraseña debe tener un mínimo de 8 caracteres' };
+  }
+
+  const newHashed = hashPassword(newPassword);
+  user.passwordHash = newHashed.hash;
+  user.passwordSalt = newHashed.salt;
+
+  return { success: true };
+}
+
+/** Busca un administrador por nombre de usuario */
+export function findAdminByUsername(username: string): User | undefined {
+  return users.find(
+    (u) => u.username.toLowerCase() === username.toLowerCase() && ['ROLE_SUPERADMIN', 'ROLE_ADMIN'].includes(u.role)
+  );
 }
 

@@ -2405,110 +2405,189 @@ html {
 
 .audio-controller-wrapper {
     position: fixed;
-    bottom: 2.2rem;
-    left: 2.2rem;
+    bottom: 1.5rem;
+    left: 1.5rem;
     z-index: 1200;
 }
 
 .audio-toggle-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1rem;
-    border-radius: 9999px;
-    background: rgba(3, 37, 76, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: var(--text-muted);
-    font-size: 0.82rem;
-    font-weight: 700;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    color: #64748b;
     cursor: pointer;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(16px);
     transition: var(--transition);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .audio-toggle-btn {
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #94a3b8;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
 }
 
 .audio-toggle-btn:hover {
-    border-color: var(--accent-pink);
-    color: var(--text-light);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(217, 70, 239, 0.35);
+    color: #0284c7;
+    border-color: #0284c7;
+    transform: scale(1.06);
+}
+
+[data-theme="dark"] .audio-toggle-btn:hover {
+    color: #38bdf8;
+    border-color: #38bdf8;
 }
 
 .audio-toggle-btn.active {
-    background: var(--gradient-accent);
-    color: #03254c;
-    border-color: transparent;
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.45);
+    background: #ffffff;
+    color: #0284c7;
+    border-color: rgba(2, 132, 199, 0.4);
+    box-shadow: 0 0 16px rgba(2, 132, 199, 0.2);
+}
+
+[data-theme="dark"] .audio-toggle-btn.active {
+    background: rgba(15, 23, 42, 0.9);
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
 }
 
 @media (max-width: 640px) {
     .audio-controller-wrapper {
-        bottom: 1.5rem;
-        left: 1.5rem;
-    }
-    .audio-toggle-label {
-        display: none;
-    }
-    .audio-toggle-btn {
-        padding: 0.65rem;
-        border-radius: 50%;
+        bottom: 1.25rem;
+        left: 1.25rem;
     }
     .cursor-spotlight-aura {
         display: none !important;
     }
 }
 
+/* Ocultar indicador de desarrollo "N" de Next.js */
+nextjs-portal {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
 /* =========================================
-   16. PANEL DE ADMINISTRACIÓN & SEGURIDAD (/admin)
+   16. PANEL DE ADMINISTRACIÓN & COPILOT IA (/admin)
+   Diseño de Élite: Minimalismo Ejecutivo, Cero Ruido Visual,
+   Soporte Completo para Modo Claro / Oscuro con Paleta Base BONTEN.
 ========================================= */
+.admin-shell {
+    background-color: var(--bg-base);
+    color: var(--text-dark);
+    min-height: 100vh;
+    transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+
+.admin-header {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] .admin-header {
+    background: rgba(6, 11, 24, 0.88);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .admin-card {
-    background: rgba(10, 16, 30, 0.85);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-xl);
-    padding: clamp(1.5rem, 4vw, 2.5rem);
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-lg);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
     transition: var(--transition);
+}
+
+[data-theme="dark"] .admin-card {
+    background: rgba(12, 19, 36, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+.admin-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    margin-bottom: 1.25rem;
+}
+
+[data-theme="dark"] .admin-card-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .admin-input {
     width: 100%;
     padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    background: rgba(6, 11, 24, 0.9);
+    border-radius: var(--radius-sm);
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #0f172a;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+[data-theme="dark"] .admin-input {
+    background: rgba(6, 11, 24, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.12);
     color: #f8fafc;
-    font-size: 0.9rem;
-    transition: var(--transition);
 }
 
 .admin-input:focus {
     outline: none;
+    background: #ffffff;
+    border-color: #0284c7;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+[data-theme="dark"] .admin-input:focus {
+    background: rgba(6, 11, 24, 0.95);
     border-color: #38bdf8;
     box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
 }
 
 .btn-admin-primary {
-    background: linear-gradient(135deg, #0284c7 0%, #d946ef 100%);
+    background: linear-gradient(135deg, #0284c7 0%, #03254c 100%);
     color: #ffffff;
-    font-weight: 700;
-    font-size: 0.82rem;
-    font-family: monospace;
-    padding: 0.7rem 1.4rem;
-    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius-sm);
     border: none;
     cursor: pointer;
     transition: var(--transition);
-    box-shadow: 0 4px 15px rgba(217, 70, 239, 0.25);
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
 }
 
+[data-theme="dark"] .btn-admin-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #d946ef 100%);
+    box-shadow: 0 4px 16px rgba(217, 70, 239, 0.25);
+}
+
 .btn-admin-primary:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(217, 70, 239, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
+}
+
+[data-theme="dark"] .btn-admin-primary:hover:not(:disabled) {
+    box-shadow: 0 6px 24px rgba(217, 70, 239, 0.4);
 }
 
 .btn-admin-primary:disabled {
@@ -2517,20 +2596,339 @@ html {
 }
 
 .btn-admin-secondary {
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    color: #0f172a;
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 0.6rem 1.1rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+[data-theme="dark"] .btn-admin-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     color: #38bdf8;
+}
+
+.btn-admin-secondary:hover {
+    background: #e2e8f0;
+    color: #0284c7;
+}
+
+[data-theme="dark"] .btn-admin-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-color: #38bdf8;
+}
+
+.admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.72rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.admin-badge:hover {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.admin-badge-blue {
+    background: rgba(2, 132, 199, 0.12);
+    color: #0284c7;
+    border: 1px solid rgba(2, 132, 199, 0.3);
+}
+
+[data-theme="dark"] .admin-badge-blue {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    box-shadow: 0 0 12px -2px rgba(56, 189, 248, 0.25);
+}
+
+.admin-badge-pink {
+    background: rgba(217, 70, 239, 0.12);
+    color: #c026d3;
+    border: 1px solid rgba(217, 70, 239, 0.3);
+}
+
+[data-theme="dark"] .admin-badge-pink {
+    background: rgba(217, 70, 239, 0.18);
+    color: #e879f9;
+    border: 1px solid rgba(217, 70, 239, 0.4);
+    box-shadow: 0 0 12px -2px rgba(217, 70, 239, 0.25);
+}
+
+/* ==========================================================================
+   SISTEMA DE INSIGNIAS DE ÉLITE Y EMOJIS VISUAL DELIGHT (BONTEN PRESTIGE)
+   ========================================================================== */
+
+.badge-premium {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.32rem 0.85rem;
+    border-radius: 9999px;
+    font-size: 0.78rem;
     font-weight: 700;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    user-select: none;
+    cursor: default;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 2px 8px -2px rgba(0, 0, 0, 0.12);
+}
+
+.badge-premium:hover {
+    transform: translateY(-1.5px) scale(1.02);
+}
+
+/* Variantes Cromáticas Premium */
+.badge-gold-fire {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(239, 68, 68, 0.12) 100%);
+    color: #d97706;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 14px -3px rgba(245, 158, 11, 0.25);
+}
+
+[data-theme="dark"] .badge-gold-fire {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(239, 68, 68, 0.16) 100%);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.45);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 0 18px -2px rgba(245, 158, 11, 0.35);
+}
+
+.badge-royal-sapphire {
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.14) 0%, rgba(56, 189, 248, 0.1) 100%);
+    color: #0284c7;
+    border: 1px solid rgba(2, 132, 199, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 14px -3px rgba(2, 132, 199, 0.22);
+}
+
+[data-theme="dark"] .badge-royal-sapphire {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(2, 132, 199, 0.14) 100%);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 0 18px -2px rgba(56, 189, 248, 0.32);
+}
+
+.badge-magenta-neon {
+    background: linear-gradient(135deg, rgba(217, 70, 239, 0.14) 0%, rgba(168, 85, 247, 0.1) 100%);
+    color: #c026d3;
+    border: 1px solid rgba(217, 70, 239, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 14px -3px rgba(217, 70, 239, 0.22);
+}
+
+[data-theme="dark"] .badge-magenta-neon {
+    background: linear-gradient(135deg, rgba(217, 70, 239, 0.2) 0%, rgba(168, 85, 247, 0.14) 100%);
+    color: #f472b6;
+    border: 1px solid rgba(217, 70, 239, 0.45);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 0 18px -2px rgba(217, 70, 239, 0.35);
+}
+
+.badge-radiant-emerald {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.14) 0%, rgba(5, 150, 105, 0.1) 100%);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 14px -3px rgba(16, 185, 129, 0.22);
+}
+
+[data-theme="dark"] .badge-radiant-emerald {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.14) 100%);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.45);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 0 18px -2px rgba(16, 185, 129, 0.35);
+}
+
+.badge-imperial-violet {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.14) 0%, rgba(139, 92, 246, 0.1) 100%);
+    color: #4f46e5;
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 14px -3px rgba(99, 102, 241, 0.22);
+}
+
+[data-theme="dark"] .badge-imperial-violet {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.14) 100%);
+    color: #a78bfa;
+    border: 1px solid rgba(139, 92, 246, 0.45);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 0 18px -2px rgba(139, 92, 246, 0.35);
+}
+
+/* Halos y Micro-Elevaciones de Emojis */
+.badge-emoji-halo, .emoji-delight {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.22));
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
+    transform-origin: center center;
+}
+
+.badge-premium:hover .badge-emoji-halo,
+.admin-badge:hover .badge-emoji-halo,
+.emoji-delight:hover {
+    transform: scale(1.22) translateY(-1px) rotate(4deg);
+    filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.32)) drop-shadow(0 0 10px currentColor);
+}
+
+.admin-dock {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    background: #e2e8f0;
+    padding: 0.35rem;
+    border-radius: 9999px;
+    transition: var(--transition);
+}
+
+[data-theme="dark"] .admin-dock {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-dock-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 9999px;
     font-size: 0.82rem;
-    font-family: monospace;
-    padding: 0.6rem 1.2rem;
-    border-radius: 0.5rem;
+    font-weight: 500;
+    color: #64748b;
+    border: none;
+    background: transparent;
     cursor: pointer;
     transition: var(--transition);
 }
 
-.btn-admin-secondary:hover {
-    background: rgba(30, 41, 59, 0.9);
-    border-color: #38bdf8;
+[data-theme="dark"] .admin-dock-item {
+    color: #94a3b8;
+}
+
+.admin-dock-item:hover {
+    color: #0f172a;
+}
+
+[data-theme="dark"] .admin-dock-item:hover {
     color: #ffffff;
+}
+
+.admin-dock-item.active {
+    background: #ffffff;
+    color: #0284c7;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .admin-dock-item.active {
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.25) 0%, rgba(217, 70, 239, 0.25) 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+@media (max-width: 640px) {
+    .admin-dock {
+        border-radius: var(--radius-md);
+        justify-content: center;
+        gap: 0.35rem;
+    }
+    .admin-dock-item {
+        padding: 0.45rem 0.85rem;
+        font-size: 0.78rem;
+    }
+}
+
+/* Tarjetas Estadísticas Adaptativas para Admin */
+.admin-stat-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    padding: 1.1rem;
+    transition: var(--transition);
+}
+
+[data-theme="dark"] .admin-stat-card {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================
+   17. ANIMACIONES 3D INTERACTIVAS (Estilo Vev Design)
+   Efecto Tilt 3D, Levitación Cinética y Profundidad Multi-Capa
+========================================= */
+@keyframes float3d {
+    0%, 100% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+        transform: translateY(-8px) rotateX(4deg) rotateY(-4deg);
+    }
+}
+
+.float-3d {
+    animation: float3d 6s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+
+.card-3d-tilt {
+    perspective: 1200px;
+    transform-style: preserve-3d;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.card-3d-tilt:hover {
+    box-shadow: 0 20px 45px -10px rgba(2, 132, 199, 0.15), 0 8px 20px -5px rgba(217, 70, 239, 0.1);
+}
+
+[data-theme="dark"] .card-3d-tilt:hover {
+    box-shadow: 0 25px 55px -10px rgba(56, 189, 248, 0.22), 0 12px 25px -5px rgba(217, 70, 239, 0.18);
+}
+
+.card-3d-layer {
+    transform: translateZ(24px);
+    transform-style: preserve-3d;
+}
+
+.card-3d-layer-high {
+    transform: translateZ(36px);
+    transform-style: preserve-3d;
+}
+
+.btn-3d-magnetic {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+    transform-style: preserve-3d;
+}
+
+.btn-3d-magnetic:hover {
+    transform: translateY(-2px) translateZ(10px);
+}
+
+/* ==========================================================================
+   SUPRESIÓN DEFENSIVA DE BOTÓN N Y DEV-TOOLS INDICATOR DE NEXT.JS
+   ========================================================================== */
+nextjs-portal,
+#nextjs-dev-tools-indicator,
+[data-nextjs-toast],
+div[data-nextjs-dialog-overlay] {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
 }

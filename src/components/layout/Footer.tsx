@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 const SOCIALS = [
@@ -10,6 +11,10 @@ const SOCIALS = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname && pathname.startsWith('/admin')) {
+    return null;
+  }
   return (
     <footer className="site-footer">
       <h3 className="footer-title">BLOQUE PROVIDA</h3>

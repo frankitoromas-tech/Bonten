@@ -16,7 +16,7 @@ function getAdminSession(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const session = getAdminSession(req);
-  if (!session.valid) {
+  if (!session.valid || (session.payload?.role !== 'ROLE_SUPERADMIN' && session.payload?.role !== 'ROLE_ADMIN')) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
   }
 
@@ -62,8 +62,8 @@ export async function PUT(req: NextRequest) {
   }
 
   const session = getAdminSession(req);
-  if (!session.valid) {
-    return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  if (!session.valid || session.payload?.role !== 'ROLE_SUPERADMIN') {
+    return NextResponse.json({ error: 'Solo el Superadmin Principal (Fireboy) puede modificar roles' }, { status: 403 });
   }
 
   try {
@@ -86,8 +86,8 @@ export async function DELETE(req: NextRequest) {
   }
 
   const session = getAdminSession(req);
-  if (!session.valid) {
-    return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  if (!session.valid || session.payload?.role !== 'ROLE_SUPERADMIN') {
+    return NextResponse.json({ error: 'Solo el Superadmin Principal (Fireboy) puede revocar accesos' }, { status: 403 });
   }
 
   const { searchParams } = new URL(req.url);

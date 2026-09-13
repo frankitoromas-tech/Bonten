@@ -41,18 +41,24 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // 2. Inyección de Cabeceras de Seguridad Estrictas (OWASP Hardening)
+  // 2. Inyección de Cabeceras de Seguridad Estrictas (OWASP / Enterprise Hardening)
   const response = NextResponse.next();
 
   // Anti-Clickjacking & Phishing en iframes maliciosos
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('Content-Security-Policy', "frame-ancestors 'none';");
 
-  // Anti-MIME sniffing
+  // Anti-MIME sniffing y filtrado XSS
   response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('X-XSS-Protection', '1; mode=block');
 
-  // Política de referenciador
+  // Política de aislamiento de origen y referenciador
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
+  response.headers.set('Cross-Origin-Resource-Policy', 'same-origin');
+
+  // HTTP Strict Transport Security (HSTS)
+  response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
 
   // Bloqueo de APIs de dispositivo innecesarias
   response.headers.set(

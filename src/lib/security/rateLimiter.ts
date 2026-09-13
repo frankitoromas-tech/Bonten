@@ -14,13 +14,28 @@ export interface SecurityEvent {
   id: string;
   timestamp: string;
   ip: string;
-  type: 'RATE_LIMIT_BLOCK' | 'LOGIN_FAILED' | 'LOGIN_SUCCESS' | 'CSRF_REJECTED';
+  type:
+    | 'RATE_LIMIT_BLOCK'
+    | 'LOGIN_FAILED'
+    | 'LOGIN_SUCCESS'
+    | 'CSRF_REJECTED'
+    | 'IP_MANUALLY_BANNED'
+    | 'IP_UNBANNED'
+    | 'SUSPICIOUS_PROBE'
+    | 'SESSION_HIJACK_ATTEMPT';
   detail: string;
 }
 
+interface BannedIpRecord {
+  reason: string;
+  bannedAt: number;
+  bannedUntil: number;
+}
+
 const loginAttempts = new Map<string, RateLimitRecord>();
+const bannedIps = new Map<string, BannedIpRecord>();
 const securityEvents: SecurityEvent[] = [];
-const MAX_AUDIT_LOGS = 50;
+const MAX_AUDIT_LOGS = 100;
 
 export function recordSecurityEvent(
   ip: string,
@@ -44,11 +59,70 @@ export function getSecurityEvents(): SecurityEvent[] {
   return [...securityEvents];
 }
 
+export function isIpBanned(ip: string): { banned: boolean; reason?: string; remainingSec?: number } {
+  const record = bannedIps.get(ip);
+  if (!record) return { banned: false };
+
+  const now = Date.now();
+  if (now >= record.bannedUntil) {
+    bannedIps.delete(ip);
+    recordSecurityEvent(ip, 'IP_UNBANNED', `Expiración automática del bloqueo para IP ${ip}`);
+    return { banned: false };
+  }
+
+  const remainingSec = Math.ceil((record.bannedUntil - now) / 1000);
+  return { banned: true, reason: record.reason, remainingSec };
+}
+
+export function banIp(ip: string, reason = 'Bloqueo manual por administrador', durationMinutes = 60): boolean {
+  const now = Date.now();
+  const bannedUntil = now + durationMinutes * 60 * 1000;
+  bannedIps.set(ip, { reason, bannedAt: now, bannedUntil });
+  recordSecurityEvent(ip, 'IP_MANUALLY_BANNED', `IP ${ip} bloqueada por ${durationMinutes} min. Causa: ${reason}`);
+  return true;
+}
+
+export function unbanIp(ip: string): boolean {
+  if (bannedIps.has(ip)) {
+    bannedIps.delete(ip);
+    recordSecurityEvent(ip, 'IP_UNBANNED', `IP ${ip} desbloqueada manualmente`);
+    return true;
+  }
+  return false;
+}
+
+export function listBannedIps(): { ip: string; reason: string; remainingSec: number }[] {
+  const now = Date.now();
+  const result: { ip: string; reason: string; remainingSec: number }[] = [];
+  bannedIps.forEach((rec, ip) => {
+    if (now < rec.bannedUntil) {
+      result.push({
+        ip,
+        reason: rec.reason,
+        remainingSec: Math.ceil((rec.bannedUntil - now) / 1000),
+      });
+    } else {
+      bannedIps.delete(ip);
+    }
+  });
+  return result;
+}
+
 export function checkRateLimit(
   ip: string,
   maxAttempts = 5,
   windowMs = 15 * 60 * 1000
 ): { allowed: boolean; remaining: number; retryAfterSec: number } {
+  // 1. Verificación prioritaria de IP Jail
+  const banStatus = isIpBanned(ip);
+  if (banStatus.banned) {
+    return {
+      allowed: false,
+      remaining: 0,
+      retryAfterSec: banStatus.remainingSec || 3600,
+    };
+  }
+
   const now = Date.now();
   const record = loginAttempts.get(ip);
 
@@ -96,7 +170,12 @@ export function resetRateLimit(ip: string): void {
   loginAttempts.delete(ip);
 }
 
-export function getRateLimitStats(): { totalTrackedIps: number; blockedCount: number } {
+export function getRateLimitStats(): {
+  totalTrackedIps: number;
+  blockedCount: number;
+  bannedCount: number;
+  threatLevel: 'OPTIMAL' | 'ELEVATED' | 'HIGH';
+} {
   const now = Date.now();
   const windowMs = 15 * 60 * 1000;
   let blockedCount = 0;
@@ -107,8 +186,18 @@ export function getRateLimitStats(): { totalTrackedIps: number; blockedCount: nu
     }
   });
 
+  const bannedCount = bannedIps.size;
+  const threatLevel =
+    blockedCount > 3 || bannedCount > 2
+      ? 'HIGH'
+      : blockedCount > 0 || bannedCount > 0
+      ? 'ELEVATED'
+      : 'OPTIMAL';
+
   return {
     totalTrackedIps: loginAttempts.size,
     blockedCount,
+    bannedCount,
+    threatLevel,
   };
 }

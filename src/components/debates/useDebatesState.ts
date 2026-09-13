@@ -12,13 +12,25 @@ export function useDebatesState() {
   const { showToast } = useToast();
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setDebates(JSON.parse(saved) as Debate[]);
-    } catch {
-      /* almacenamiento no disponible */
-    }
-    setHydrated(true);
+    fetch('/api/admin/debates')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && Array.isArray(data) && data.length > 0) {
+          setDebates(data);
+        } else {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) setDebates(JSON.parse(saved) as Debate[]);
+        }
+      })
+      .catch(() => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) setDebates(JSON.parse(saved) as Debate[]);
+        } catch {
+          /* sin persistencia */
+        }
+      })
+      .finally(() => setHydrated(true));
   }, []);
 
   useEffect(() => {

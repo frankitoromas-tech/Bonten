@@ -11,6 +11,7 @@ export interface AdminSessionPayload {
   iat: number;
   exp: number;
   jti: string;
+  fingerprint?: string;
 }
 
 const SECRET =
@@ -21,6 +22,15 @@ const DEFAULT_ADMIN_USER = process.env.ADMIN_USER || 'fireboy';
 const DEFAULT_ADMIN_PASS = process.env.ADMIN_PASS || 'fireboy_bonten_2026';
 
 export const SESSION_COOKIE_NAME = 'bonten_admin_session';
+
+/** Genera huella de sesión para mitigar Session Hijacking / Cookie Replay */
+export function createSessionFingerprint(ip: string, userAgent = ''): string {
+  return crypto
+    .createHash('sha256')
+    .update(`${ip}:${userAgent.substring(0, 100)}`)
+    .digest('hex')
+    .substring(0, 16);
+}
 
 /** Genera hash seguro con sal SHA-256 */
 export function hashPassword(password: string, salt?: string): { hash: string; salt: string } {
@@ -39,7 +49,6 @@ export function verifyPassword(password: string, expectedPassword?: string): boo
   const bufferB = Buffer.from(target);
 
   if (bufferA.length !== bufferB.length) {
-    // Si difiere la longitud, realizamos una comparación ficticia para igualar tiempo
     crypto.timingSafeEqual(bufferA, bufferA);
     return false;
   }
@@ -52,10 +61,11 @@ export function verifyUsername(username: string): boolean {
   return username.trim().toLowerCase() === DEFAULT_ADMIN_USER.toLowerCase();
 }
 
-/** Emite un token firmado con HMAC-SHA256 y TTL de 2 horas */
+/** Emite un token firmado con HMAC-SHA256, TTL de 2 horas y huella de cliente */
 export function createSessionToken(
   username = DEFAULT_ADMIN_USER,
-  role: AdminSessionPayload['role'] = 'ROLE_SUPERADMIN'
+  role: AdminSessionPayload['role'] = 'ROLE_SUPERADMIN',
+  fingerprint?: string
 ): string {
   const now = Math.floor(Date.now() / 1000);
   const payload: AdminSessionPayload = {
@@ -64,6 +74,7 @@ export function createSessionToken(
     iat: now,
     exp: now + 2 * 60 * 60, // 2 horas
     jti: crypto.randomBytes(8).toString('hex'),
+    ...(fingerprint ? { fingerprint } : {}),
   };
 
   const encodedPayload = Buffer.from(JSON.stringify(payload)).toString('base64url');
@@ -75,8 +86,11 @@ export function createSessionToken(
   return `${encodedPayload}.${signature}`;
 }
 
-/** Valida firma, expiración y estructura del token */
-export function verifySessionToken(token: string): {
+/** Valida firma, expiración, estructura del token y huella opcional */
+export function verifySessionToken(
+  token: string,
+  expectedFingerprint?: string
+): {
   valid: boolean;
   payload?: AdminSessionPayload;
   error?: string;
@@ -114,6 +128,10 @@ export function verifySessionToken(token: string): {
 
     if (payload.exp && payload.exp < now) {
       return { valid: false, error: 'Sesión expirada' };
+    }
+
+    if (expectedFingerprint && payload.fingerprint && payload.fingerprint !== expectedFingerprint) {
+      return { valid: false, error: 'Secuestro de sesión detectado (fingerprint mismatch)' };
     }
 
     return { valid: true, payload };

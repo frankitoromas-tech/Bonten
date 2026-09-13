@@ -23,12 +23,17 @@ import {
   getLibraryDocuments,
   addLibraryDocument,
   deleteLibraryDocument,
+  getStoreDebates,
+  addStoreDebate,
 } from '../src/lib/data/runtimeStore.ts';
 import { validateRequestOrigin } from '../src/lib/security/csrf.ts';
 import {
   authenticateAdmin,
   updateAdminRole,
   deleteAdmin,
+  listAdmins,
+  findAdminByUsername,
+  updateAdminPassword,
 } from '../src/lib/db/database.ts';
 
 test('1. Rate Limiting: Mitigación de Fuerza Bruta y DoS L7 por IP', () => {
@@ -179,18 +184,22 @@ test('5. Protección Anti-CSRF y Validación de Encabezados Origin/Referer', () 
   assert.equal(validateRequestOrigin(validPost).valid, true, 'Debe autorizar el mismo origen');
 });
 
-test('6. Multi-Admin & Gobernanza RBAC: Fireboy como Superadmin Principal y Directiva', () => {
-  // 1. Autenticación de Fireboy como ROLE_SUPERADMIN
+test('6. Multi-Admin & Gobernanza RBAC: Fireboy como ÚNICO Superadmin Inicial Soberano', () => {
+  // 1. Fireboy es el ÚNICO administrador inicial (directiva de seguridad)
+  const admins = listAdmins();
+  assert.equal(admins.length, 1, 'Inicialmente solo debe existir 1 administrador (Fireboy)');
+  assert.equal(admins[0].username, 'fireboy');
+  assert.equal(admins[0].role, 'ROLE_SUPERADMIN');
+
+  // 2. Autenticación exitosa de Fireboy
   const fireboyAuth = authenticateAdmin('fireboy', 'fireboy_bonten_2026');
   assert.equal(fireboyAuth.success, true);
   assert.equal(fireboyAuth.user?.role, 'ROLE_SUPERADMIN');
 
-  // 2. Autenticación de Administrador Secundario (Daniel)
-  const danielAuth = authenticateAdmin('daniel', 'daniel_bonten_2026');
-  assert.equal(danielAuth.success, true);
-  assert.equal(danielAuth.user?.role, 'ROLE_ADMIN');
+  // 3. Otros usuarios no tienen privilegios hasta que Fireboy decida otorgarles acceso
+  const unauthorizedAuth = authenticateAdmin('daniel', 'daniel_bonten_2026');
+  assert.equal(unauthorizedAuth.success, false, 'Otros miembros no tienen rol admin por defecto');
 
-  // 3. Usuario regular no puede autenticarse como administrador
   const normalUserAuth = authenticateAdmin('estudiante_filo', 'bonten_member_123');
   assert.equal(normalUserAuth.success, false, 'Miembro regular no tiene rol de admin');
 
@@ -200,10 +209,66 @@ test('6. Multi-Admin & Gobernanza RBAC: Fireboy como Superadmin Principal y Dire
 
   const deleteFireboy = deleteAdmin(1, 'ROLE_SUPERADMIN');
   assert.equal(deleteFireboy.success, false, 'No se debe permitir eliminar al Superadmin Principal');
+});
 
-  // 5. Prevención de escalada de privilegios: Un ROLE_ADMIN no puede revocar administradores
-  const illegalRevoke = deleteAdmin(2, 'ROLE_ADMIN');
-  assert.equal(illegalRevoke.success, false, 'Un ROLE_ADMIN no tiene permisos para revocar administradores');
+test('7. Copilot IA & Automatización de Flujos de Trabajo Seguros', () => {
+  // 1. Verificación del Almacén de Metadatos y Flujo de Campaña
+  const meta = getSiteMetadata();
+  assert.ok(meta.title.includes('BONTEN'));
+  assert.ok(meta.fireboy.roles.length > 0);
+
+  // 2. Prueba del flujo automatizado de publicación en biblioteca
+  const initialDocs = getLibraryDocuments();
+  const testDoc = addLibraryDocument({
+    title: 'Bioética Clásica y Deontología Provida',
+    category: 'Bioética',
+    author: 'Fireboy',
+    readTime: '3 min',
+    content: ['La vida humana es un bien intrínseco no reductible a utilidades contingentes.'],
+  });
+
+  assert.equal(testDoc.title, 'Bioética Clásica y Deontología Provida');
+  assert.equal(testDoc.author, 'Fireboy');
+
+  const docsAfter = getLibraryDocuments();
+  assert.equal(docsAfter.length, initialDocs.length + 1, 'Debe haberse publicado el nuevo ensayo');
+});
+
+test('8. Gestión de Debates y Cuentas de Administrador (PBKDF2 SHA-256)', () => {
+  // 1. Prueba de alta y mutación de debate en almacén dinámico
+  const initialDebates = getStoreDebates();
+  const createdDebate = addStoreDebate({
+    title: 'Estatus Ontológico y Bioética del Ser en Gestación',
+    description: 'Examen ético y filosófico fundamentado en principios de dignidad humana.',
+    tag: 'Bioética',
+  });
+
+  assert.ok(createdDebate.id > 0, 'Debe generar ID incremental para el debate');
+  assert.equal(createdDebate.tag, 'Bioética');
+  assert.equal(getStoreDebates().length, initialDebates.length + 1, 'El debate debe reflejarse de inmediato en el foro');
+
+  // 2. Prueba de gestión de cuenta y rotación de contraseña del administrador
+  const fireboyAdmin = findAdminByUsername('fireboy');
+  assert.ok(fireboyAdmin, 'Debe encontrar al superadmin Fireboy en la base de datos');
+
+  // Intento con clave incorrecta debe ser rechazado
+  const failedChange = updateAdminPassword(fireboyAdmin.id, 'clave_erronea_123', 'nueva_clave_valida_2026');
+  assert.equal(failedChange.success, false, 'Debe rechazar el cambio si la clave actual es incorrecta');
+
+  // Clave demasiado corta debe ser rechazada
+  const shortChange = updateAdminPassword(fireboyAdmin.id, 'fireboy_bonten_2026', 'corta');
+  assert.equal(shortChange.success, false, 'Debe rechazar claves de menos de 8 caracteres');
+
+  // Cambio legítimo con contraseña actual correcta
+  const successfulChange = updateAdminPassword(fireboyAdmin.id, 'fireboy_bonten_2026', 'fireboy_nueva_clave_2026');
+  assert.equal(successfulChange.success, true, 'Debe actualizar con éxito la contraseña');
+
+  // Verificación con nueva clave
+  const reauth = authenticateAdmin('fireboy', 'fireboy_nueva_clave_2026');
+  assert.equal(reauth.success, true, 'Debe autenticar con la nueva clave cifrada con PBKDF2');
+
+  // Restaurar clave canónica para mantener reproducibilidad de suite
+  updateAdminPassword(fireboyAdmin.id, 'fireboy_nueva_clave_2026', 'fireboy_bonten_2026');
 });
 
 

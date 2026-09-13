@@ -125,17 +125,18 @@ export default function Hero() {
         </div>
       </motion.article>
 
-      {/* Grid de navegación rápida a dominios clave */}
-      <div className="quick-hub-grid">
+      {/* Grid de navegación rápida a dominios clave con aparición en 3D */}
+      <div className="quick-hub-grid" style={{ perspective: 1200 }}>
         {QUICK_SECTIONS.map((sec, idx) => (
           <motion.div
             key={sec.href}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 + idx * 0.08 }}
-            style={{ height: '100%' }}
+            initial={{ opacity: 0, y: 40, rotateX: 18, scale: 0.94 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+            viewport={{ once: true, margin: '-20px' }}
+            transition={{ duration: 0.6, delay: 0.1 + idx * 0.09, ease: [0.16, 1, 0.3, 1] }}
+            style={{ height: '100%', transformStyle: 'preserve-3d' }}
           >
-            <TiltCard3D intensity={9} style={{ height: '100%', borderRadius: 'var(--radius-lg)' }}>
+            <TiltCard3D intensity={12} glare={true} style={{ height: '100%', borderRadius: 'var(--radius-lg)' }}>
               <Link href={sec.href} className="quick-hub-card">
                 <div className="quick-hub-header">
                   <span className="quick-hub-icon">{sec.icon}</span>
