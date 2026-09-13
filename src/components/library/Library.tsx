@@ -60,7 +60,7 @@ export default function Library() {
 
   return (
     <section className="library-section" id="biblioteca-seccion">
-      {/* Encabezado Editorial con KPIs */}
+      {/* Encabezado Editorial con KPIs y Atmósfera de Santuario Archival */}
       <div className="library-header-cluster">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -68,16 +68,25 @@ export default function Library() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
+            <span className="px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+              📜 Santuario Archival & Bóveda Doctrinal
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono text-emerald-300 bg-emerald-500/15 border border-emerald-400/30">
+              Acceso Libre & Universal
+            </span>
+          </div>
+
           <div className="library-kpi-row">
             <span className="library-kpi-pill">📚 {DOCUMENTS.length} Tratados Doctrinales</span>
             <span className="library-kpi-pill">⏱️ ~47 min Tiempo de Estudio</span>
-            <span className="library-kpi-pill">🏛️ Acceso Abierto & Libre</span>
+            <span className="library-kpi-pill">🛡️ Rigor Metafísico & Bioético</span>
           </div>
           <h2 className="section-title" style={{ color: 'var(--title-color)', textAlign: 'left', marginBottom: '0.4rem' }}>
-            BIBLIOTECA Y ARCHIVO DOCTRINAL
+            BIBLIOTECA & CORPUS DE RESISTENCIA
           </h2>
           <p className="library-subtitle">
-            Tratados de bioética, filosofía clásica, teología y análisis crítico contra el relativismo de la cultura moderna.
+            Tratados de bioética, filosofía clásica, teología y análisis crítico contra el relativismo de la cultura posmoderna. Custodiados por la Mesa Directiva de BONTEN.
           </p>
         </motion.div>
       </div>
@@ -103,7 +112,11 @@ export default function Library() {
             {(() => {
               const profile = getAuthorProfile(featuredDoc.author);
               return (
-                <div className="featured-author-row">
+                <Link
+                  href="/integrantes/fireboy"
+                  className="featured-author-row group/author hover:opacity-95 transition-opacity"
+                  title="Ver perfil oficial y corpus de Fireboy"
+                >
                   <div className="featured-author-avatar-wrap">
                     <Image
                       src={profile.avatar}
@@ -114,10 +127,13 @@ export default function Library() {
                     />
                   </div>
                   <div>
-                    <strong className="featured-author-name">{featuredDoc.author}</strong>
+                    <strong className="featured-author-name group-hover/author:text-amber-300 transition-colors flex items-center gap-1.5">
+                      <span>{featuredDoc.author}</span>
+                      <span className="text-[10px] font-mono font-normal text-amber-400">Ver Perfil →</span>
+                    </strong>
                     <span className="featured-author-desc">{profile.role}</span>
                   </div>
-                </div>
+                </Link>
               );
             })()}
             <div className="featured-actions">
@@ -143,6 +159,14 @@ export default function Library() {
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
                 </svg>
+              </Link>
+              <Link
+                href="/integrantes/fireboy"
+                className="px-4 py-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-amber-300 hover:text-white border border-amber-500/30 font-bold text-xs flex items-center gap-1.5 transition-all"
+                onClick={playAudioPop}
+              >
+                <span>Corpus de Fireboy</span>
+                <span>→</span>
               </Link>
             </div>
           </div>

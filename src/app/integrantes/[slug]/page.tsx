@@ -7,6 +7,7 @@ import type { MemberDetails } from '@/types';
 import IntegranteHero from '@/components/integrantes/IntegranteHero';
 import IntegranteStats from '@/components/integrantes/IntegranteStats';
 import IntegrantePublication from '@/components/integrantes/IntegrantePublication';
+import FireboyCorpus from '@/components/integrantes/FireboyCorpus';
 import IntegranteNavFooter from '@/components/integrantes/IntegranteNavFooter';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 
@@ -75,7 +76,11 @@ export default async function IntegranteDetailPage({ params }: PageProps) {
       {/* Componentes modulares y auditables */}
       <IntegranteHero member={member} />
       <IntegranteStats details={details} />
-      {member.publication && <IntegrantePublication publication={member.publication} />}
+      {member.slug === 'fireboy' ? (
+        <FireboyCorpus member={member} />
+      ) : (
+        member.publication && <IntegrantePublication publication={member.publication} />
+      )}
       <IntegranteNavFooter />
     </main>
   );

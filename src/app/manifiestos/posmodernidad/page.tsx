@@ -148,13 +148,22 @@ export default function PosmodernidadPage() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:items-end gap-1 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200/60 dark:border-slate-800">
-              <span className="text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400">
-                Edición Canónica BONTEN 2026
-              </span>
-              <span className="text-[10px] text-[var(--text-muted)]">
-                Registro Doctrinal #001 • Acceso Público
-              </span>
+            <div className="flex flex-col sm:items-end gap-2 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200/60 dark:border-slate-800">
+              <div className="text-left sm:text-right">
+                <span className="text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400 block">
+                  Edición Canónica BONTEN 2026
+                </span>
+                <span className="text-[10px] text-[var(--text-muted)] block">
+                  Registro Doctrinal #001 • Acceso Público
+                </span>
+              </div>
+              <Link
+                href="/integrantes/fireboy"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/40 text-amber-600 dark:text-amber-300 text-xs font-bold transition-all duration-200 hover:scale-105"
+              >
+                <span>Ver Perfil & Corpus de Fireboy</span>
+                <span>→</span>
+              </Link>
             </div>
           </div>
         </header>
@@ -236,10 +245,15 @@ export default function PosmodernidadPage() {
               </Link>
             </div>
 
-            {/* Colofón Editorial & Créditos Técnicos */}
+            {/* Colofón Editorial & Créditos Institucionales */}
             <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between text-[11px] text-[var(--text-muted)] gap-2">
-              <span>✍️ <strong>Autor del Tratado:</strong> Fireboy (Líder Doctrinal BONTEN)</span>
-              <span>⚡ <strong>Ingeniería & Arquitectura Web:</strong> Equipo de Tecnología BONTEN</span>
+              <Link
+                href="/integrantes/fireboy"
+                className="hover:text-amber-500 transition-colors inline-flex items-center gap-1 font-medium"
+              >
+                <span>✍️ <strong>Autor del Tratado:</strong> Fireboy (Ver perfil oficial y corpus →)</span>
+              </Link>
+              <span>🛡️ <strong>Custodia Doctrinal:</strong> Bloque Provida BONTEN</span>
             </div>
           </section>
         </div>

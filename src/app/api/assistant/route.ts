@@ -606,29 +606,150 @@ export async function POST(req: NextRequest) {
     }
 
     // =========================================================================
-    // DOMINIO G: ARQUITECTURA TÉCNICA, SEGURIDAD & GOBERNANZA SOBERANA
+    // DOMINIO G: CONFIDENCIALIDAD TÉCNICA & SOBERANÍA INSTITUCIONAL
     // =========================================================================
     else if (
-      lower.includes('gobernanza') ||
-      lower.includes('admin') ||
-      lower.includes('administrador') && lower.includes('panel') ||
-      lower.includes('seguridad') ||
-      lower.includes('desarrollador') ||
-      lower.includes('quien creo') ||
-      lower.includes('quién creó') ||
       lower.includes('tecnología') ||
       lower.includes('tecnologia') ||
-      lower.includes('aegis')
+      lower.includes('arquitectura') ||
+      lower.includes('stack') ||
+      lower.includes('framework') ||
+      lower.includes('librería') ||
+      lower.includes('libreria') ||
+      lower.includes('desarrollador') ||
+      lower.includes('programador') ||
+      lower.includes('quién programó') ||
+      lower.includes('quien programo') ||
+      lower.includes('quién hizo la web') ||
+      lower.includes('quien creo la web') ||
+      lower.includes('quién creó la web') ||
+      lower.includes('código') ||
+      lower.includes('codigo') ||
+      lower.includes('lenguaje') ||
+      lower.includes('backend') ||
+      lower.includes('frontend') ||
+      lower.includes('servidor') ||
+      lower.includes('base de datos')
     ) {
+      reasoningSteps = [
+        'Identificada consulta sobre infraestructura técnica o arquitectura...',
+        'Aplicando protocolo de hermetismo y soberanía institucional...',
+        'Reorientando al consultante hacia los principios y doctrina pública...',
+      ];
       reply =
-        '⚡ **Arquitectura, Seguridad & Gobernanza Soberana de BONTEN**\n\n' +
-        '• **Stack Técnico de Grado Enterprise**: Next.js 16 (App Router), React 19, TypeScript estricto, Tailwind CSS y motor háptico de audio neuro-acústico 3D.\n' +
-        '• **Suite Defensiva Aegis**: Protección L7 con rate-limiting en memoria, sanitización anti-XSS, cookies seguras HTTP-Only y tokenización de sesión con HMAC-SHA256.\n' +
-        '• **Ruta Soberana de Gobernanza (`/gobernanza`)**: Portal protegido con **Desafío Doctrinal** interactivo para la Mesa Directiva (accesible discretamente con el atajo `Ctrl+Shift+A` o desde el enlace sutil del pie de página).\n' +
-        '• **Liderazgo Institucional**: Fireboy lidera la visión doctrinal y directiva de BONTEN, respaldado por un equipo de ingeniería de élite.';
+        '🏛️ **Soberanía Institucional & Confidencialidad Operativa**\n\n' +
+        'La infraestructura técnica, el código fuente y las herramientas de ingeniería de la plataforma **BONTEN** son de carácter estrictamente institucional, reservado y confidencial.\n\n' +
+        'Como Guía Doctrinal, mi cometido está consagrado en exclusiva a la **formación bioética, la defensa incondicional de la vida humana inocente, la exégesis de nuestros tratados filosóficos y la orientación comunitaria**.\n\n' +
+        'No divulgo especificaciones tecnológicas, frameworks, librerías ni detalles de implementación informática. La tecnología en BONTEN no es un fin en sí misma; es solo un bastión al servicio de la verdad objetiva.\n\n' +
+        '¿Te gustaría que profundicemos en nuestros tratados filosóficos, en los fundamentos bioéticos o en los debates activos?';
+      routes.push({ label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' });
+      routes.push({ label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Mesa Directiva', href: '/integrantes' });
+    }
+
+    // Sub-caso G2: Gobernanza Soberana (Mesa Directiva)
+    else if (lower.includes('gobernanza')) {
+      reasoningSteps = [
+        'Localizando espacio de Gobernanza Institucional...',
+        'Explicando acceso reservado y desafío doctrinal para la Mesa Directiva...',
+      ];
+      reply =
+        '⚖️ **Portal de Gobernanza Soberana de BONTEN**\n\n' +
+        'La ruta de Gobernanza (`/gobernanza`) es el recinto digital soberano reservado para la **Mesa Directiva y los Líderes Fundadores** de BONTEN.\n\n' +
+        '• **Finalidad**: Supervisión doctrinal, auditoría de contenidos y coordinación directiva de la resistencia.\n' +
+        '• **Desafío Doctrinal**: El acceso está resguardado mediante un desafío de autenticación ética basado en los axiomas inmutables de nuestra organización, garantizando que solo los custodios legítimos de la causa ingresen al panel de gestión.';
       routes.push({ label: 'Portal de Gobernanza', href: '/gobernanza' });
       routes.push({ label: 'Mesa Directiva', href: '/integrantes' });
       routes.push({ label: 'Comunidad Provida', href: '/comunidad' });
+    }
+
+    // =========================================================================
+    // DOMINIO PLUS: AXIOMAS FILOSÓFICOS, TÁCTICAS DE DEBATE Y RECOMENDADOR
+    // =========================================================================
+
+    // Sub-caso H1: Axiomas & Citas de Resistencia
+    else if (
+      lower.includes('axioma') ||
+      lower.includes('cita') ||
+      lower.includes('frase') ||
+      lower.includes('reflexión') ||
+      lower.includes('reflexion') ||
+      lower.includes('pensamiento') ||
+      lower.includes('inspiración') ||
+      lower.includes('inspiracion')
+    ) {
+      reasoningSteps = [
+        'Extrayendo axiomas axiológicos del corpus de BONTEN...',
+        'Seleccionando sentencias canónicas de alta densidad filosófica...',
+        'Formulando síntesis inspiracional de la resistencia...',
+      ];
+      reply =
+        '✨ **Compendio de Axiomas & Citas Canónicas de BONTEN**\n\n' +
+        '1. **Sobre la Verdad y la Resistencia (Fireboy)**:\n' +
+        '   > *"El no nacido representa la máxima encarnación de la inocencia y el escándalo supremo para una sociedad utilitarista: existe sin consumir, interpela sin hablar y exige amor incondicional sin contraprestación pragmática."*\n\n' +
+        '2. **Sobre el Hedonismo Posmoderno (Gorgias 493a, Platón)**:\n' +
+        '   > *"Quien busca la libertad en el apetito sin freno es como quien intenta llenar toneles rotos sirviéndose de una criba. La verdadera libertad no es la licencia desenfrenada, sino el autodominio de la templanza."*\n\n' +
+        '3. **Sobre la Genética y la Vida (Jérôme Lejeune)**:\n' +
+        '   > *"Aceptar el hecho de que después de la fertilización un nuevo ser humano ha comenzado no es una cuestión de gusto ni de opinión; es pura evidencia científica."*\n\n' +
+        '4. **Sobre la Dignidad Inalienable (Daniel)**:\n' +
+        '   > *"Toda sociedad que condiciona la dignidad humana a la etapa de desarrollo o al grado de autonomía termina justificando la tiranía del fuerte sobre el indefenso."*';
+      routes.push({ label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' });
+      routes.push({ label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Comunidad Provida', href: '/comunidad' });
+    }
+
+    // Sub-caso H2: Manual Táctico de Debate y Apologética Práctica
+    else if (
+      lower.includes('cómo debatir') ||
+      lower.includes('como debatir') ||
+      lower.includes('táctica') ||
+      lower.includes('tactica') ||
+      lower.includes('argumentario') ||
+      lower.includes('fanático') ||
+      lower.includes('fanatico') ||
+      lower.includes('universidad') ||
+      lower.includes('defender la postura')
+    ) {
+      reasoningSteps = [
+        'Indexando manual dialéctico de BONTEN (Mijail / Daniel / Ilan)...',
+        'Estructurando protocolo de debate socrático en 4 fases...',
+        'Articulando recomendaciones prácticas para el discurso público...',
+      ];
+      reply =
+        '🛡️ **Manual Táctico de Debate & Apologética Socrática BONTEN**\n\n' +
+        'Para defender la causa provida con eficacia en auditorios universitarios, debates públicos o redes, aplica este protocolo de 4 principios:\n\n' +
+        '1. **Desmonta el Ataque Ad Hominem**: Si te catalogan de "fanático" o "antiderechos", no reacciones con cólera. Devuelve la pregunta al plano epistémico: *"Dejemos los calificativos personales de lado y concentrémonos en la evidencia biológica: ¿en qué punto exacto de la embriología consideras que comienza la vida de un ser humano?"*.\n' +
+        '2. **Ancla en el Dato Científico Irrefutable**: Cita la singamia, la individualidad del genoma de 46 cromosomas y la continuidad del desarrollo embrionario. La ciencia moderna no está en discusión.\n' +
+        '3. **Aplica la Técnica Socrática del Tonel (Ilan & Daniel)**: Señala que la libertad absoluta sin responsabilidad ética devora a los más débiles y degrada la justicia a conveniencia del más fuerte.\n' +
+        '4. **Preserva la Caridad y la Serenidad**: Como ensaya **Mijail**, el objetivo del debate honesto no es humillar al interlocutor, sino demoler el sofisma para que la verdad resplandezca.';
+      routes.push({ label: 'Foro de Debates BONTEN', href: '/debates' });
+      routes.push({ label: 'Publicación de Mijail (Falacias)', href: '/integrantes/mijail' });
+      routes.push({ label: 'Bases Ontológicas (Daniel)', href: '/integrantes/daniel' });
+    }
+
+    // Sub-caso H3: Recomendador Inteligente de Tratados según Interés
+    else if (
+      lower.includes('recomiendas') ||
+      lower.includes('recomendar') ||
+      lower.includes('por dónde empiezo') ||
+      lower.includes('por donde empiezo') ||
+      lower.includes('qué leer') ||
+      lower.includes('que leer')
+    ) {
+      reasoningSteps = [
+        'Evaluando perfiles de lectura y corpus disponible...',
+        'Diseñando itinerario pedagógico gradual (Esencial a Avanzado)...',
+      ];
+      reply =
+        '📚 **Itinerario de Lectura Recomendado según tu Interés**\n\n' +
+        'Te sugerimos esta ruta formativa graduada para sumergirte en el pensamiento de BONTEN:\n\n' +
+        '• **Paso 1 (Introductorio — 5 min)**: *Manifiesto de Resistencia NG: Los Fundamentos Ontológicos del Derecho a la Vida*. Ideal para comprender en breve los axiomas del movimiento.\n' +
+        '• **Paso 2 (Ética Clásica — 7 min)**: *El Mito del Tonel Agujereado (Gorgias 493a)* por Daniel. Para desarticular el hedonismo moderno con filosofía socrática.\n' +
+        '• **Paso 3 (Rigor Científico — 8 min)**: *Bioética Personalista frente al Transhumanismo* por Ilan. Imprescindible para debatir sobre genética, CRISPR y el inicio biológico del ser.\n' +
+        '• **Paso 4 (Magno — 12 min)**: *La Fractura Posmoderna* por Fireboy. La obra cumbre que deconstruye el nihilismo cultural y la biopolítica del descarte.';
+      routes.push({ label: 'Tratado de Posmodernidad (Fireboy)', href: '/manifiestos/posmodernidad' });
+      routes.push({ label: 'Explorar Biblioteca Doctrinal', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Mesa Directiva', href: '/integrantes' });
     }
 
     // =========================================================================

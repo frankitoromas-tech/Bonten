@@ -26,6 +26,7 @@ export default function PublicAssistant() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentThinkingStep, setCurrentThinkingStep] = useState('');
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   const [messages, setMessages] = useState<AssistantMessage[]>([
     {
       id: 'welcome',
@@ -51,6 +52,17 @@ export default function PublicAssistant() {
       chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages, loading, isOpen, currentThinkingStep]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+        triggerAudio('toggle');
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
 
   useEffect(() => {
     if (typeof document !== 'undefined') {
@@ -92,6 +104,38 @@ export default function PublicAssistant() {
       else if (type === 'success') audio.playSuccess();
       else if (type === 'toggle') audio.playToggle();
       else if (type === 'chime') audio.playChime();
+    }
+  };
+
+  const handleClearChat = () => {
+    triggerAudio('toggle');
+    setMessages([
+      {
+        id: 'welcome',
+        sender: 'assistant',
+        text:
+          'Hola, te damos la bienvenida a **BONTEN**. Soy el **Asistente Virtual** de la plataforma.\n\n' +
+          'Puedo orientarte para explorar los tratados de la biblioteca, conocer a los integrantes de la mesa directiva y guiarte por cualquier sección del sitio. ' +
+          '¿En qué tema o sección te gustaría que te oriente?',
+        routes: [
+          { label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' },
+          { label: 'Biblioteca Doctrinal (6)', href: '#biblioteca-seccion' },
+          { label: 'Mesa Directiva', href: '/integrantes' },
+          { label: 'Comunidad Provida', href: '/comunidad' },
+        ],
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      },
+    ]);
+  };
+
+  const handleCopyMessage = async (id: string, text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedId(id);
+      triggerAudio('pop');
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch {
+      // Fallback silente
     }
   };
 
@@ -181,12 +225,14 @@ export default function PublicAssistant() {
   };
 
   const quickPrompts = [
-    { label: '📖 Tratado de Posmodernidad', prompt: '¿De qué trata el Tratado de Posmodernidad de Fireboy y cuáles son sus tesis centrales?' },
-    { label: '🧬 Bioética: Inicio de la Vida', prompt: '¿Cuáles son los fundamentos biológicos y ontológicos de la concepción humana?' },
-    { label: '⚖️ Refutar "Mi Cuerpo Mi Decisión"', prompt: '¿Cómo responde BONTEN desde la ciencia y la ética al argumento de la autonomía corporal?' },
-    { label: '🏺 El Mito del Tonel Agujereado', prompt: 'Explícame la alegoría del tonel agujereado en el Gorgias de Platón y su crítica al hedonismo' },
-    { label: '🛡️ Mesa Directiva & Autores', prompt: '¿Quiénes conforman la Mesa Directiva de BONTEN y qué publicaciones tienen?' },
-    { label: '💬 Debates Comunitarios', prompt: '¿Cuáles son los debates activos en la plataforma y cómo puedo participar?' },
+    { label: '✨ Axioma de Resistencia', prompt: 'Dame un axioma o cita de resistencia de BONTEN' },
+    { label: '🛡️ Tácticas de Debate', prompt: '¿Cómo debatir y defender la postura provida ante ataques o falacias?' },
+    { label: '📚 Recomendar Tratado', prompt: '¿Qué tratado me recomiendas leer según mi nivel o interés?' },
+    { label: '🔥 Escritos de Fireboy', prompt: '¿Cuáles son todos los escritos y tratados de Fireboy y dónde leerlos?' },
+    { label: '🧬 Bioética: Singamia', prompt: '¿Cuáles son los fundamentos biológicos y ontológicos de la concepción humana?' },
+    { label: '⚖️ Refutar Falacias', prompt: '¿Cómo responde BONTEN desde la ciencia y la ética al argumento de la autonomía corporal?' },
+    { label: '🏺 Mito del Tonel', prompt: 'Explícame la alegoría del tonel agujereado en el Gorgias de Platón y su crítica al hedonismo' },
+    { label: '💬 Ágora de Debates', prompt: '¿Cuáles son los debates activos en la plataforma y cómo puedo participar?' },
   ];
 
   return (
@@ -281,17 +327,32 @@ export default function PublicAssistant() {
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={() => {
-                triggerAudio('toggle');
-                setIsOpen(false);
-              }}
-              className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
-              title="Cerrar"
-            >
-              ✕
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={handleClearChat}
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-sky-300 hover:bg-slate-800/80 transition-all cursor-pointer"
+                title="Reiniciar conversación"
+                aria-label="Reiniciar conversación"
+              >
+                <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  triggerAudio('toggle');
+                  setIsOpen(false);
+                }}
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
+                title="Cerrar (Esc)"
+                aria-label="Cerrar asistente"
+              >
+                ✕
+              </button>
+            </div>
           </div>
 
           {/* Chips de Consultas Frecuentes */}
@@ -376,6 +437,36 @@ export default function PublicAssistant() {
                         ))}
                       </div>
                     )}
+
+                    {/* Botón de Copiado de Respuesta */}
+                    {!isUser && (
+                      <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-slate-700/40 text-[10px]">
+                        <span className="font-mono text-[9px] text-slate-400">BONTEN AI</span>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyMessage(msg.id, msg.text)}
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-800/50 hover:bg-slate-800 text-slate-300 hover:text-sky-300 transition-colors cursor-pointer"
+                          title="Copiar respuesta"
+                        >
+                          {copiedId === msg.id ? (
+                            <>
+                              <svg viewBox="0 0 24 24" width="11" height="11" stroke="#34d399" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                              <span className="text-emerald-400 font-semibold">Copiado</span>
+                            </>
+                          ) : (
+                            <>
+                              <svg viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                              </svg>
+                              <span>Copiar</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    )}
                   </div>
                   <span className="text-[9.5px] text-slate-500 px-1 mt-0.5">{msg.timestamp}</span>
                 </div>
@@ -410,12 +501,13 @@ export default function PublicAssistant() {
           {/* Fila de Sugerencias Rápidas / Prompt Chips */}
           <div className="px-3 py-2 bg-slate-950/60 border-t border-slate-800/60 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
             {[
-              '🔥 Conocer a Fireboy',
-              '⚡ Tecnología de la Web',
-              '📚 Biblioteca (6 Tratados)',
-              '📜 Tratado de Posmodernidad',
-              '⚖️ Argumentos Provida',
-              '🌐 Unirme a la Comunidad',
+              '✨ Axioma de Resistencia',
+              '🛡️ Tácticas de Debate',
+              '📚 Recomendar Tratado',
+              '🔥 Escritos de Fireboy',
+              '🏛️ Ágora de Debates',
+              '📖 Biblioteca Doctrinal',
+              '👥 Mesa Directiva',
             ].map((chip, cIdx) => (
               <button
                 key={cIdx}

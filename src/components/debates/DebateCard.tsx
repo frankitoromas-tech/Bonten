@@ -22,9 +22,16 @@ interface DebateCardProps {
 export default function DebateCard({ debate, index, onSelect }: DebateCardProps) {
   const ratio = getStanceRatio(debate);
 
+  const consensusLabel =
+    ratio.proPercent >= 60
+      ? 'Mayoría Provida Consolidada'
+      : ratio.contraPercent >= 60
+      ? 'Fuerte Controversia Cultural'
+      : 'Dialéctica Viva & Equilibrada';
+
   return (
     <motion.article
-      className="debate-card"
+      className="debate-card group relative overflow-hidden"
       onClick={() => onSelect(debate.id)}
       role="button"
       tabIndex={0}
@@ -42,43 +49,73 @@ export default function DebateCard({ debate, index, onSelect }: DebateCardProps)
         }
       }}
     >
+      {/* Resplandor lateral sutil */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-sky-500/10 transition-all duration-300" />
+
       <div className="debate-card-header">
-        <span className="debate-tag">{debate.tag}</span>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="debate-tag">{debate.tag}</span>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-medium bg-slate-800/80 text-slate-300 border border-slate-700/60">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            En Disputa
+          </span>
+        </div>
+
         <div className="debate-stats">
-          <div className="debate-stat-item">
+          <div className="debate-stat-item" title="Número de argumentos analizados">
             <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
-            <span>{debate.arguments.length}</span>
+            <span>{debate.arguments.length} aportes</span>
           </div>
-          <div className="debate-stat-item">
+          <div className="debate-stat-item" title="Votantes participantes">
             <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
               <circle cx="9" cy="7" r="4" />
             </svg>
-            <span>{debate.voters}</span>
+            <span>{debate.voters} votos</span>
           </div>
         </div>
       </div>
 
-      <h3 className="debate-card-title">{debate.title}</h3>
+      <h3 className="debate-card-title group-hover:text-sky-400 transition-colors duration-200">
+        {debate.title}
+      </h3>
       <p className="debate-card-description">{debate.description}</p>
 
-      {/* Barra Versus Porcentual en Tarjeta */}
-      <div style={{ margin: '1rem 0 1.2rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', fontWeight: 800, marginBottom: '0.3rem' }}>
-          <span style={{ color: '#10b981' }}>{ratio.proPercent}% A Favor</span>
-          <span style={{ color: '#ef4444' }}>{ratio.contraPercent}% En Contra</span>
+      {/* Barra Versus Porcentual con micro-resplandor y consenso */}
+      <div className="my-4 p-3 rounded-xl bg-slate-950/40 border border-slate-800/80">
+        <div className="flex items-center justify-between text-[11px] font-extrabold mb-2">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+            <span className="text-emerald-400 font-mono">{ratio.proPercent}% A Favor ({ratio.proCount})</span>
+          </div>
+          <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">{consensusLabel}</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-rose-400 font-mono">{ratio.contraPercent}% En Contra ({ratio.contraCount})</span>
+            <span className="w-2 h-2 rounded-full bg-rose-400 shadow-[0_0_6px_#f43f5e]" />
+          </div>
         </div>
-        <div style={{ height: '6px', background: 'var(--bg-base)', borderRadius: '6px', overflow: 'hidden', display: 'flex' }}>
-          <div style={{ width: `${ratio.proPercent}%`, background: '#10b981' }} />
-          <div style={{ width: `${ratio.contraPercent}%`, background: '#ef4444' }} />
+
+        <div className="h-2 w-full bg-slate-800/80 rounded-full overflow-hidden flex gap-[2px] p-[1px]">
+          <div
+            style={{ width: `${ratio.proPercent}%` }}
+            className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-l-full transition-all duration-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"
+          />
+          <div
+            style={{ width: `${ratio.contraPercent}%` }}
+            className="h-full bg-gradient-to-r from-rose-500 to-red-600 rounded-r-full transition-all duration-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]"
+          />
         </div>
       </div>
 
-      <span className="btn-outline" style={{ display: 'inline-block', width: 'auto' }}>
-        Entrar al Debate
-      </span>
+      <div className="flex items-center justify-between pt-1">
+        <span className="btn-outline inline-flex items-center gap-1.5 text-xs font-bold group-hover:border-sky-400 group-hover:text-sky-300 transition-all">
+          <span>Ingresar a la Dialéctica</span>
+          <span className="text-sm transition-transform duration-200 group-hover:translate-x-1">→</span>
+        </span>
+        <span className="text-[11px] text-slate-500 font-mono">ID #{debate.id.toString().padStart(3, '0')}</span>
+      </div>
     </motion.article>
   );
 }
