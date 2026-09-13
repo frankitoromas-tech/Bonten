@@ -187,7 +187,10 @@ export function getAllLeaders(): Leader[] {
 export function getMemberBySlug(slug: string): Leader | undefined {
   const normalized = slug.toLowerCase().trim();
   return getAllLeaders().find(
-    (l) => l.slug.toLowerCase() === normalized || (normalized === 'ian' && l.slug === 'ilan')
+    (l) =>
+      l.slug.toLowerCase() === normalized ||
+      (normalized === 'ian' && l.slug === 'ilan') ||
+      (normalized === 'ilan' && l.slug === 'ian')
   );
 }
 

@@ -1,24 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import ProfileModal from './ProfileModal';
 import { LEADER, ADMINS } from '@/data/members';
-import type { Member, Leader } from '@/types';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export default function Members() {
-  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
-
-  const getAsMember = (leader: Leader): Member => ({
-    name: leader.name,
-    fullName: leader.fullName,
-    slug: leader.slug,
-    role: leader.role,
-    roleClass: 'role-mod',
-    bio: leader.bio,
-    avatar: leader.avatar,
-  });
-
   return (
     <>
       <motion.div 
@@ -66,23 +52,8 @@ export default function Members() {
                 </a>
               )}
 
-              <button className="btn-outline" onClick={() => setSelectedMember(getAsMember(LEADER))}>
-                Ver Perfil
-              </button>
-
-              <Link
-                href={`/integrantes/${LEADER.slug}`}
-                className="btn-primary"
-                style={{
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  padding: '0.75rem 1.4rem',
-                  fontSize: '0.92rem',
-                }}
-              >
-                <span>Información Completa</span>
+              <Link href={`/integrantes/${LEADER.slug}`} className="btn-profile-complete">
+                <span>Ver Perfil Completo</span>
                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
@@ -131,23 +102,8 @@ export default function Members() {
                   <span>TikTok</span>
                 </a>
 
-                <button className="btn-outline" onClick={() => setSelectedMember(getAsMember(person))}>
-                  Ver Perfil
-                </button>
-
-                <Link
-                  href={`/integrantes/${person.slug}`}
-                  className="btn-primary"
-                  style={{
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.45rem',
-                    padding: '0.75rem 1.4rem',
-                    fontSize: '0.92rem',
-                  }}
-                >
-                  <span>Información Completa</span>
+                <Link href={`/integrantes/${person.slug}`} className="btn-profile-complete">
+                  <span>Ver Perfil Completo</span>
                   <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />
@@ -158,12 +114,6 @@ export default function Members() {
           </motion.article>
         ))}
       </section>
-
-
-
-      <AnimatePresence>
-        {selectedMember && <ProfileModal member={selectedMember} onClose={() => setSelectedMember(null)} />}
-      </AnimatePresence>
     </>
   );
 }

@@ -51,7 +51,7 @@ export default async function IntegranteDetailPage({ params }: PageProps) {
   const pub = member.publication;
 
   return (
-    <main className="layout-container" style={{ minHeight: '85vh', paddingTop: '3rem', paddingBottom: '5rem' }}>
+    <main className="integrante-detail-container layout-container">
       {/* Botón de retroceso */}
       <Link href="/integrantes" className="back-btn" style={{ textDecoration: 'none' }}>
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">
@@ -108,15 +108,8 @@ export default async function IntegranteDetailPage({ params }: PageProps) {
       </article>
 
       {/* Grid de métricas y trayectoria */}
-      <section
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '1.8rem',
-          marginBottom: '2.5rem',
-        }}
-      >
-        <div className="debate-detail-card" style={{ margin: 0, padding: '2rem' }}>
+      <section className="integrante-meta-grid">
+        <div className="debate-detail-card" style={{ margin: 0, padding: 'clamp(1.2rem, 3vw, 2rem)' }}>
           <h2 style={{ fontSize: '1.2rem', color: 'var(--title-color)', marginBottom: '1.2rem', fontWeight: 800 }}>
             Métricas de Participación
           </h2>
@@ -153,7 +146,7 @@ export default async function IntegranteDetailPage({ params }: PageProps) {
 
       {/* Sección editorial / Disquisición destacada */}
       {pub && (
-        <article className="debate-detail-card" style={{ padding: 'clamp(2rem, 5vw, 3.5rem)', marginTop: '1rem' }}>
+        <article className="integrante-essay-card">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', flexWrap: 'wrap', marginBottom: '1.2rem' }}>
             <span
               style={{
@@ -228,19 +221,7 @@ export default async function IntegranteDetailPage({ params }: PageProps) {
 
           {/* Enlace y referencia a la fuente original */}
           {pub.sourceUrl && (
-            <div
-              style={{
-                marginTop: '2.5rem',
-                padding: '1.2rem 1.6rem',
-                background: 'var(--bg-base)',
-                borderRadius: 'var(--radius-md)',
-                border: '1px solid var(--border-color)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.8rem',
-                flexWrap: 'wrap',
-              }}
-            >
+            <div className="integrante-source-box">
               <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" strokeWidth="2" fill="none" style={{ color: 'var(--accent-pink)', flexShrink: 0 }}>
                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
                 <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
@@ -267,18 +248,7 @@ export default async function IntegranteDetailPage({ params }: PageProps) {
       )}
 
       {/* Pie de navegación hacia otros integrantes */}
-      <div
-        style={{
-          marginTop: '3.5rem',
-          paddingTop: '2rem',
-          borderTop: '1px solid var(--border-color)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '1rem',
-        }}
-      >
+      <div className="integrante-nav-footer">
         <Link href="/integrantes" className="btn-outline" style={{ textDecoration: 'none' }}>
           ← Volver al Directorio de Integrantes
         </Link>
