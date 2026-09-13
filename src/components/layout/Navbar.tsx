@@ -8,33 +8,83 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const NAV_ICONS: Record<string, React.ReactNode> = {
   '/': (
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" className="nav-svg-icon text-amber-400">
-      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.25" />
+    <svg viewBox="0 0 24 24" width="17" height="17" className="nav-svg-icon drop-shadow-[0_0_8px_rgba(251,191,36,0.55)] transition-transform duration-300 group-hover:scale-110">
+      <defs>
+        <linearGradient id="boltGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#fef08a" />
+          <stop offset="50%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#d97706" />
+        </linearGradient>
+        <linearGradient id="sparkGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="100%" stopColor="#f59e0b" />
+        </linearGradient>
+      </defs>
+      <path d="M13 2L3.5 13.5h7.5L9.5 22 20.5 10.5H13L14.5 2z" fill="url(#boltGrad)" stroke="#fef08a" strokeWidth="1" strokeLinejoin="round" />
+      <circle cx="12" cy="12" r="1.5" fill="url(#sparkGrad)" />
     </svg>
   ),
   '/integrantes': (
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" className="nav-svg-icon text-sky-400">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.25" />
+    <svg viewBox="0 0 24 24" width="17" height="17" className="nav-svg-icon drop-shadow-[0_0_8px_rgba(56,189,248,0.55)] transition-transform duration-300 group-hover:scale-110">
+      <defs>
+        <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#7dd3fc" />
+          <stop offset="50%" stopColor="#0ea5e9" />
+          <stop offset="100%" stopColor="#0284c7" />
+        </linearGradient>
+      </defs>
+      <path d="M12 2L4 5.5v6.2c0 5.4 3.4 10.4 8 11.8 4.6-1.4 8-6.4 8-11.8V5.5L12 2z" fill="url(#shieldGrad)" fillOpacity="0.35" stroke="#38bdf8" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M12 6.5v11m-3.5-5.5h7" stroke="#e0f2fe" strokeWidth="1.4" strokeLinecap="round" />
+      <circle cx="12" cy="12" r="1.8" fill="#ffffff" />
     </svg>
   ),
   '/manifiestos': (
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" className="nav-svg-icon text-orange-400">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.2" />
-      <polyline points="14 2 14 8 20 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <svg viewBox="0 0 24 24" width="17" height="17" className="nav-svg-icon drop-shadow-[0_0_8px_rgba(251,146,60,0.55)] transition-transform duration-300 group-hover:scale-110">
+      <defs>
+        <linearGradient id="scrollGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#fed7aa" />
+          <stop offset="50%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#ea580c" />
+        </linearGradient>
+      </defs>
+      <path d="M19 3H7a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z" fill="url(#scrollGrad)" fillOpacity="0.25" stroke="#fb923c" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M8 8h8M8 12h8M8 16h5" stroke="#ffedd5" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M17 14l3-3 1 1-3 3-1-1z" fill="#f97316" stroke="#fdba74" strokeWidth="0.8" />
     </svg>
   ),
   '/debates': (
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" className="nav-svg-icon text-purple-400">
-      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.25" />
+    <svg viewBox="0 0 24 24" width="17" height="17" className="nav-svg-icon drop-shadow-[0_0_8px_rgba(192,132,252,0.55)] transition-transform duration-300 group-hover:scale-110">
+      <defs>
+        <linearGradient id="debateGrad1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#f0abfc" />
+          <stop offset="100%" stopColor="#a855f7" />
+        </linearGradient>
+        <linearGradient id="debateGrad2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#c084fc" />
+          <stop offset="100%" stopColor="#7e22ce" />
+        </linearGradient>
+      </defs>
+      <path d="M14 3H6a4 4 0 0 0-4 4v4a4 4 0 0 0 4 4h1v3l4-3h3a4 4 0 0 0 4-4V7a4 4 0 0 0-4-4z" fill="url(#debateGrad1)" fillOpacity="0.3" stroke="#c084fc" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M10 9a3 3 0 0 1 3-3h5a3 3 0 0 1 3 3v3a3 3 0 0 1-3 3h-1v2.5L14 15h-1a3 3 0 0 1-3-3V9z" fill="url(#debateGrad2)" fillOpacity="0.4" stroke="#e879f9" strokeWidth="1.3" strokeLinejoin="round" />
+      <circle cx="9" cy="9" r="1" fill="#ffffff" />
+      <circle cx="15" cy="11" r="1" fill="#ffffff" />
     </svg>
   ),
   '/comunidad': (
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" className="nav-svg-icon text-emerald-400">
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-      <line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" strokeWidth="2" />
-      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" strokeWidth="2" fill="currentColor" fillOpacity="0.2" />
+    <svg viewBox="0 0 24 24" width="17" height="17" className="nav-svg-icon drop-shadow-[0_0_8px_rgba(52,211,153,0.55)] transition-transform duration-300 group-hover:scale-110">
+      <defs>
+        <linearGradient id="worldGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#a7f3d0" />
+          <stop offset="50%" stopColor="#10b981" />
+          <stop offset="100%" stopColor="#047857" />
+        </linearGradient>
+      </defs>
+      <circle cx="12" cy="12" r="9" fill="url(#worldGrad)" fillOpacity="0.25" stroke="#34d399" strokeWidth="1.6" />
+      <ellipse cx="12" cy="12" rx="4.5" ry="9" stroke="#6ee7b7" strokeWidth="1.3" />
+      <line x1="3" y1="12" x2="21" y2="12" stroke="#6ee7b7" strokeWidth="1.3" />
+      <circle cx="12" cy="12" r="2" fill="#ffffff" />
+      <circle cx="7.5" cy="8.5" r="1" fill="#a7f3d0" />
+      <circle cx="16.5" cy="15.5" r="1" fill="#a7f3d0" />
     </svg>
   ),
 };

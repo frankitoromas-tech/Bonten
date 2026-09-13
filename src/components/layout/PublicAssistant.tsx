@@ -170,47 +170,56 @@ export default function PublicAssistant() {
 
   return (
     <>
-      {/* Botón Flotante en Pantalla (Esquina Inferior Derecha) */}
+      {/* Botón Flotante en Pantalla (Esquina Inferior Derecha con Aurora Breathing) */}
       <div className="fixed bottom-5 right-5 z-40 select-none">
-        <button
-          type="button"
-          onClick={() => {
-            triggerAudio('toggle');
-            setIsOpen(!isOpen);
-          }}
-          className="group relative flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-slate-900/90 hover:bg-slate-850 border border-sky-500/40 hover:border-sky-400 text-white shadow-xl shadow-sky-950/40 backdrop-blur-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
-          title="Abrir Asistente de Navegación BONTEN"
-        >
-          <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500" />
-          </span>
+        <div className="relative group">
+          {/* Halo Aurora Respirante */}
+          <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-600 opacity-70 blur-md group-hover:opacity-100 transition-all duration-500 aurora-breathing" />
 
-          <div className="relative w-5 h-5 rounded-full overflow-hidden border border-sky-400/40">
-            <Image
-              src="/LOGO_BONTEN_V2.jpeg"
-              alt="Logo BONTEN"
-              width={20}
-              height={20}
-              className="object-cover"
-            />
-          </div>
+          <button
+            type="button"
+            onClick={() => {
+              triggerAudio('toggle');
+              setIsOpen(!isOpen);
+            }}
+            className="relative flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#070e22]/90 hover:bg-[#0a1533] border border-sky-400/40 hover:border-sky-300 text-white shadow-2xl shadow-sky-950/60 backdrop-blur-2xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            title="Abrir Asistente de Navegación BONTEN"
+          >
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-gradient-to-tr from-sky-500 to-cyan-300 shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
+            </span>
 
-          <span className="text-xs font-semibold tracking-wide text-slate-200 group-hover:text-white">
-            {isOpen ? 'Cerrar Guía' : 'Guía BONTEN'}
-          </span>
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 font-mono">IA</span>
-        </button>
+            <div className="relative w-5 h-5 rounded-full overflow-hidden border border-sky-400/50 shadow-[0_0_8px_rgba(56,189,248,0.4)]">
+              <Image
+                src="/LOGO_BONTEN_V2.jpeg"
+                alt="Logo BONTEN"
+                width={20}
+                height={20}
+                className="object-cover"
+              />
+            </div>
+
+            <span className="text-xs font-semibold tracking-wide text-slate-100 group-hover:text-white">
+              {isOpen ? 'Cerrar Guía' : 'Guía BONTEN'}
+            </span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gradient-to-r from-sky-500/20 to-purple-500/20 text-sky-300 font-mono border border-sky-400/30">
+              IA
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Ventana Modal / Dock Flotante del Asistente */}
       {isOpen && (
-        <div className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92vw] sm:w-[420px] max-h-[580px] h-[78vh] flex flex-col rounded-3xl border border-slate-700/70 bg-[#070d1e]/95 shadow-2xl shadow-sky-950/50 backdrop-blur-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300 select-none">
-          
+        <div className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92vw] sm:w-[430px] max-h-[590px] h-[78vh] flex flex-col rounded-3xl border border-sky-500/30 bg-[#060c1d]/95 shadow-[0_20px_60px_-15px_rgba(3,105,161,0.35)] backdrop-blur-3xl overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300 select-none">
+          {/* Reflejo Especular Superior */}
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-sky-400/60 to-transparent pointer-events-none" />
+
           {/* Cabecera del Asistente */}
-          <div className="p-3.5 sm:p-4 border-b border-slate-800 flex items-center justify-between bg-gradient-to-r from-slate-900 via-sky-950/40 to-slate-900">
+          <div className="p-3.5 sm:p-4 border-b border-slate-800/90 flex items-center justify-between bg-gradient-to-r from-slate-950 via-[#0a142c] to-slate-950 relative">
             <div className="flex items-center gap-2.5">
-              <div className="relative w-8 h-8 rounded-xl overflow-hidden border border-sky-400/40 shadow">
+              <div className="relative w-8 h-8 rounded-xl overflow-hidden border border-sky-400/50 shadow-[0_0_12px_rgba(56,189,248,0.3)]">
                 <Image
                   src="/LOGO_BONTEN_V2.jpeg"
                   alt="Logo BONTEN"
@@ -221,13 +230,13 @@ export default function PublicAssistant() {
               </div>
               <div>
                 <h3 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
-                  <span>Guía BONTEN</span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-400 border border-sky-500/30">
+                  <span className="shimmer-text-delight">Guía BONTEN</span>
+                  <span className="text-[9.5px] font-mono px-1.5 py-0.2 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30">
                     Soberana
                   </span>
                 </h3>
                 <p className="text-[10px] text-slate-400">
-                  Orientación doctrinal y rutas institucionales
+                  Orientación doctrinal y navegación de élite
                 </p>
               </div>
             </div>
@@ -270,10 +279,10 @@ export default function PublicAssistant() {
                   className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}
                 >
                   <div
-                    className={`max-w-[88%] p-3 rounded-2xl ${
+                    className={`max-w-[88%] p-3.5 rounded-2xl relative overflow-hidden ${
                       isUser
-                        ? 'bg-gradient-to-r from-sky-600 to-blue-600 text-white rounded-br-xs shadow-md'
-                        : 'bg-slate-900/90 border border-slate-800 text-slate-200 rounded-bl-xs shadow-sm'
+                        ? 'bg-gradient-to-r from-sky-600 via-blue-600 to-indigo-600 text-white rounded-br-xs shadow-lg shadow-sky-600/25 border border-sky-400/40'
+                        : 'glass-luxury-delight text-slate-100 rounded-bl-xs shadow-md before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-sky-400/40 before:to-transparent'
                     }`}
                   >
                     {/* Render de texto con soporte para negritas y listas */}
@@ -309,7 +318,7 @@ export default function PublicAssistant() {
 
                     {/* Botones de Navegación Sugeridos */}
                     {msg.routes && msg.routes.length > 0 && (
-                      <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex flex-wrap gap-1.5">
+                      <div className="mt-3 pt-2.5 border-t border-slate-700/60 flex flex-wrap gap-1.5">
                         {msg.routes.map((rt, rIdx) => (
                           <Link
                             key={rIdx}
@@ -318,11 +327,11 @@ export default function PublicAssistant() {
                               triggerAudio('pop');
                               setIsOpen(false);
                             }}
-                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-sky-950/60 hover:bg-sky-900/70 border border-sky-500/30 hover:border-sky-400 text-sky-300 hover:text-white text-[10.5px] font-medium transition-all"
+                            className="group/btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-sky-950/70 to-[#0a1b3a] hover:from-sky-900/80 hover:to-[#0f2854] border border-sky-500/30 hover:border-sky-400 text-sky-200 hover:text-white text-[11px] font-semibold transition-all duration-200 hover:scale-[1.03] shadow-sm hover:shadow-sky-500/20"
                           >
-                            <span>🧭</span>
+                            <span className="text-xs transition-transform duration-200 group-hover/btn:rotate-45">🧭</span>
                             <span>{rt.label}</span>
-                            <span className="text-[9px]">→</span>
+                            <span className="text-[10px] text-sky-400 group-hover/btn:translate-x-0.5 transition-transform">→</span>
                           </Link>
                         ))}
                       </div>
@@ -336,18 +345,19 @@ export default function PublicAssistant() {
             {/* Bucle de Procesamiento Cognitivo en Tiempo Real */}
             {loading && (
               <div className="flex flex-col items-start animate-in fade-in duration-200">
-                <div className="max-w-[85%] p-3 rounded-2xl bg-slate-900/90 border border-sky-500/30 text-slate-200 rounded-bl-xs shadow-md space-y-2">
+                <div className="max-w-[85%] p-3.5 rounded-2xl glass-luxury-delight border border-sky-500/40 text-slate-200 rounded-bl-xs shadow-lg space-y-2.5 relative overflow-hidden">
+                  <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" />
                   <div className="flex items-center gap-2 text-sky-400 font-mono text-[11px]">
                     <span className="relative flex h-2.5 w-2.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-sky-500" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-80" />
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-gradient-to-tr from-sky-400 to-indigo-300 shadow-[0_0_8px_rgba(56,189,248,0.9)]" />
                     </span>
-                    <span className="font-semibold uppercase tracking-wider text-[10px]">
+                    <span className="font-semibold uppercase tracking-wider text-[10px] shimmer-text-delight">
                       Razonando en BONTEN Core...
                     </span>
                   </div>
-                  <div className="text-[11.5px] text-slate-300 italic flex items-center gap-1.5">
-                    <span className="animate-spin text-xs">⚙️</span>
+                  <div className="text-[11.5px] text-slate-300 italic flex items-center gap-2 font-mono">
+                    <span className="animate-spin-slow text-sm">⚙️</span>
                     <span>{currentThinkingStep}</span>
                   </div>
                 </div>
