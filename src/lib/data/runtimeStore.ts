@@ -187,3 +187,74 @@ export function deleteStoreDebate(id: number): boolean {
   currentDebates = currentDebates.filter((x) => x.id !== id);
   return currentDebates.length < initialLen;
 }
+
+// =========================================================================
+// ALMACÉN DE CONTRIBUCIONES DOCTRINALES (NEXO SEGURO CON LUYO & AUTORES)
+// =========================================================================
+
+export interface DoctrinalContribution {
+  id: string;
+  author: string;
+  topic: 'filosofia' | 'etica' | 'estetica' | 'derecho' | 'biologia' | 'politica' | 'general';
+  title: string;
+  thesis: string;
+  content: string;
+  verified: boolean;
+  createdAt: string;
+}
+
+let currentDoctrinalContributions: DoctrinalContribution[] = [
+  {
+    id: 'luyo-doc-01',
+    author: 'Luyo',
+    topic: 'derecho',
+    title: 'Primacía Iusnaturalista del Nasciturus frente al Positivismo Formalista',
+    thesis: 'El derecho a la vida es pre-jurídico y ontológico; ninguna convención legislativa puede degradar a un individuo humano a la categoría de cosa.',
+    content: 'El positivismo formalista kelseniano reduce la justicia a la mera validez formal de la norma positiva sancionada. Sin embargo, frente al concebido no nacido, la biología molecular certifica un individuo vivo de la especie Homo sapiens. Si el Estado condiciona la personalidad jurídica a la viabilidad extrauterina o al consenso político, incurre en una ficción biopolítica discriminatoria que subvierte el principio de universalidad de los derechos humanos inalienables.',
+    verified: true,
+    createdAt: '2026-03-01T10:00:00Z',
+  },
+  {
+    id: 'luyo-doc-02',
+    author: 'Luyo',
+    topic: 'etica',
+    title: 'Límites Deontológicos de la Ética Negativa y Florecimiento Positivo',
+    thesis: 'La ética negativa impone la prohibición absoluta de dañar al inocente, mientras la ética positiva demanda acogida comunitaria y subsidiaridad.',
+    content: 'En la filosofía moral, la ética negativa establece deberes de justicia estricta (neminem laedere): la proscripción categórica de disponer de la vida ajena como medio instrumental para resolver dificultades ajenas. En complementariedad armónica, la ética positiva compromete a la comunidad política en deberes de benevolencia y amparo hacia la madre gestante y el recién nacido, erradicando el falso dilema utilitarista.',
+    verified: true,
+    createdAt: '2026-03-05T12:00:00Z',
+  },
+  {
+    id: 'luyo-doc-03',
+    author: 'Luyo',
+    topic: 'estetica',
+    title: 'La Belleza como Resplandor del Ser frente al Feísmo Nihilista',
+    thesis: 'La estética no es mero estímulo sensorial arbitrario, sino la manifestación sensible de la verdad y el orden del ser.',
+    content: 'En concordancia con el tratado de Fireboy sobre la fractura posmoderna, cuando una civilización extirpa el telos y la trascendencia, el arte colapsa en el feísmo iconoclasta y la glorificación de lo abyecto. Reivindicar la kalokagathía clásica (la unión indisoluble de lo bello, lo verdadero y lo bueno) constituye un acto de resistencia cultural primordial frente al descarte humano.',
+    verified: true,
+    createdAt: '2026-03-10T14:30:00Z',
+  },
+];
+
+export function getDoctrinalContributions(): DoctrinalContribution[] {
+  return JSON.parse(JSON.stringify(currentDoctrinalContributions));
+}
+
+export function addDoctrinalContribution(
+  item: Omit<DoctrinalContribution, 'id' | 'createdAt' | 'verified'> & { verified?: boolean }
+): DoctrinalContribution {
+  const newId = `doc-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+  const sanitized: DoctrinalContribution = {
+    id: newId,
+    author: sanitizePlainText(item.author || 'Luyo', 50),
+    topic: item.topic || 'general',
+    title: sanitizePlainText(item.title, 140),
+    thesis: sanitizePlainText(item.thesis, 280),
+    content: sanitizePlainText(item.content, 2500),
+    verified: item.verified ?? true,
+    createdAt: new Date().toISOString(),
+  };
+
+  currentDoctrinalContributions.unshift(sanitized);
+  return sanitized;
+}

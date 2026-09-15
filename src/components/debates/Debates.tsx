@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import type { ReactionType, ArgumentStance } from '@/types';
 import { motion } from 'framer-motion';
 import DebateCard from './DebateCard';
 import DebateDetail from './DebateDetail';
@@ -15,12 +14,9 @@ export default function Debates() {
   const [selectedTag, setSelectedTag] = useState<string>('Todos');
 
   const activeDebate = debates.find((d) => d.id === selectedDebateId);
-
   const filteredDebates = debates.filter((d) => {
     const q = searchQuery.toLowerCase();
-    const matchesSearch = d.title.toLowerCase().includes(q) || d.description.toLowerCase().includes(q);
-    const matchesTag = selectedTag === 'Todos' || d.tag === selectedTag;
-    return matchesSearch && matchesTag;
+    return (selectedTag === 'Todos' || d.tag === selectedTag) && (!q || d.title.toLowerCase().includes(q) || d.description.toLowerCase().includes(q));
   });
 
   if (activeDebate) {
@@ -28,17 +24,13 @@ export default function Debates() {
       <DebateDetail
         debate={activeDebate}
         onBack={() => setSelectedDebateId(null)}
-        onReact={(argId: number, r: ReactionType) => handleReaction(activeDebate.id, argId, r)}
-        onAddOpinion={(author: string, type: ArgumentStance, text: string) =>
-          handleAddOpinion(activeDebate.id, author, type, text)
-        }
+        onReact={(argId, r) => handleReaction(activeDebate.id, argId, r)}
+        onAddOpinion={(author, type, text) => handleAddOpinion(activeDebate.id, author, type, text)}
       />
     );
   }
-
   const totalArguments = debates.reduce((acc, d) => acc + d.arguments.length, 0);
   const totalVoters = debates.reduce((acc, d) => acc + (d.voters || 0), 0);
-
   return (
     <motion.div className="debates-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <Breadcrumbs items={[{ label: 'Debates' }]} />
@@ -75,44 +67,34 @@ export default function Debates() {
 
           {/* KPIs del Foro */}
           <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
-            <div className="px-4 py-3 rounded-2xl bg-slate-900/85 border border-slate-800 text-center min-w-[95px] shadow-sm">
-              <span className="text-xl sm:text-2xl font-mono font-extrabold text-sky-400 block">{debates.length}</span>
-              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Debates</span>
-            </div>
-            <div className="px-4 py-3 rounded-2xl bg-slate-900/85 border border-slate-800 text-center min-w-[95px] shadow-sm">
-              <span className="text-xl sm:text-2xl font-mono font-extrabold text-emerald-400 block">{totalArguments}</span>
-              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Argumentos</span>
-            </div>
-            <div className="px-4 py-3 rounded-2xl bg-slate-900/85 border border-slate-800 text-center min-w-[95px] shadow-sm">
-              <span className="text-xl sm:text-2xl font-mono font-extrabold text-amber-400 block">{totalVoters}</span>
-              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Votos</span>
-            </div>
+            {[
+              { val: debates.length, label: 'Debates', color: 'text-sky-400' },
+              { val: totalArguments, label: 'Argumentos', color: 'text-emerald-400' },
+              { val: totalVoters, label: 'Votos', color: 'text-amber-400' },
+            ].map((kpi) => (
+              <div key={kpi.label} className="px-4 py-3 rounded-2xl bg-slate-900/85 border border-slate-800 text-center min-w-[95px] shadow-sm">
+                <span className={`text-xl sm:text-2xl font-mono font-extrabold ${kpi.color} block`}>{kpi.val}</span>
+                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">{kpi.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Principios de la Dialéctica */}
         <div className="mt-6 pt-5 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 flex items-start gap-2.5">
-            <span className="text-sky-400 text-base">🛡️</span>
-            <div>
-              <strong className="text-slate-200 block">1. Cero Ad Hominem</strong>
-              <span className="text-slate-400 text-[11px]">Se refutan premisas y falacias, nunca a la persona.</span>
+          {[
+            { icon: '🛡️', title: '1. Cero Ad Hominem', desc: 'Se refutan premisas y falacias, nunca a la persona.' },
+            { icon: '🧬', title: '2. Evidencia Bioética', desc: 'Anclaje en la singamia, genética y derecho natural.' },
+            { icon: '⚖️', title: '3. Serenidad Socrática', desc: 'Disentir con templanza; el fin supremo es la verdad.' },
+          ].map((p) => (
+            <div key={p.title} className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 flex items-start gap-2.5">
+              <span className="text-base">{p.icon}</span>
+              <div>
+                <strong className="text-slate-200 block">{p.title}</strong>
+                <span className="text-slate-400 text-[11px]">{p.desc}</span>
+              </div>
             </div>
-          </div>
-          <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 flex items-start gap-2.5">
-            <span className="text-emerald-400 text-base">🧬</span>
-            <div>
-              <strong className="text-slate-200 block">2. Evidencia Bioética</strong>
-              <span className="text-slate-400 text-[11px]">Anclaje en la singamia, la genética y el derecho natural inmutable.</span>
-            </div>
-          </div>
-          <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 flex items-start gap-2.5">
-            <span className="text-amber-400 text-base">⚖️</span>
-            <div>
-              <strong className="text-slate-200 block">3. Serenidad Socrática</strong>
-              <span className="text-slate-400 text-[11px]">Disentir con templanza; el fin supremo no es ganar, sino la verdad.</span>
-            </div>
-          </div>
+          ))}
         </div>
       </motion.div>
 
@@ -129,9 +111,7 @@ export default function Debates() {
             No se encontraron debates que coincidan con la búsqueda.
           </p>
         ) : (
-          filteredDebates.map((debate, idx) => (
-            <DebateCard key={debate.id} debate={debate} index={idx} onSelect={setSelectedDebateId} />
-          ))
+          filteredDebates.map((d, i) => <DebateCard key={d.id} debate={d} index={i} onSelect={setSelectedDebateId} />)
         )}
       </div>
     </motion.div>

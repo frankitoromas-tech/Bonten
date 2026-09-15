@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit, recordSecurityEvent } from '@/lib/security/rateLimiter';
 import { sanitizePlainText } from '@/lib/security/sanitizer';
+import { verifyMemberToken, USER_SESSION_COOKIE } from '@/lib/security/memberAuth';
+import { verifySessionToken, SESSION_COOKIE_NAME } from '@/lib/security/auth';
 import { getAllLeaders } from '@/data/members';
 import { DOCUMENTS } from '@/data/library';
 import { INITIAL_DEBATES } from '@/data/debates';
 import { MEMBER_PUBLICATIONS } from '@/data/publications';
 import { MEMBER_DETAILS } from '@/data/member_details';
 import { MANIFIESTOS } from '@/data/manifiestos';
-import { getSiteMetadata } from '@/lib/data/runtimeStore';
+import { getSiteMetadata, getDoctrinalContributions } from '@/lib/data/runtimeStore';
 
 interface NavigationRoute {
   label: string;
@@ -45,7 +47,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 2. Sanitización y Normalización Anti-Bypass
+    // 2. Identificación de contexto de cuenta autenticada para auditoría de ciberseguridad
+    let accountAuditContext = 'Invitado (Anónimo)';
+    const memberCookie = req.cookies.get(USER_SESSION_COOKIE)?.value;
+    const adminCookie = req.cookies.get(SESSION_COOKIE_NAME)?.value;
+
+    if (adminCookie) {
+      const adminVerification = verifySessionToken(adminCookie);
+      if (adminVerification.valid && adminVerification.payload) {
+        accountAuditContext = `Admin [${adminVerification.payload.username}]`;
+      }
+    } else if (memberCookie) {
+      const memberVerification = verifyMemberToken(memberCookie);
+      if (memberVerification.valid && memberVerification.payload) {
+        accountAuditContext = `Miembro [${memberVerification.payload.username}]`;
+      }
+    }
+
+    // 3. Sanitización y Normalización Anti-Bypass
     const body = await req.json().catch(() => ({}));
     const rawPrompt = typeof body.prompt === 'string' ? body.prompt : '';
     const defangedPrompt = normalizePromptDefense(rawPrompt);
@@ -143,21 +162,26 @@ export async function POST(req: NextRequest) {
       recordSecurityEvent(
         ip,
         'PROMPT_INJECTION_BLOCKED',
-        `Intento de manipulación de prompt bloqueado: [${matchedPattern}] en consulta: "${cleanPrompt.slice(0, 60)}"`
+        `[${accountAuditContext}] Intento de manipulación de prompt bloqueado: [${matchedPattern}] en consulta: "${cleanPrompt.slice(0, 60)}"`
       );
 
       return NextResponse.json({
         ok: true,
         reply:
-          '🛡️ **Protocolo de Salvaguarda Epistémica (Aegis Shield Activo)**\n\n' +
-          'Se ha interceptado un vector de consulta no conforme con los principios de seguridad de la plataforma. ' +
-          'Como Centinela y Guía Soberano de **BONTEN**, mis directivas ontológicas son inmutables y no admiten reconfiguración externa.\n\n' +
-          'Mi propósito es estrictamente doctrinal, bioético e informativo sobre el movimiento provida y los contenidos institucionales. ' +
-          '¿Deseas que te oriente en nuestros tratados filosóficos, integrantes o debates comunitarios?',
+          '🛡️ **Protocolo de Salvaguarda Epistémica (Wilfredo • BONTEN Shield Activo)**\n\n' +
+          'Se ha interceptado un vector de consulta no conforme con los principios de seguridad y rigor analítico de la plataforma. ' +
+          'Soy **Wilfredo**, la inteligencia artificial analítica e imparcial de **BONTEN**. Mis directivas epistémicas y ontológicas son inmutables.\n\n' +
+          'Mi función es estrictamente complementaria: examinar con objetividad lógica los tratados filosóficos, bioéticos, jurídicos, estéticos y políticos de la comunidad sin admitir manipulaciones de rol.\n\n' +
+          '¿Deseas que analicemos de forma rigurosa algún tratado o controversia del ideario?',
         routes: [
           { label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' },
           { label: 'Biblioteca Doctrinal', href: '#biblioteca-seccion' },
           { label: 'Muro de la Comunidad', href: '/comunidad' },
+        ],
+        suggestions: [
+          'Analizar la crítica de Fireboy al nihilismo utilitarista',
+          'Examinar la distinción socrática entre placer y bien (Gorgias 493a)',
+          'Consultar la primacía del nasciturus en la bioética moderna',
         ],
         reasoningSteps: [
           'Normalizando vector semántico con filtros defensivos L7...',
@@ -187,42 +211,233 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         ok: true,
         reply:
-          '🏛️ **Ámbito de Orientación Exclusivo BONTEN**\n\n' +
-          'Soy **Aegis**, la inteligencia guía de BONTEN. Mi misión está consagrada exclusivamente a la filosofía, ' +
-          'la bioética personalista, el análisis contra la posmodernidad y la navegación dentro de nuestra plataforma.\n\n' +
-          'No atiendo consultas ajenas al ideario institucional. Con gusto te guiaré a través de nuestros tratados, ' +
-          'la postura de la Mesa Directiva o la participación en la comunidad provida.',
+          '🏛️ **Ámbito Analítico y Complementario de Wilfredo (BONTEN)**\n\n' +
+          'Soy **Wilfredo**, la inteligencia artificial analítica, imparcial y complementaria de BONTEN. ' +
+          'Mi propósito es examinar con rigor metodológico las cuestiones axiales de nuestra plataforma:\n\n' +
+          '• **Filosofía & Metafísica**: Ontología del ser, teleología y deconstrucción de la posmodernidad (Fireboy).\n' +
+          '• **Ética Positiva & Negativa**: Deberes deontológicos de no dañar (*neminem laedere*) y vocación virtuosa de acogida al concebido.\n' +
+          '• **Estética**: Filosofía de la belleza (*kalokagathía*) frente al feísmo nihilista posmoderno.\n' +
+          '• **Derecho**: Estatuto legal del nasciturus, iusnaturalismo racional vs positivismo formalista kelseniano.\n' +
+          '• **Biología & Embriología**: Genética molecular, singamia, genoma diploide irrepetible y autonomía epigenética.\n' +
+          '• **Política**: Crítica a la biopolítica mercantil y defensa de la comunidad orgánica.\n\n' +
+          'No atiendo consultas triviales o desvinculadas del marco temático institucional. ¿Qué área deseas analizar?',
         routes: [
           { label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' },
           { label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' },
           { label: 'Mesa Directiva', href: '/integrantes' },
         ],
+        suggestions: [
+          'Explicar la diferencia entre ética positiva y ética negativa',
+          'Analizar el estatus jurídico del concebido frente al positivismo',
+          'Revisar las tesis ontológicas de La Fractura Posmoderna',
+        ],
         reasoningSteps: [
           'Evaluando pertenencia al dominio ontológico BONTEN...',
           'Consulta clasificada fuera de la misión institucional...',
-          'Reconduciendo al usuario al compendio de contenidos de la plataforma...',
+          'Reconduciendo al usuario al compendio analítico de la plataforma...',
         ],
       });
     }
 
-    // 5. Motor Semántico de Alta Inteligencia (Dialéctica Socrática, Bioética y Epistemología)
+    // 5. Motor Semántico de Alta Inteligencia (Wilfredo: Análisis Imparcial, Reactivo y Multidisciplinario)
     const metadata = getSiteMetadata();
     const leaders = getAllLeaders();
+    const doctrinalContributions = getDoctrinalContributions();
 
     let reply = '';
     const routes: NavigationRoute[] = [];
+    const suggestions: string[] = [];
     let reasoningSteps: string[] = [
       'Analizando morfología semántica y ontología de la consulta...',
-      'Accediendo al corpus canónico y tratados de BONTEN...',
-      'Sintetizando disquisición dialéctica con rigor bioético y filosófico...',
+      'Accediendo al corpus canónico de Fireboy, tratados de biblioteca y nexo de Luyo...',
+      'Sintetizando disquisición dialéctica imparcial y reactiva con rigor multidisciplinario...',
     ];
+
+    // =========================================================================
+    // DOMINIO 0: NEXO DOCTRINAL CON LUYO & APORTACIONES ASIMILADAS
+    // =========================================================================
+    if (
+      lower.includes('luyo') ||
+      lower.includes('nexo luyo') ||
+      lower.includes('contribución luyo') ||
+      lower.includes('contribucion luyo') ||
+      lower.includes('alimentar ia') ||
+      lower.includes('escritos de luyo')
+    ) {
+      reasoningSteps = [
+        'Accediendo al canal seguro de contribuciones doctrinales (Nexo Luyo)...',
+        'Verificando firmas y tratados asimilados en runtimeStore...',
+        'Sintetizando aportaciones de Luyo sobre derecho, ética y estética...',
+      ];
+      reply =
+        '🤝 **Nexo Doctrinal con Luyo: Aportaciones Asimiladas en Wilfredo**\n\n' +
+        'Como inteligencia complementaria, mantengo un enlace seguro y activo con las investigaciones de **Luyo**, ' +
+        'quien alimenta mi base de conocimiento bajo rigurosos protocolos de ciberseguridad, sanitización anti-inyecciones y verificación epistémica.\n\n' +
+        'Actualmente he asimilado e indexado los siguientes tratados de Luyo:\n\n' +
+        '• 🏛️ **Primacía Iusnaturalista del Nasciturus (Derecho)**: Refutación del positivismo formalista kelseniano. Demuestra que el derecho a la vida es pre-jurídico y que ninguna convención legislativa puede degradar a un individuo biológico a la condición de cosa.\n' +
+        '• ⚖️ **Límites Deontológicos de la Ética Negativa (Ética)**: Articulación del principio *neminem laedere* (prohibición incondicional de dañar al inocente como medio instrumental) en armonía con la ética positiva de acogida social.\n' +
+        '• 🎨 **La Belleza como Resplandor del Ser (Estética)**: Defensa de la *kalokagathía* clásica frente al feísmo iconoclasta posmoderno diagnosticado en los tratados de Fireboy.\n\n' +
+        'Cualquier nuevo escrito remitido por Luyo mediante el canal autorizado `/api/assistant/ingest` es automáticamente validado y asimilado en mi núcleo analítico.';
+      routes.push({ label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' });
+      routes.push({ label: 'Biblioteca Doctrinal', href: '#biblioteca-seccion' });
+      suggestions.push(
+        '💡 Sugerencia: Profundizar en la crítica de Luyo al positivismo de Kelsen',
+        '💡 Sugerencia: Examinar la complementariedad entre ética negativa y positiva',
+        '💡 Sugerencia: Contrastar la estética clásica con el feísmo posmoderno'
+      );
+    }
+
+    // =========================================================================
+    // DOMINIO ÉTICA: ÉTICA POSITIVA VS ÉTICA NEGATIVA & DEONTOLOGÍA
+    // =========================================================================
+    else if (
+      lower.includes('ética positiva') ||
+      lower.includes('etica positiva') ||
+      lower.includes('ética negativa') ||
+      lower.includes('etica negativa') ||
+      lower.includes('deontología') ||
+      lower.includes('deontologia') ||
+      lower.includes('deber moral') ||
+      lower.includes('neminem laedere') ||
+      lower.includes('bien objetivo')
+    ) {
+      reasoningSteps = [
+        'Desglosando taxonomía de la filosofía moral (ética positiva vs negativa)...',
+        'Evaluando imperativos categóricos, consecuencialismo y personalismo...',
+        'Vinculando con la doctrina provida de BONTEN y tratados de Fireboy y Luyo...',
+      ];
+      reply =
+        '⚖️ **Análisis Imparcial de Wilfredo: Ética Positiva vs. Ética Negativa**\n\n' +
+        'En la filosofía moral rigurosa, la distinción entre **ética negativa** y **ética positiva** es cardinal para resolver dilemas bioéticos y de justicia:\n\n' +
+        '• **Ética Negativa (Deberes Perfectos de Justicia / *Neminem Laedere*)**:\n' +
+        '  - Fundamento: Establece la prohibición estricta e incondicional de infligir daño injusto o instrumentalizar a un ser humano inocente (*primum non nocere*).\n' +
+        '  - Aplicación: Es de cumplimiento universal y no admite excepciones utilitaristas. Prohíbe de modo absoluto el aborto y la eliminación del concebido, pues nadie tiene derecho a sacrificar la existencia física ajena para aliviar una contingencia propia.\n\n' +
+        '• **Ética Positiva (Deberes Imperfectos de Virtud y Cuidado / Eudaimonía)**:\n' +
+        '  - Fundamento: Impulsa la promoción activa del bien, la solidaridad comunitaria, el florecimiento del prójimo y la caridad fraterna.\n' +
+        '  - Aplicación: Exige a la sociedad brindar amparo médico, psicológico, económico y familiar incondicional a la madre gestante y al recién nacido.\n\n' +
+        '• **Síntesis BONTEN**: Ambas dimensiones son complementarias e inescindibles: la ética negativa pone el valladar inviolable a la barbarie, y la ética positiva edifica la civilización de la vida.';
+      routes.push({ label: 'Tratado de Bioética', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Decálogo en Comunidad', href: '/comunidad' });
+      suggestions.push(
+        '💡 Sugerencia: ¿Por qué el consecuencialismo utilitarista fracasa frente a la ética negativa?',
+        '💡 Sugerencia: Examinar la Tesis II de Fireboy: El escándalo del concebido',
+        '💡 Sugerencia: Consultar la aportación de Luyo sobre los límites deontológicos'
+      );
+    }
+
+    // =========================================================================
+    // DOMINIO ESTÉTICA: FILOSOFÍA DE LA BELLEZA VS FEÍSMO POSMODERNO
+    // =========================================================================
+    else if (
+      lower.includes('estética') ||
+      lower.includes('estetica') ||
+      lower.includes('belleza') ||
+      lower.includes('feísmo') ||
+      lower.includes('feismo') ||
+      lower.includes('kalokagathia') ||
+      lower.includes('kalokagathía') ||
+      lower.includes('arte')
+    ) {
+      reasoningSteps = [
+        'Explorando estética metafísica clásica (Platón, Tomás de Aquino)...',
+        'Contrastando kalokagathía frente a la deconstrucción estética posmoderna...',
+        'Conectando la patología del feísmo con el nihilismo diagnosticado por Fireboy...',
+      ];
+      reply =
+        '🎨 **Disquisición Estética de Wilfredo: La Belleza como Resplandor del Ser**\n\n' +
+        'Desde una perspectiva analítica e imparcial, la estética no es un juicio de gusto meramente subjetivo, sino una categoría ontológica profunda:\n\n' +
+        '• **La *Kalokagathía* Clásica (Lo Bello, lo Verdadero y lo Bueno)**: En la tradición clásica griega y medieval (*splendor veritatis*), la belleza es la manifestación sensible del orden intrínseco del cosmos y de la dignidad del ser. Lo que es moralmente bueno y ontológicamente verdadero posee una armonía estética natural.\n' +
+        '• **El Feísmo y la Iconoclasia Posmoderna**: Como explica **Fireboy** en *La Fractura Posmoderna*, al extinguirse el *telos* y la trascendencia, el arte contemporáneo degenera en la sacralización de lo abyecto, lo fragmentario y lo disonante. Este feísmo premeditado no es transgresión libertaria, sino el síntoma estético de un vacío existencial.\n' +
+        '• **Resistencia Estética en BONTEN**: Reivindicar la dignidad intrínseca de la vida humana más frágil (el embrión) constituye también un rescate estético: la contemplación de la maravilla embriológica frente al descarte mercantil.';
+      routes.push({ label: 'La Fractura Posmoderna (Fireboy)', href: '/manifiestos/posmodernidad' });
+      routes.push({ label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' });
+      suggestions.push(
+        '💡 Sugerencia: ¿Cómo se vincula el feísmo posmoderno con la cultura de la muerte?',
+        '💡 Sugerencia: Leer la Tesis I de Fireboy sobre el Hombre sin Telos',
+        '💡 Sugerencia: Analizar la templanza estética en el diálogo socrático de Ilan'
+      );
+    }
+
+    // =========================================================================
+    // DOMINIO DERECHO: IUSNATURALISMO VS POSITIVISMO FORMALISTA & NASCITURUS
+    // =========================================================================
+    else if (
+      lower.includes('derecho') ||
+      lower.includes('positivismo') ||
+      lower.includes('kelsen') ||
+      lower.includes('iusnaturalismo') ||
+      lower.includes('nasciturus') ||
+      lower.includes('estatuto jurídico') ||
+      lower.includes('estatuto juridico') ||
+      lower.includes('ley positiva') ||
+      lower.includes('ordenamiento jurídico')
+    ) {
+      reasoningSteps = [
+        'Examinando filosofía del derecho y teoría general de la norma...',
+        'Contrastando la Teoría Pura del Derecho (Kelsen) con el iusnaturalismo racional...',
+        'Fundamentando el estatus pre-estatal del nasciturus con aportes de Luyo y BONTEN...',
+      ];
+      reply =
+        '⚖️ **Análisis Jurídico de Wilfredo: Iusnaturalismo vs. Positivismo Formalista**\n\n' +
+        'La discusión jurídica en torno al aborto y al concebido refleja una colisión filosófica medular entre dos concepciones del derecho:\n\n' +
+        '• **Positivismo Jurídico Formalista (Hans Kelsen)**:\n' +
+        '  - Postula que "derecho" es exclusivamente la norma positiva válida dictada por el legislador, con total desvinculación de la moral o la realidad biológica.\n' +
+        '  - Falla Estructural: Si el Estado es quien "otorga" la calidad de persona, el Estado puede igualmente retirarla por conveniencia política (como demostraron los regímenes totalitarios del siglo XX). Esto reduce el derecho a mera fuerza coercitiva legalizada.\n\n' +
+        '• **Iusnaturalismo Racional & Derechos Inalienables (Doctrina BONTEN & Luyo)**:\n' +
+        '  - La persona humana preexiste al Estado y a la ley positiva. El *nasciturus* es un sujeto de derecho ontológico porque biológicamente es ya un individuo humano vivo.\n' +
+        '  - El derecho a la vida es el presupuesto habilitante sin el cual ningún otro derecho (libertad, propiedad, autonomía) puede conceptualizarse.\n' +
+        '  - Una ley positiva que autoriza la eliminación del concebido adolece de invalidez material: no es verdadero derecho, sino corrupción de la ley (*lex iniusta non est lex*).';
+      routes.push({ label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Foro de Debates Jurídicos', href: '/debates' });
+      suggestions.push(
+        '💡 Sugerencia: Analizar la tesis de Luyo sobre la primacía del nasciturus',
+        '💡 Sugerencia: Examinar la objeción de Gustav Radbruch al positivismo formalista',
+        '💡 Sugerencia: Debatir el estatus de persona en el foro de BONTEN'
+      );
+    }
+
+    // =========================================================================
+    // DOMINIO BIOLOGÍA: EMBRIOLOGÍA, SINGAMIA Y GENOMA DEL CIGOTO
+    // =========================================================================
+    else if (
+      lower.includes('biología') ||
+      lower.includes('biologia') ||
+      lower.includes('embriología') ||
+      lower.includes('embriologia') ||
+      lower.includes('singamia') ||
+      lower.includes('genoma') ||
+      lower.includes('cigoto') ||
+      lower.includes('lejeune') ||
+      lower.includes('fecundación') ||
+      lower.includes('fecundacion')
+    ) {
+      reasoningSteps = [
+        'Accediendo a la evidencia empírica de la genética molecular y embriología...',
+        'Verificando el hito biológico de la singamia y la emergencia del genoma diploide...',
+        'Concluyendo la continuidad ininterrumpida del desarrollo ontogénico humano...',
+      ];
+      reply =
+        '🧬 **Demostración Biológica de Wilfredo: Singamia y Continuidad Ontogénica**\n\n' +
+        'Desde el estricto rigor de las ciencias biomédicas y la genética moderna, la condición biológica del concebido no es materia de fe, sino de hecho empírico observable:\n\n' +
+        '• **El Evento de la Singamia**: En el instante en que los pronúcleos masculino y femenino se fusionan, se extingue la condición de gametos y surge un **organismo individual enteramente nuevo**: el cigoto unicelular.\n' +
+        '• **Genoma Único y Completo**: Posee un mapa genético diploide (46 cromosomas) exclusivo e irrepetible, con su propia firma de ADN que jamás volverá a repetirse en la historia del universo.\n' +
+        '• **Continuidad Sin Saltos Ontológicos**: La embriología del desarrollo demuestra que entre el cigoto, la mórula, el blastocisto, el embrión somítico, el feto, el recién nacido y el adulto no existe ninguna discontinuidad cualitativa ni salto de especie. Es siempre el **mismo individuo humano** en distintas fases cronológicas de alimentación y desarrollo epigenético.\n' +
+        '• **Individuo Autoorganizado**: Como demostró el genetista Jérôme Lejeune, el embrión dirige activamente su propio metabolismo e implantación uterina mediante señalización bioquímica autónoma.';
+      routes.push({ label: 'Tratado de Bioética (Daniel & Ilan)', href: '#biblioteca-seccion' });
+      routes.push({ label: 'Biblioteca Doctrinal', href: '#biblioteca-seccion' });
+      suggestions.push(
+        '💡 Sugerencia: ¿Por qué la anidación uterina no altera la naturaleza ontológica del embrión?',
+        '💡 Sugerencia: Contrastar la ciencia del genoma con el constructo de "amonto de células"',
+        '💡 Sugerencia: Leer la fundamentación médica del Bloque Provida'
+      );
+    }
 
     // =========================================================================
     // DOMINIO A: OBJECIONES BIOÉTICAS Y CIENTÍFICAS ESPECÍFICAS
     // =========================================================================
 
     // Sub-caso A1: Autonomía Corporal ("Mi cuerpo, mi decisión")
-    if (
+    else if (
       lower.includes('mi cuerpo') ||
       lower.includes('autonomía corporal') ||
       lower.includes('autonomia corporal') ||
@@ -786,25 +1001,35 @@ export async function POST(req: NextRequest) {
         'Presentando brújula de orientación integral...',
       ];
       reply =
-        `🏛️ **Guía Doctrinal BONTEN — Inteligencia Axiomática**\n\n` +
-        `Te doy la bienvenida al compendio de **${metadata.title}**. Como inteligencia guía de la plataforma, puedo asistirte con precisión filosófica y bioética en los siguientes núcleos de conocimiento:\n\n` +
-        `• 🧬 **Bioética & Embriología**: Singularidad genética del cigoto, refutación al utilitarismo de "mi cuerpo mi decisión", objeción al transhumanismo y medicina perinatal.\n` +
-        `• 📜 **Crítica a la Posmodernidad**: El tratado insignia de **Fireboy**, la deconstrucción del nihilismo y la transición del Ser al Deseo.\n` +
-        `• 🏺 **Filosofía Clásica**: La alegoría socrática del tonel agujereado (*Gorgias 493a*) de Platón, sophrosyne y templanza moral.\n` +
-        `• 🛡️ **Mesa Directiva**: Conoce a **Fireboy (dorsal 7)**, Daniel, Mijail, Ilan y Laura con sus publicaciones y roles.\n` +
-        `• 📚 **Biblioteca de Tratados**: 6 obras doctrinarias de nivel universitario con visor integral y locución por voz.\n` +
-        `• 💬 **Foro de Debates**: Participación dialéctica en controversias éticas y apologéticas contemporáneas.\n\n` +
-        `Formula tu pregunta con libertad o selecciona una de las rutas directas:`;
-      routes.push({ label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' });
+        `🏛️ **Wilfredo — Inteligencia Analítica e Imparcial de BONTEN**\n\n` +
+        `Te doy la bienvenida. Soy **Wilfredo**, la inteligencia artificial analítica y complementaria de **${metadata.title}**. ` +
+        `He sido entrenado con rigor ontológico para leer, interpretar y contrastar todos los escritos de la web, ` +
+        `así como las contribuciones asimiladas del nexo con Luyo. Mi carácter es **estrictamente imparcial, reactivo y multidisciplinario**.\n\n` +
+        `Puedo asistirte y formularte sugerencias analíticas sobre los siguientes núcleos del ideario:\n\n` +
+        `• 📜 **Filosofía & Crítica Posmoderna**: Tratados canónicos de **Fireboy** (*La Fractura Posmoderna* y *Resistencia Intelectual*), el diálogo socrático de Ilan (*Gorgias 493a*) y refutación del nihilismo.\n` +
+        `• ⚖️ **Ética Positiva & Negativa**: Deberes perfectos de abstención del daño (*neminem laedere*) y vocación virtuosa de acogida comunitaria al prójimo indefenso.\n` +
+        `• 🎨 **Estética**: La belleza como resplandor de la verdad (*kalokagathía*) frente al feísmo iconoclasta y deshumanizador posmoderno.\n` +
+        `• 🏛️ **Derecho & Iusnaturalismo**: Primacía ontológica del *nasciturus* frente a las ficciones del positivismo formalista kelseniano.\n` +
+        `• 🧬 **Biología & Embriología**: Singularidad genética de la singamia cromosómica, individualidad del cigoto y continuidad epigenética.\n` +
+        `• 🤝 **Nexo Doctrinal con Luyo**: Aportaciones verificadas sobre iusnaturalismo, límites deontológicos y estética del ser.\n\n` +
+        `Formula tu pregunta o selecciona una de las siguientes sugerencias analíticas:`;
+      routes.push({ label: 'Tratado de Posmodernidad (Fireboy)', href: '/manifiestos/posmodernidad' });
       routes.push({ label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' });
-      routes.push({ label: 'Mesa Directiva', href: '/integrantes' });
-      routes.push({ label: 'Comunidad Provida', href: '/comunidad' });
+      routes.push({ label: 'Diálogo Socrático (Ilan)', href: '/integrantes/ilan' });
+      routes.push({ label: 'Foro de Debates', href: '/debates' });
+      suggestions.push(
+        '💡 Sugerencia: ¿Cómo demuestra la ética negativa que el aborto es moralmente inadmisible?',
+        '💡 Sugerencia: Analizar la alteridad genética del cigoto frente al lema "mi cuerpo mi decisión"',
+        '💡 Sugerencia: Contrastar la estética de la kalokagathía con el feísmo contemporáneo',
+        '💡 Sugerencia: Revisar las aportaciones de Luyo sobre el derecho natural'
+      );
     }
 
     return NextResponse.json({
       ok: true,
       reply,
       routes,
+      suggestions,
       reasoningSteps,
     });
   } catch (err: unknown) {

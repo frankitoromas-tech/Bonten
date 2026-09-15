@@ -68,25 +68,20 @@ export default function Library() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <span className="px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-              📜 Santuario Archival & Bóveda Doctrinal
+          <div className="flex items-center gap-2.5 mb-3 flex-wrap">
+            <span className="px-3 py-1 rounded-full text-xs font-semibold tracking-wide bg-indigo-500/10 text-indigo-400 border border-indigo-500/25">
+              Archivo Doctrinal & Filosófico
             </span>
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono text-emerald-300 bg-emerald-500/15 border border-emerald-400/30">
-              Acceso Libre & Universal
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-200/50 dark:bg-white/5 border border-slate-300/60 dark:border-white/10">
+              {DOCUMENTS.length} Tratados Disponibles
             </span>
           </div>
 
-          <div className="library-kpi-row">
-            <span className="library-kpi-pill">📚 {DOCUMENTS.length} Tratados Doctrinales</span>
-            <span className="library-kpi-pill">⏱️ ~47 min Tiempo de Estudio</span>
-            <span className="library-kpi-pill">🛡️ Rigor Metafísico & Bioético</span>
-          </div>
-          <h2 className="section-title" style={{ color: 'var(--title-color)', textAlign: 'left', marginBottom: '0.4rem' }}>
-            BIBLIOTECA & CORPUS DE RESISTENCIA
+          <h2 className="section-title" style={{ color: 'var(--title-color)', textAlign: 'left', marginBottom: '0.6rem' }}>
+            Biblioteca y Tratados Doctrinales
           </h2>
           <p className="library-subtitle">
-            Tratados de bioética, filosofía clásica, teología y análisis crítico contra el relativismo de la cultura posmoderna. Custodiados por la Mesa Directiva de BONTEN.
+            Tratados de bioética, filosofía clásica, teología y análisis crítico contra el relativismo posmoderno. Una recopilación documental custodiada para el debate razonado y la defensa incondicional de la vida.
           </p>
         </motion.div>
       </div>
@@ -103,9 +98,8 @@ export default function Library() {
           <div className="featured-backdrop" style={{ backgroundImage: `url("${featuredDoc.image}")` }} />
           <div className="featured-content">
             <div className="featured-meta-bar">
-              <span className="featured-badge-fire">🔥 TRATADO INSIGNIA • OBRA CUMBRE</span>
+              <span className="featured-badge-fire">Tratado Destacado • Obra Cumbre</span>
               <span className="featured-pill-time">⏱️ {featuredDoc.readTime} de lectura</span>
-              <span className="featured-pill-level">Nivel: {featuredDoc.level || 'Avanzado'}</span>
             </div>
             <h3 className="featured-title">{featuredDoc.title}</h3>
             <p className="featured-excerpt">{featuredDoc.excerpt}</p>
@@ -144,7 +138,7 @@ export default function Library() {
                   setSelectedDoc(featuredDoc);
                 }}
               >
-                <span>Lectura Inmersiva (con Audio)</span>
+                <span>Lectura Inmersiva</span>
                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
                   <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" />
                 </svg>
@@ -154,7 +148,7 @@ export default function Library() {
                 className="featured-btn-secondary"
                 onClick={playAudioPop}
               >
-                <span>Ver Ensayo Web Completo</span>
+                <span>Leer Ensayo Completo</span>
                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
@@ -266,7 +260,7 @@ export default function Library() {
               }}
               aria-label={`Leer tratado: ${doc.title}`}
             >
-              {/* Portada de Imagen con Badge Flotante */}
+              {/* Portada de Imagen con Metadatos Claros */}
               <div
                 className="doc-cover-wrapper"
                 style={{ backgroundImage: `url("${doc.image}")` }}
@@ -274,13 +268,8 @@ export default function Library() {
                 <div className="doc-cover-overlay" />
                 <div className="doc-cover-badges">
                   <span className="doc-cat-badge">{doc.category}</span>
-                  <span className="doc-time-badge">⏱️ {doc.readTime}</span>
+                  <span className="doc-time-badge">{doc.readTime}</span>
                 </div>
-                {doc.level && (
-                  <span className={`doc-level-pill doc-level-${doc.level.toLowerCase()}`}>
-                    {doc.level}
-                  </span>
-                )}
               </div>
 
               {/* Cuerpo del Documento */}
@@ -317,7 +306,6 @@ export default function Library() {
                       <polyline points="12 5 19 12 12 19" />
                     </svg>
                   </span>
-                  <span className="doc-id-marker">#0{doc.id}</span>
                 </div>
               </div>
             </motion.article>

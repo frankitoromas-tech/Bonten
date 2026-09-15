@@ -15,6 +15,7 @@ interface AssistantMessage {
   sender: 'user' | 'assistant';
   text: string;
   routes?: NavigationRoute[];
+  suggestions?: string[];
   reasoningSteps?: string[];
   isThinking?: boolean;
   activeStep?: string;
@@ -32,14 +33,22 @@ export default function PublicAssistant() {
       id: 'welcome',
       sender: 'assistant',
       text:
-        'Hola, te damos la bienvenida a **BONTEN**. Soy el **Asistente Virtual** de la plataforma.\n\n' +
-        'Puedo orientarte para explorar los tratados de la biblioteca, conocer a los integrantes de la mesa directiva y guiarte por cualquier sección del sitio. ' +
-        '¿En qué tema o sección te gustaría que te oriente?',
+        'Hola, soy **Wilfredo**, la inteligencia artificial analítica, imparcial y complementaria de **BONTEN**.\n\n' +
+        'He sido entrenado para examinar los tratados de la plataforma, los escritos de Fireboy y las contribuciones asimiladas de Luyo. ' +
+        'Puedo asistirte analizando con objetividad cuestiones de **filosofía, ética positiva y negativa, estética, derecho natural frente al positivismo, biología y política**.\n\n' +
+        '¿Qué tema o dilema deseas analizar?',
       routes: [
-        { label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' },
-        { label: 'Biblioteca Doctrinal (6)', href: '#biblioteca-seccion' },
-        { label: 'Mesa Directiva', href: '/integrantes' },
+        { label: 'Tratado de Posmodernidad (Fireboy)', href: '/manifiestos/posmodernidad' },
+        { label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' },
+        { label: 'Diálogo Socrático (Ilan)', href: '/integrantes/ilan' },
         { label: 'Comunidad Provida', href: '/comunidad' },
+      ],
+      suggestions: [
+        '⚖️ Ética positiva vs ética negativa',
+        '🧬 Singamia y genoma del cigoto',
+        '🏛️ Derecho natural vs positivismo de Kelsen',
+        '🎨 Belleza clásica frente al feísmo posmoderno',
+        '🤝 Consultar nexo doctrinal con Luyo',
       ],
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
@@ -201,6 +210,7 @@ export default function PublicAssistant() {
           sender: 'assistant',
           text: data.reply,
           routes: data.routes || [],
+          suggestions: data.suggestions || [],
           reasoningSteps: data.reasoningSteps || [],
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
@@ -225,13 +235,13 @@ export default function PublicAssistant() {
   };
 
   const quickPrompts = [
-    { label: '✨ Axioma de Resistencia', prompt: 'Dame un axioma o cita de resistencia de BONTEN' },
-    { label: '🛡️ Tácticas de Debate', prompt: '¿Cómo debatir y defender la postura provida ante ataques o falacias?' },
-    { label: '📚 Recomendar Tratado', prompt: '¿Qué tratado me recomiendas leer según mi nivel o interés?' },
-    { label: '🔥 Escritos de Fireboy', prompt: '¿Cuáles son todos los escritos y tratados de Fireboy y dónde leerlos?' },
-    { label: '🧬 Bioética: Singamia', prompt: '¿Cuáles son los fundamentos biológicos y ontológicos de la concepción humana?' },
-    { label: '⚖️ Refutar Falacias', prompt: '¿Cómo responde BONTEN desde la ciencia y la ética al argumento de la autonomía corporal?' },
-    { label: '🏺 Mito del Tonel', prompt: 'Explícame la alegoría del tonel agujereado en el Gorgias de Platón y su crítica al hedonismo' },
+    { label: '⚖️ Ética Positiva vs Negativa', prompt: 'Explícame la diferencia entre ética positiva y ética negativa aplicada a la defensa del concebido' },
+    { label: '🏛️ Derecho & Nasciturus', prompt: '¿Por qué el iusnaturalismo defiende que el concebido es sujeto de derecho frente al positivismo kelseniano?' },
+    { label: '🧬 Singamia & Genoma', prompt: '¿Cuáles son los fundamentos biológicos de la singamia y el cigoto frente al lema mi cuerpo mi decisión?' },
+    { label: '🎨 Estética & Belleza', prompt: 'Explícame la estética clásica de la kalokagathía frente al feísmo posmoderno en los tratados' },
+    { label: '🔥 Escritos de Fireboy', prompt: '¿Cuáles son las tesis centrales de La Fractura Posmoderna de Fireboy?' },
+    { label: '🤝 Nexo Doctrinal Luyo', prompt: '¿Cuáles son las contribuciones asimiladas de Luyo en la base doctrinal de Wilfredo?' },
+    { label: '🏺 Mito del Tonel (Ilan)', prompt: 'Explícame la alegoría del tonel agujereado en el Gorgias de Platón y su crítica al hedonismo' },
     { label: '💬 Ágora de Debates', prompt: '¿Cuáles son los debates activos en la plataforma y cómo puedo participar?' },
   ];
 
@@ -279,10 +289,10 @@ export default function PublicAssistant() {
                 <span className="absolute -inset-1 rounded-full bg-sky-400/20 blur-[2px] group-hover:bg-sky-400/40 transition-all" />
               </div>
 
-              {/* Tipografía Ejecutiva & Micro-Badge */}
+              {/* Tipografía Ejecutiva & Micro-Badge de Wilfredo */}
               <div className="flex items-center gap-1.5">
                 <span className="text-[11.5px] font-bold tracking-wider text-slate-200 group-hover:text-white uppercase font-mono">
-                  BONTEN
+                  WILFREDO
                 </span>
                 <span className="text-[9px] px-1 py-0.2 rounded bg-sky-500/20 text-sky-300 font-mono font-semibold border border-sky-400/30">
                   AI
@@ -302,7 +312,7 @@ export default function PublicAssistant() {
           {/* Reflejo Especular Superior */}
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-sky-400/60 to-transparent pointer-events-none" />
 
-          {/* Cabecera del Asistente */}
+          {/* Cabecera de Wilfredo */}
           <div className="p-3.5 sm:p-4 border-b border-slate-800/90 flex items-center justify-between bg-gradient-to-r from-slate-950 via-[#0a142c] to-slate-950 relative">
             <div className="flex items-center gap-2.5">
               <div className="relative w-8 h-8 rounded-xl overflow-hidden border border-sky-400/50 shadow-[0_0_12px_rgba(56,189,248,0.3)]">
@@ -316,13 +326,13 @@ export default function PublicAssistant() {
               </div>
               <div>
                 <h3 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5 flex-wrap">
-                  <span>Asistente BONTEN</span>
+                  <span>Wilfredo • IA BONTEN</span>
                   <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30">
-                    Oficial
+                    Imparcial & Reactivo
                   </span>
                 </h3>
                 <p className="text-[10.5px] text-slate-400">
-                  Orientación de temas y navegación de la plataforma
+                  Filosofía, Bioética, Derecho, Estética & Nexo Luyo
                 </p>
               </div>
             </div>
@@ -438,10 +448,33 @@ export default function PublicAssistant() {
                       </div>
                     )}
 
+                    {/* Sugerencias Analíticas de Wilfredo */}
+                    {!isUser && msg.suggestions && msg.suggestions.length > 0 && (
+                      <div className="mt-3 pt-2.5 border-t border-slate-700/60 space-y-1.5">
+                        <div className="flex items-center gap-1.5 text-[10.5px] font-semibold text-sky-400 font-mono">
+                          <span>💡</span>
+                          <span>Sugerencias Analíticas de Wilfredo:</span>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          {msg.suggestions.map((sug, sIdx) => (
+                            <button
+                              key={sIdx}
+                              type="button"
+                              onClick={() => handleSend(sug.replace(/^💡\s*Sugerencia:\s*/i, ''))}
+                              className="text-left px-2.5 py-1.5 rounded-lg bg-sky-950/40 hover:bg-sky-900/60 border border-sky-500/20 hover:border-sky-400/50 text-slate-300 hover:text-sky-200 text-[11px] transition-all cursor-pointer flex items-center justify-between group/sug"
+                            >
+                              <span>{sug}</span>
+                              <span className="text-[10px] text-sky-400 opacity-0 group-hover/sug:opacity-100 transition-opacity">↵</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     {/* Botón de Copiado de Respuesta */}
                     {!isUser && (
                       <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-slate-700/40 text-[10px]">
-                        <span className="font-mono text-[9px] text-slate-400">BONTEN AI</span>
+                        <span className="font-mono text-[9px] text-slate-400">WILFREDO • BONTEN</span>
                         <button
                           type="button"
                           onClick={() => handleCopyMessage(msg.id, msg.text)}

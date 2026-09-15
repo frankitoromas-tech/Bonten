@@ -75,7 +75,7 @@ export default function Members() {
         <span>Equipo BONTEN</span>
       </motion.div>
 
-      <section className="admin-directory" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', width: '100%', marginBottom: '4rem' }}>
+      <section className="admin-directory" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem', width: '100%', marginBottom: '5.5rem' }}>
         {ADMINS.map((person, idx) => (
           <motion.article 
             key={idx} 

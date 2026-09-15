@@ -14,7 +14,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="admin-shell selection:bg-sky-500 selection:text-white">
       <AdminHeader />
-      <main className="max-w-7xl mx-auto px-4 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-14">
         {children}
       </main>
     </div>

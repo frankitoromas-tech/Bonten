@@ -38,26 +38,43 @@ export function AdminDashboard({ initialMetadata, initialDocuments, initialDebat
     }
   };
 
+  const tabDescriptions: Record<TabKey, string> = {
+    copilot: 'Asistente inteligente con auditoría de seguridad para redactar y consultar doctrinas.',
+    metadata: 'Gestión de manifiesto, estadísticas de la comunidad y valores fundacionales.',
+    debates: 'Moderación de debates comunitarios, argumentos y réplicas en vivo.',
+    library: 'Catálogo canónico de tratados, documentos y bibliografía apologética.',
+    team: 'Directorio de la mesa directiva, administradores y permisos RBAC.',
+    security: 'Monitoreo perimetral en tiempo real, bloqueo de inyecciones y registros de auditoría.',
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Segmented Dock Navigation */}
-      <div className="flex justify-center sm:justify-start">
-        <nav className="admin-dock" aria-label="Secciones de administración">
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              type="button"
-              onClick={() => handleTabChange(tab.key)}
-              className={`admin-dock-item ${activeTab === tab.key ? 'active' : ''}`}
-            >
-              <span className="text-sm">{tab.icon}</span>
-              <span>{tab.label}</span>
-            </button>
-          ))}
-        </nav>
+    <div className="space-y-8 sm:space-y-10">
+      {/* Segmented Dock Navigation con márgenes holgados */}
+      <div className="space-y-3">
+        <div className="flex justify-center sm:justify-start overflow-x-auto no-scrollbar py-1">
+          <nav className="admin-dock" aria-label="Secciones de administración">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => handleTabChange(tab.key)}
+                className={`admin-dock-item ${activeTab === tab.key ? 'active' : ''}`}
+              >
+                <span className="text-base">{tab.icon}</span>
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </nav>
+        </div>
+
+        {/* Guía contextual minimalista y sencilla */}
+        <p className="text-xs text-[var(--text-muted)] flex items-center gap-1.5 pl-1">
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-500" />
+          {tabDescriptions[activeTab]}
+        </p>
       </div>
 
-      {/* Content Area */}
+      {/* Content Area con respiración visual */}
       <div className="transition-all duration-300">
         {activeTab === 'copilot' && (
           <AdminCopilot onMetadataUpdated={(updated) => setMetadata(updated)} />

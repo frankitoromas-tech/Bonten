@@ -96,7 +96,6 @@ export default function DebateCard({ debate, index, onSelect }: DebateCardProps)
             <span className="w-2 h-2 rounded-full bg-rose-400 shadow-[0_0_6px_#f43f5e]" />
           </div>
         </div>
-
         <div className="h-2 w-full bg-slate-800/80 rounded-full overflow-hidden flex gap-[2px] p-[1px]">
           <div
             style={{ width: `${ratio.proPercent}%` }}
@@ -108,7 +107,6 @@ export default function DebateCard({ debate, index, onSelect }: DebateCardProps)
           />
         </div>
       </div>
-
       <div className="flex items-center justify-between pt-1">
         <span className="btn-outline inline-flex items-center gap-1.5 text-xs font-bold group-hover:border-sky-400 group-hover:text-sky-300 transition-all">
           <span>Ingresar a la Dialéctica</span>

@@ -54,6 +54,13 @@ export function getAuthorProfile(authorName: string): AuthorProfile {
       avatar: '/assets/avatar_ana_1781465403711.webp',
     };
   }
+  if (norm.includes('luyo')) {
+    return {
+      name: 'Luyo',
+      role: 'Investigador Doctrinal • Filosofía, Bioética & Derecho',
+      avatar: '/LOGO_BONTEN_V2.jpeg',
+    };
+  }
   if (norm.includes('directiva') || norm.includes('comité') || norm.includes('editorial') || norm.includes('bonten')) {
     return {
       name: authorName,

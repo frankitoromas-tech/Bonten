@@ -29,36 +29,36 @@ export default function FireboyCorpus({ member }: FireboyCorpusProps) {
   };
 
   return (
-    <section className="mt-8 space-y-6">
-      {/* Encabezado del Corpus Editorial */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900/90 via-[#0a1226]/95 to-slate-950 border border-amber-500/30 shadow-[0_10px_40px_-15px_rgba(245,158,11,0.2)] backdrop-blur-2xl relative overflow-hidden">
-        {/* Glow Superior */}
-        <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+    <section className="mt-12 sm:mt-16 space-y-8 sm:space-y-10">
+      {/* Encabezado del Corpus Editorial con amplios márgenes y serenidad visual */}
+      <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/80 border border-slate-800/90 shadow-2xl backdrop-blur-2xl relative overflow-hidden">
+        {/* Hairline de acento superior */}
+        <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-amber-400/50 to-transparent" />
 
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <span className="px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider uppercase bg-amber-500/20 text-amber-300 border border-amber-400/40">
-                🔥 Corpus Editorial & Tratados Canónicos
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
+              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase bg-amber-500/10 text-amber-300 border border-amber-500/20">
+                🔥 Corpus Filosófico Canónico
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono text-slate-400 bg-slate-800/60 border border-slate-700/60">
+              <span className="px-3 py-1 rounded-full text-xs font-mono text-slate-400 bg-slate-800/60 border border-slate-700/60">
                 4 Obras Catalogadas
               </span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              Escritos & Pensamiento de Fireboy
+              Pensamiento & Obras de Fireboy
             </h2>
-            <p className="text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
-              Archivo completo y ordenado de los tratados filosóficos, ensayos apologéticos y manifiestos ontológicos redactados por el Líder Fundador de BONTEN.
+            <p className="text-sm text-slate-300 mt-2 max-w-2xl leading-relaxed">
+              Archivo canónico de tratados ontológicos, bioética y manifiestos redactados por el Líder Fundador de BONTEN.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 self-start md:self-auto">
+          <div className="flex items-center gap-3 self-start md:self-auto">
             <Link
               href="/manifiestos/posmodernidad"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/25 transition-all duration-200 hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 transition-all duration-200"
             >
-              <span>Ver Tratado Cumbre Web</span>
+              <span>Ver Tratado Cumbre</span>
               <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <polyline points="12 5 19 12 12 19" />
@@ -67,27 +67,27 @@ export default function FireboyCorpus({ member }: FireboyCorpusProps) {
           </div>
         </div>
 
-        {/* Pestañas de Navegación del Corpus */}
-        <div className="flex items-center gap-2 mt-6 pt-5 border-t border-slate-800/80 overflow-x-auto no-scrollbar">
+        {/* Pestañas de Navegación del Corpus con espaciado amplio */}
+        <div className="flex items-center gap-3 mt-8 pt-6 border-t border-slate-800/80 overflow-x-auto no-scrollbar">
           {[
-            { id: 'insignia', label: '📜 1. La Fractura Posmoderna', tag: 'Obra Cumbre (12 min)' },
-            { id: 'apologetica', label: '⚔️ 2. Resistencia Intelectual', tag: 'Ensayo (4 min)' },
-            { id: 'biblioteca', label: '🏛️ 3. Cultura de la Muerte', tag: 'Biblioteca #1' },
-            { id: 'manifiesto', label: '🛡️ 4. Manifiesto de Resistencia NG', tag: 'Doctrina (5 min)' },
+            { id: 'insignia', label: '1. La Fractura Posmoderna', tag: 'Obra Cumbre (12 min)' },
+            { id: 'apologetica', label: '2. Resistencia Intelectual', tag: 'Ensayo (4 min)' },
+            { id: 'biblioteca', label: '3. Cultura de la Muerte', tag: 'Bioética' },
+            { id: 'manifiesto', label: '4. Manifiesto NG', tag: 'Doctrina (5 min)' },
           ].map((tab) => {
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                className={`shrink-0 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 border ${
+                className={`shrink-0 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer flex items-center gap-2 border ${
                   isActive
-                    ? 'bg-amber-500/20 text-amber-200 border-amber-400/60 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
-                    : 'bg-slate-900/60 text-slate-400 border-slate-800/70 hover:bg-slate-800/80 hover:text-slate-200'
+                    ? 'bg-amber-500/15 text-amber-200 border-amber-400/50 shadow-md'
+                    : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:bg-slate-800/70 hover:text-slate-200'
                 }`}
               >
                 <span>{tab.label}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded font-mono ${isActive ? 'bg-amber-400/30 text-amber-100' : 'bg-slate-800 text-slate-500'}`}>
+                <span className={`text-[10px] px-2 py-0.5 rounded font-mono ${isActive ? 'bg-amber-400/20 text-amber-200' : 'bg-slate-800 text-slate-400'}`}>
                   {tab.tag}
                 </span>
               </button>
@@ -106,7 +106,7 @@ export default function FireboyCorpus({ member }: FireboyCorpusProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.3 }}
-            className="p-6 sm:p-8 rounded-3xl bg-slate-900/75 border border-amber-500/25 shadow-xl backdrop-blur-xl relative overflow-hidden"
+            className="p-8 sm:p-12 rounded-3xl bg-slate-900/80 border border-amber-500/20 shadow-2xl backdrop-blur-xl relative overflow-hidden space-y-6 sm:space-y-8"
           >
             <div className="flex flex-col lg:flex-row gap-6 items-start">
               <div className="relative w-full lg:w-72 h-48 sm:h-56 rounded-2xl overflow-hidden border border-amber-400/30 shrink-0">
@@ -206,7 +206,7 @@ export default function FireboyCorpus({ member }: FireboyCorpusProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.3 }}
-            className="p-6 sm:p-8 rounded-3xl bg-slate-900/75 border border-sky-500/25 shadow-xl backdrop-blur-xl space-y-5"
+            className="p-8 sm:p-12 rounded-3xl bg-slate-900/80 border border-sky-500/20 shadow-2xl backdrop-blur-xl space-y-6 sm:space-y-8"
           >
             <div className="flex items-center justify-between gap-4 flex-wrap pb-4 border-b border-slate-800">
               <div className="flex items-center gap-2 flex-wrap">
@@ -283,7 +283,7 @@ export default function FireboyCorpus({ member }: FireboyCorpusProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.3 }}
-            className="p-6 sm:p-8 rounded-3xl bg-slate-900/75 border border-purple-500/25 shadow-xl backdrop-blur-xl space-y-5"
+            className="p-8 sm:p-12 rounded-3xl bg-slate-900/80 border border-purple-500/20 shadow-2xl backdrop-blur-xl space-y-6 sm:space-y-8"
           >
             <div className="flex items-center justify-between gap-4 flex-wrap pb-4 border-b border-slate-800">
               <div className="flex items-center gap-2 flex-wrap">
@@ -364,7 +364,7 @@ export default function FireboyCorpus({ member }: FireboyCorpusProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.3 }}
-            className="p-6 sm:p-8 rounded-3xl bg-slate-900/75 border border-emerald-500/25 shadow-xl backdrop-blur-xl space-y-5"
+            className="p-8 sm:p-12 rounded-3xl bg-slate-900/80 border border-emerald-500/20 shadow-2xl backdrop-blur-xl space-y-6 sm:space-y-8"
           >
             <div className="flex items-center justify-between gap-4 flex-wrap pb-4 border-b border-slate-800">
               <div className="flex items-center gap-2 flex-wrap">
@@ -428,8 +428,8 @@ export default function FireboyCorpus({ member }: FireboyCorpusProps) {
         )}
       </AnimatePresence>
 
-      {/* Redes Oficiales y Presencia de Fireboy */}
-      <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* Redes Oficiales y Presencia de Fireboy con espaciado amplio */}
+      <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-5 mt-10 sm:mt-12">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl overflow-hidden border border-amber-400/40 shrink-0">
             <Image

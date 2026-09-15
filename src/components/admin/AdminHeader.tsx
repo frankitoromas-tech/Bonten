@@ -47,17 +47,12 @@ export function AdminHeader() {
               <span className="font-bold text-sm tracking-tight text-[var(--title-color)]">
                 BONTEN
               </span>
-              <span className="badge-premium badge-magenta-neon text-[10px] !py-0.5 !px-2">
-                <span className="badge-emoji-halo">⚡</span>
-                NG
-              </span>
-              <span className="badge-premium badge-royal-sapphire text-[10px] !py-0.5 !px-2">
-                <span className="badge-emoji-halo">🛡️</span>
-                Admin
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/25">
+                Panel Administrativo
               </span>
             </div>
             <p className="text-[11px] text-[var(--text-muted)] hidden sm:block">
-              Centro de Control Inteligente
+              Centro de Control & Gobernanza Doctrinal
             </p>
           </div>
         </Link>
