@@ -15,6 +15,7 @@ dist-ssr
 # Next.js
 /.next/
 /out/
+/.worktrees/
 next-env.d.ts
 *.tsbuildinfo
 
