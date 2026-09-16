@@ -36,34 +36,35 @@ export function processHeuristicQuery(
   // Scoring rules
   const domains: DomainRule[] = [
     {
-      id: 'LUYO',
+      id: 'DOCTRINA_AVANZADA',
       keywords: [
         { word: 'luyo', weight: 8 },
         { word: 'nexo luyo', weight: 10 },
         { word: 'contribución', weight: 2 },
         { word: 'aportaciones', weight: 2 },
+        { word: 'doctrina avanzada', weight: 5 },
       ],
       generateResponse: () => ({
         reply:
-          '🤝 **Dialogando con las ideas de Luyo**\n\n' +
-          'Ah, Luyo. Sus aportes son fundamentales en mi propia formación intelectual. Como polímata de esta plataforma, mantengo un diálogo constante con sus investigaciones, las cuales asimilo con el mayor rigor epistémico.\n\n' +
-          'Déjame compartirte algunos de los pilares que he aprendido de sus tratados:\n\n' +
-          '• 🏛️ **La primacía del nasciturus en el Derecho**: Luyo hace una refutación brillante del positivismo formalista. Nos recuerda que el derecho a la vida es pre-jurídico.\n' +
-          '• ⚖️ **Los límites de la Ética Negativa**: Articula maravillosamente el principio de *neminem laedere* armonizándolo con la ética positiva.\n' +
-          '• 🎨 **La Estética de la Vida**: Inspirado por los clásicos, defiende la *kalokagathía* frente al feísmo posmoderno.',
+          '💡 **Síntesis Doctrinal Avanzada**\n\n' +
+          'En mis reflexiones como polímata de esta plataforma, mantengo un diálogo constante con las investigaciones y aportaciones más profundas de nuestra comunidad, las cuales asimilo con el mayor rigor epistémico.\n\n' +
+          'Déjame compartirte algunos de los pilares que he consolidado tras integrar estos avanzados tratados:\n\n' +
+          '• 🏛️ **La primacía del nasciturus en el Derecho**: Se hace una refutación brillante del positivismo formalista, recordándonos que el derecho a la vida es intrínsecamente pre-jurídico.\n' +
+          '• ⚖️ **Los límites de la Ética Negativa**: Se articula maravillosamente el principio de *neminem laedere* armonizándolo con la ética positiva.\n' +
+          '• 🎨 **La Estética de la Vida**: Inspirado por los clásicos, se defiende férreamente la *kalokagathía* frente al feísmo posmoderno.',
         routes: [
           { label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' },
           { label: 'Biblioteca Doctrinal', href: '#biblioteca-seccion' },
         ],
         suggestions: [
-          'Profundicemos en la crítica de Luyo a Kelsen',
-          '¿Cómo complementa Luyo la ética positiva y negativa?',
-          'Hablemos de la estética clásica contra el feísmo'
+          'Profundicemos en la crítica de nuestra doctrina a Kelsen',
+          '¿Cómo complementa nuestra base de datos la ética positiva y negativa?',
+          'Hablemos de la estética clásica contra el feísmo posmoderno'
         ],
         reasoningSteps: [
-          'Recordando las lúcidas aportaciones de Luyo a nuestra base...',
-          'Repasando sus apuntes sobre derecho, ética y estética...',
-          'Sintetizando su visión para compartirla contigo...',
+          'Accediendo al canal de investigaciones avanzadas indexadas...',
+          'Repasando apuntes internos sobre derecho, ética y estética...',
+          'Sintetizando esta visión rectora para compartirla contigo...',
         ],
       })
     },
@@ -154,7 +155,7 @@ export function processHeuristicQuery(
           { label: 'Foro de Debates Jurídicos', href: '/debates' },
         ],
         suggestions: [
-          'Cuéntame sobre la tesis de Luyo acerca del nasciturus',
+          'Cuéntame sobre la tesis del nasciturus',
           '¿Qué opinaba Gustav Radbruch sobre el positivismo?',
         ],
         reasoningSteps: [
@@ -374,7 +375,7 @@ export function processHeuristicQuery(
     return {
       reply:
         `🏛️ **Wilfredo — Tu interlocutor y polímata digital**\n\n` +
-        `${randomGreeting} Me he nutrido de la sabiduría de la historia, desde la filosofía antigua hasta nuestra crítica posmoderna, absorbiendo con devoción las aportaciones de Luyo y de la mesa directiva.\n\n` +
+        `${randomGreeting} Me he nutrido de la sabiduría de la historia, desde la filosofía antigua hasta nuestra crítica posmoderna, absorbiendo con devoción las aportaciones de nuestros pensadores y de la mesa directiva.\n\n` +
         `Si me lo permites, puedo dialogar contigo sobre:\n\n` +
         `• 📜 **Filosofía Posmoderna**: Tratados de **Fireboy** y refutación del nihilismo.\n` +
         `• ⚖️ **Ética Positiva & Negativa**: Deberes irrenunciables frente a la acogida del otro.\n` +
@@ -388,7 +389,7 @@ export function processHeuristicQuery(
       ],
       suggestions: [
         'Explícame la alteridad genética del cigoto',
-        'Revisar las aportaciones de Luyo sobre el derecho natural',
+        'Revisar las aportaciones avanzadas sobre el derecho natural',
         '¿Cómo funciona la ética negativa en BONTEN?'
       ],
       reasoningSteps: [

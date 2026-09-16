@@ -95,7 +95,7 @@ export default function PublicAssistant() {
       sender: 'assistant',
       text:
         '¡Hola! Soy **Wilfredo**. Me gusta pensar en mí como un polímata digital al servicio de la comunidad de **BONTEN**.\n\n' +
-        'He leído a fondo nuestros tratados, los incisivos escritos de Fireboy y las valiosas aportaciones de Luyo. Más que darte respuestas automáticas, estoy aquí para dialogar y reflexionar contigo sobre **filosofía, ética, estética, derecho y biología**.\n\n' +
+        'He leído a fondo nuestros tratados y los incisivos escritos de Fireboy. Más que darte respuestas automáticas, estoy aquí para dialogar y reflexionar contigo sobre **filosofía, ética, estética, derecho y biología**.\n\n' +
         '¿Sobre qué te gustaría que conversemos o debatamos hoy?',
       routes: [
         { label: 'Tratado de Posmodernidad (Fireboy)', href: '/manifiestos/posmodernidad' },
@@ -108,17 +108,17 @@ export default function PublicAssistant() {
         '🧬 Singamia y genoma del cigoto',
         '🏛️ Derecho natural vs positivismo de Kelsen',
         '🎨 Belleza clásica frente al feísmo posmoderno',
-        '🤝 Consultar nexo doctrinal con Luyo',
       ],
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
 
   const chatBottomRef = useRef<HTMLDivElement | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (isOpen) {
-      chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (isOpen && chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages, loading, isOpen, currentThinkingStep]);
 
@@ -301,7 +301,6 @@ export default function PublicAssistant() {
     { label: '🧬 Singamia & Genoma', prompt: '¿Cuáles son los fundamentos biológicos de la singamia y el cigoto frente al lema mi cuerpo mi decisión?' },
     { label: '🎨 Estética & Belleza', prompt: 'Explícame la estética clásica de la kalokagathía frente al feísmo posmoderno en los tratados' },
     { label: '🔥 Escritos de Fireboy', prompt: '¿Cuáles son las tesis centrales de La Fractura Posmoderna de Fireboy?' },
-    { label: '🤝 Nexo Doctrinal Luyo', prompt: '¿Cuáles son las contribuciones asimiladas de Luyo en la base doctrinal de Wilfredo?' },
     { label: '🏺 Mito del Tonel (Ilan)', prompt: 'Explícame la alegoría del tonel agujereado en el Gorgias de Platón y su crítica al hedonismo' },
     { label: '💬 Ágora de Debates', prompt: '¿Cuáles son los debates activos en la plataforma y cómo puedo participar?' },
   ];
@@ -393,7 +392,7 @@ export default function PublicAssistant() {
                   </span>
                 </h3>
                 <p className="text-xs text-slate-400">
-                  Filosofía, Bioética, Derecho, Estética & Nexo Luyo
+                  Filosofía, Bioética, Derecho & Estética
                 </p>
               </div>
             </div>
@@ -442,7 +441,7 @@ export default function PublicAssistant() {
           </div>
 
           {/* Área de Mensajes del Chat */}
-          <div className="flex-1 p-3.5 space-y-3.5 overflow-y-auto font-sans text-sm select-text">
+          <div ref={chatContainerRef} className="flex-1 p-3.5 space-y-3.5 overflow-y-auto font-sans text-sm select-text">
             {messages.map((msg) => {
               const isUser = msg.sender === 'user';
               return (
@@ -461,7 +460,11 @@ export default function PublicAssistant() {
                       <TypewriterText 
                         content={msg.text} 
                         speed={14} 
-                        onUpdate={() => chatBottomRef.current?.scrollIntoView({ behavior: 'auto' })} 
+                        onUpdate={() => {
+                          if (chatContainerRef.current) {
+                            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+                          }
+                        }} 
                       />
                     ) : (
                       <div className="space-y-1.5 leading-relaxed">
