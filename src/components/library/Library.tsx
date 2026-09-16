@@ -19,6 +19,7 @@ const CATEGORIES = [
 
 export default function Library() {
   const [selectedDoc, setSelectedDoc] = useState<LibraryDocument | null>(null);
+  const [autoPlayAudio, setAutoPlayAudio] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('Todas');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -136,6 +137,7 @@ export default function Library() {
                 className="featured-btn-primary"
                 onClick={() => {
                   playAudioPop();
+                  setAutoPlayAudio(true);
                   setSelectedDoc(featuredDoc);
                 }}
               >
@@ -243,6 +245,7 @@ export default function Library() {
               className="editorial-doc-card"
               onClick={() => {
                 playAudioPop();
+                setAutoPlayAudio(false);
                 setSelectedDoc(doc);
               }}
               role="button"
@@ -256,6 +259,7 @@ export default function Library() {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
                   playAudioPop();
+                  setAutoPlayAudio(false);
                   setSelectedDoc(doc);
                 }
               }}
@@ -334,10 +338,17 @@ export default function Library() {
 
       {/* Lector Modal Inmersivo */}
       <AnimatePresence>
-        {selectedDoc && <DocumentReader document={selectedDoc} onClose={() => setSelectedDoc(null)} />}
+        {selectedDoc && (
+          <DocumentReader
+            document={selectedDoc}
+            autoPlayAudio={autoPlayAudio}
+            onClose={() => {
+              setSelectedDoc(null);
+              setAutoPlayAudio(false);
+            }}
+          />
+        )}
       </AnimatePresence>
     </section>
   );
 }
-
-

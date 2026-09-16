@@ -20,9 +20,10 @@ function getAuthorSlug(author: string) {
 interface DocumentReaderProps {
   document: LibraryDocument | null;
   onClose: () => void;
+  autoPlayAudio?: boolean;
 }
 
-export default function DocumentReader({ document: doc, onClose }: DocumentReaderProps) {
+export default function DocumentReader({ document: doc, onClose, autoPlayAudio = false }: DocumentReaderProps) {
   const [fontSize, setFontSize] = useState(1.1); // en rem
   const [copied, setCopied] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
@@ -36,6 +37,25 @@ export default function DocumentReader({ document: doc, onClose }: DocumentReade
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (autoPlayAudio && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      setTimeout(() => {
+        if (!isPlayingAudio) {
+          window.speechSynthesis.cancel();
+          const plainText = `${doc?.title}. ${doc?.content.map((p) => p.replace(/<[^>]*>/g, '')).join('. ')}`;
+          const utterance = new SpeechSynthesisUtterance(plainText);
+          utterance.lang = 'es-ES';
+          utterance.rate = 1.0;
+          utterance.onend = () => setIsPlayingAudio(false);
+          utterance.onerror = () => setIsPlayingAudio(false);
+          window.speechSynthesis.speak(utterance);
+          setIsPlayingAudio(true);
+          showToast('Reproduciendo audio del manifiesto...', 'info');
+        }
+      }, 500);
+    }
+  }, [autoPlayAudio, doc]);
 
   // Cierre con Escape + bloqueo de scroll del fondo mientras el modal está abierto.
   useEffect(() => {
