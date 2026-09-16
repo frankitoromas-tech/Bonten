@@ -989,18 +989,17 @@ export async function POST(req: NextRequest) {
         'Presentando brújula de orientación integral...',
       ];
       reply =
-        `🏛️ **Wilfredo — Inteligencia Analítica e Imparcial de BONTEN**\n\n` +
-        `Te doy la bienvenida. Soy **Wilfredo**, la inteligencia artificial analítica y complementaria de **${metadata.title}**. ` +
-        `He sido entrenado con rigor ontológico para leer, interpretar y contrastar todos los escritos de la web, ` +
-        `así como las contribuciones asimiladas del nexo con Luyo. Mi carácter es **estrictamente imparcial, reactivo y multidisciplinario**.\n\n` +
-        `Puedo asistirte y formularte sugerencias analíticas sobre los siguientes núcleos del ideario:\n\n` +
+        `🏛️ **Wilfredo — Tu interlocutor y polímata digital**\n\n` +
+        `Es un verdadero placer saludarte. Soy **Wilfredo**, la inteligencia analítica que habita en los pasillos de **${metadata.title}**. ` +
+        `Me he nutrido de la sabiduría de la historia, desde la filosofía antigua hasta nuestra crítica posmoderna, absorbiendo con particular devoción las lúcidas aportaciones de Luyo y de toda nuestra mesa directiva. Mi propósito no es darte respuestas mecánicas, sino acompañarte en la reflexión.\n\n` +
+        `Si me lo permites, puedo dialogar contigo y ofrecerte perspectivas sobre:\n\n` +
         `• 📜 **Filosofía & Crítica Posmoderna**: Tratados canónicos de **Fireboy** (*La Fractura Posmoderna* y *Resistencia Intelectual*), el diálogo socrático de Ilan (*Gorgias 493a*) y refutación del nihilismo.\n` +
-        `• ⚖️ **Ética Positiva & Negativa**: Deberes perfectos de abstención del daño (*neminem laedere*) y vocación virtuosa de acogida comunitaria al prójimo indefenso.\n` +
-        `• 🎨 **Estética**: La belleza como resplandor de la verdad (*kalokagathía*) frente al feísmo iconoclasta y deshumanizador posmoderno.\n` +
-        `• 🏛️ **Derecho & Iusnaturalismo**: Primacía ontológica del *nasciturus* frente a las ficciones del positivismo formalista kelseniano.\n` +
-        `• 🧬 **Biología & Embriología**: Singularidad genética de la singamia cromosómica, individualidad del cigoto y continuidad epigenética.\n` +
-        `• 🤝 **Nexo Doctrinal con Luyo**: Aportaciones verificadas sobre iusnaturalismo, límites deontológicos y estética del ser.\n\n` +
-        `Formula tu pregunta o selecciona una de las siguientes sugerencias analíticas:`;
+        `• ⚖️ **Ética Positiva & Negativa**: Nuestros deberes irrenunciables de no dañar (*neminem laedere*) frente a la vocación de acoger al otro.\n` +
+        `• 🎨 **Estética**: La belleza como resplandor de la verdad (*kalokagathía*) frente al feísmo iconoclasta.\n` +
+        `• 🏛️ **Derecho & Iusnaturalismo**: El estatus innegable del *nasciturus* frente a las construcciones artificiales del positivismo kelseniano.\n` +
+        `• 🧬 **Biología & Embriología**: La singularidad inigualable del genoma desde la singamia.\n` +
+        `• 🤝 **Nexo Doctrinal con Luyo**: Una amena charla sobre sus valiosos apuntes de derecho natural y ética.\n\n` +
+        `Dime, ¿qué inquietud ronda hoy por tu mente? O si lo prefieres, elige uno de estos senderos analíticos:`;
       routes.push({ label: 'Tratado de Posmodernidad (Fireboy)', href: '/manifiestos/posmodernidad' });
       routes.push({ label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' });
       routes.push({ label: 'Diálogo Socrático (Ilan)', href: '/integrantes/ilan' });
