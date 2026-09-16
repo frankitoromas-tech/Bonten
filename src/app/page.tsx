@@ -4,6 +4,9 @@ import Hero from '@/components/home/Hero';
 import Library from '@/components/library/Library';
 import Newsletter from '@/components/home/Newsletter';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: 'Inicio',
   description:
