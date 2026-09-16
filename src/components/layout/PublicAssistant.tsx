@@ -427,7 +427,7 @@ export default function PublicAssistant() {
           </div>
 
           {/* Chips de Consultas Frecuentes */}
-          <div className="px-3 py-2 bg-slate-950/60 border-b border-slate-800/80 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-xs">
+          <div className="px-3 py-2 bg-slate-950/60 border-b border-slate-800/80 flex flex-wrap items-center gap-1.5 text-xs">
             {quickPrompts.map((q, idx) => (
               <button
                 key={idx}
@@ -600,7 +600,7 @@ export default function PublicAssistant() {
           </div>
 
           {/* Fila de Sugerencias Rápidas / Prompt Chips */}
-          <div className="px-3 py-2 bg-slate-950/60 border-t border-slate-800/60 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+          <div className="px-3 py-2 bg-slate-950/60 border-t border-slate-800/60 flex flex-wrap items-center gap-1.5">
             {[
               '✨ Axioma de Resistencia',
               '🛡️ Tácticas de Debate',
