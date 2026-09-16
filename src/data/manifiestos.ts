@@ -24,6 +24,7 @@ export const MANIFIESTOS: Manifiesto[] = [
     title: 'Fundamentos del Bloque Provida',
     summary:
       'Una exégesis sobre por qué la resistencia contemporánea requiere una base sólida en principios inmutables.',
+    isReferential: true,
     content: [
       'La resistencia sin fundamento es mera reacción. <strong>BONTEN parte de principios que no se negocian con la moda del siglo</strong>: la dignidad de la vida, la autoridad de las escrituras y la responsabilidad de custodiar la verdad.',
       '<blockquote>No construimos sobre arena. Construimos sobre la roca de aquello que ha resistido siglos de embate cultural.</blockquote>',
@@ -36,6 +37,7 @@ export const MANIFIESTOS: Manifiesto[] = [
     title: 'La Ética en la Era de la Desinformación',
     summary:
       'Cómo mantener el criterio de verdad cuando las estructuras mediáticas dictan lo contrario.',
+    isReferential: true,
     content: [
       'Vivimos rodeados de ruido. La desinformación no es solo falsedad: es la erosión sistemática de la capacidad de discernir. <strong>Nuestra ética empieza por recuperar el criterio.</strong>',
       'Frente al relativismo que iguala toda opinión, sostenemos que existen axiomas morales objetivos. No todo vale, y no toda narrativa merece el mismo peso.',

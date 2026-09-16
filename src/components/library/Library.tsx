@@ -100,6 +100,7 @@ export default function Library() {
             <div className="featured-meta-bar">
               <span className="featured-badge-fire">Tratado Destacado • Obra Cumbre</span>
               <span className="featured-pill-time">⏱️ {featuredDoc.readTime} de lectura</span>
+              {featuredDoc.isReferential && <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-800 text-slate-400 uppercase tracking-wider border border-slate-700">Referencial</span>}
             </div>
             <h3 className="featured-title">{featuredDoc.title}</h3>
             <p className="featured-excerpt">{featuredDoc.excerpt}</p>
@@ -269,6 +270,7 @@ export default function Library() {
                 <div className="doc-cover-badges">
                   <span className="doc-cat-badge">{doc.category}</span>
                   <span className="doc-time-badge">{doc.readTime}</span>
+                  {doc.isReferential && <span className="doc-cat-badge !bg-slate-800/80 !text-slate-300 !border-slate-600/50">Referencial</span>}
                 </div>
               </div>
 

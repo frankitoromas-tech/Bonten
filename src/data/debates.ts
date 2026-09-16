@@ -11,6 +11,7 @@ export const INITIAL_DEBATES: Debate[] = [
     tag: 'Sociedad',
     commentsCount: 3,
     voters: 45,
+    isReferential: true,
     arguments: [
       {
         id: 101,
@@ -55,6 +56,7 @@ export const INITIAL_DEBATES: Debate[] = [
     tag: 'Apologética',
     commentsCount: 2,
     voters: 38,
+    isReferential: true,
     arguments: [
       {
         id: 201,
@@ -88,6 +90,7 @@ export const INITIAL_DEBATES: Debate[] = [
     tag: 'Teología',
     commentsCount: 1,
     voters: 22,
+    isReferential: true,
     arguments: [
       {
         id: 301,

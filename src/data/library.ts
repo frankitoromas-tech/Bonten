@@ -3,7 +3,7 @@ import type { LibraryDocument } from '@/types';
 export const DOCUMENTS: LibraryDocument[] = [
   {
     id: 1,
-    title: 'El Bullying como Fenómeno Normativo del Cuerpo en la Posmodernidad',
+    title: 'El bullying como fenómeno normativo del cuerpo',
     category: 'Posmodernidad & Biopolítica',
     author: 'Fireboy (Fundador BONTEN)',
     readTime: '15 min',
@@ -25,6 +25,7 @@ export const DOCUMENTS: LibraryDocument[] = [
     author: 'Mesa Directiva BONTEN',
     readTime: '5 min',
     level: 'Esencial',
+    isReferential: true,
     image: '/assets/lib_docs_1781465368328.webp',
     excerpt: 'Nuestra postura axiomática frente a la relativización de la existencia biológica y moral. El concebido no es una mera hipótesis; es un sujeto biológico y ontológicamente completo.',
     content: [
@@ -41,6 +42,7 @@ export const DOCUMENTS: LibraryDocument[] = [
     author: 'Ilan (Consejo Doctrinal)',
     readTime: '8 min',
     level: 'Intermedio',
+    isReferential: true,
     image: '/assets/b2.jpeg',
     excerpt: 'Examen de la mercantilización genética y las derivas eugenésicas contemporáneas a la luz de los cuatro principios rectores de la bioética personalista ontológicamente fundada.',
     content: [
@@ -57,6 +59,7 @@ export const DOCUMENTS: LibraryDocument[] = [
     author: 'Daniel (Formación Académica)',
     readTime: '7 min',
     level: 'Intermedio',
+    isReferential: true,
     image: '/assets/b4.jpeg',
     excerpt: 'La lección imperecedera de Sócrates a Calicles sobre la ilusión del placer sin límites. Por qué el hedonismo moderno es una condena a cargar agua en un cántaro con orificios.',
     content: [
@@ -73,6 +76,7 @@ export const DOCUMENTS: LibraryDocument[] = [
     author: 'Ana L. (Área Teológica)',
     readTime: '6 min',
     level: 'Intermedio',
+    isReferential: true,
     image: '/assets/lib_types_1781465379712.webp',
     excerpt: 'El estudio sistemático y la hermenéutica gramático-histórica como escudo frente al relativismo deconstructivo que pretende licuar el canon sagrado.',
     content: [
@@ -89,6 +93,7 @@ export const DOCUMENTS: LibraryDocument[] = [
     author: 'Comité Editorial BONTEN',
     readTime: '9 min',
     level: 'Avanzado',
+    isReferential: true,
     image: '/assets/b3.jpeg',
     excerpt: 'Una articulación dialéctica entre las tesis de Michel Foucault, Giorgio Agamben y Zygmunt Bauman sobre los mecanismos estatales que decretan qué vidas merecen ser lloradas.',
     content: [

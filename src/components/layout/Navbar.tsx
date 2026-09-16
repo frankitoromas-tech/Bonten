@@ -258,6 +258,18 @@ export default function Navbar() {
               )}
             </motion.button>
 
+            <Link
+              href="/auth/login"
+              className="theme-toggle"
+              aria-label="Iniciar Sesión"
+              title="Acceso Miembros / Admin"
+            >
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </Link>
+
             <button
               className="menu-btn"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -341,6 +353,26 @@ export default function Navbar() {
                     </motion.div>
                   );
                 })}
+
+                <motion.div
+                  initial={{ opacity: 0, x: -15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: NAV_LINKS.length * 0.06 }}
+                >
+                  <Link
+                    href="/auth/login"
+                    className={`mobile-nav-link ${isCurrentActive('/auth/login') ? 'active' : ''}`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <span className="mobile-link-icon flex items-center justify-center">
+                      <svg viewBox="0 0 24 24" width="17" height="17" className="nav-svg-icon drop-shadow-[0_0_8px_rgba(56,189,248,0.55)]">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="#38bdf8" strokeWidth="1.6" fill="none" />
+                        <circle cx="12" cy="7" r="4" stroke="#38bdf8" strokeWidth="1.6" fill="none" />
+                      </svg>
+                    </span>
+                    <span className="mobile-link-text">Iniciar Sesión</span>
+                  </Link>
+                </motion.div>
               </div>
 
               <div className="mobile-nav-footer">

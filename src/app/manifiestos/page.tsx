@@ -31,10 +31,10 @@ export default function ManifiestosPage() {
             <span className="text-xs text-slate-400">12 min de lectura</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-            La Fractura Posmoderna: Desconstrucción del Nihilismo y Reivindicación de la Dignidad Humana
+            {MANIFIESTOS[0].title}
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Una investigación crítica profunda sobre el colapso de los metarrelatos éticos, la biopolítica del descarte y la fundamentación ontológica irrenunciable del derecho a la vida.
+            {MANIFIESTOS[0].summary}
           </p>
           <div className="pt-2 flex flex-wrap items-center gap-3">
             <Link
@@ -69,6 +69,7 @@ export default function ManifiestosPage() {
                   {isFeatured ? '⭐ Principal' : '📜 Doctrina'}
                 </span>
                 <span className="reading-time-badge" style={{ opacity: 0.8, fontSize: '0.85rem' }}>
+                  {m.isReferential && <span style={{ marginRight: '8px', padding: '2px 6px', background: 'rgba(0,0,0,0.2)', borderRadius: '4px' }}>Referencial</span>}
                   ⏱ 4-6 min lectura
                 </span>
               </div>

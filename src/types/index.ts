@@ -71,6 +71,7 @@ export interface LibraryDocument {
   excerpt?: string;
   level?: 'Esencial' | 'Intermedio' | 'Avanzado';
   featured?: boolean;
+  isReferential?: boolean;
   /** Párrafos; los que empiezan por <blockquote> se renderizan como cita. */
   content: string[];
 }
@@ -99,6 +100,7 @@ export interface Debate {
   tag: string;
   commentsCount: number;
   voters: number;
+  isReferential?: boolean;
   arguments: DebateArgument[];
 }
 
@@ -107,6 +109,7 @@ export interface Manifiesto {
   slug: string;
   title: string;
   summary: string;
+  isReferential?: boolean;
   /** Párrafos con HTML enriquecido admitido. */
   content: string[];
 }

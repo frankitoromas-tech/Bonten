@@ -33,10 +33,9 @@ export default function PublicAssistant() {
       id: 'welcome',
       sender: 'assistant',
       text:
-        'Hola, soy **Wilfredo**, la inteligencia artificial analítica, imparcial y complementaria de **BONTEN**.\n\n' +
-        'He sido entrenado para examinar los tratados de la plataforma, los escritos de Fireboy y las contribuciones asimiladas de Luyo. ' +
-        'Puedo asistirte analizando con objetividad cuestiones de **filosofía, ética positiva y negativa, estética, derecho natural frente al positivismo, biología y política**.\n\n' +
-        '¿Qué tema o dilema deseas analizar?',
+        '¡Hola! Soy **Wilfredo**. Me gusta pensar en mí como un polímata digital al servicio de la comunidad de **BONTEN**.\n\n' +
+        'He leído a fondo nuestros tratados, los incisivos escritos de Fireboy y las valiosas aportaciones de Luyo. Más que darte respuestas automáticas, estoy aquí para dialogar y reflexionar contigo sobre **filosofía, ética, estética, derecho y biología**.\n\n' +
+        '¿Sobre qué te gustaría que conversemos o debatamos hoy?',
       routes: [
         { label: 'Tratado de Posmodernidad (Fireboy)', href: '/manifiestos/posmodernidad' },
         { label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' },
@@ -123,9 +122,9 @@ export default function PublicAssistant() {
         id: 'welcome',
         sender: 'assistant',
         text:
-          'Hola, te damos la bienvenida a **BONTEN**. Soy el **Asistente Virtual** de la plataforma.\n\n' +
-          'Puedo orientarte para explorar los tratados de la biblioteca, conocer a los integrantes de la mesa directiva y guiarte por cualquier sección del sitio. ' +
-          '¿En qué tema o sección te gustaría que te oriente?',
+          '¡Hola de nuevo! Como tu compañero polímata en **BONTEN**, estoy listo para empezar una nueva charla.\n\n' +
+          'Puedo orientarte para explorar los tratados de la biblioteca, debatir sobre los escritos de nuestra mesa directiva o guiarte por cualquier sección del sitio. ' +
+          '¿Por dónde te gustaría que empecemos ahora?',
         routes: [
           { label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' },
           { label: 'Biblioteca Doctrinal (6)', href: '#biblioteca-seccion' },
@@ -308,7 +307,7 @@ export default function PublicAssistant() {
 
       {/* Ventana Modal / Dock Flotante del Asistente */}
       {isOpen && (
-        <div className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92vw] sm:w-[430px] max-h-[590px] h-[78vh] flex flex-col rounded-3xl border border-sky-500/30 bg-[#060c1d]/95 shadow-[0_20px_60px_-15px_rgba(3,105,161,0.35)] backdrop-blur-3xl overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300 select-none">
+        <div className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92vw] sm:w-[460px] max-h-[650px] h-[82vh] flex flex-col rounded-3xl border border-sky-500/30 bg-[#060c1d]/95 shadow-[0_20px_60px_-15px_rgba(3,105,161,0.35)] backdrop-blur-3xl overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300 select-none">
           {/* Reflejo Especular Superior */}
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-sky-400/60 to-transparent pointer-events-none" />
 
@@ -325,13 +324,13 @@ export default function PublicAssistant() {
                 />
               </div>
               <div>
-                <h3 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5 flex-wrap">
+                <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-1.5 flex-wrap">
                   <span>Wilfredo • IA BONTEN</span>
-                  <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30">
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30">
                     Imparcial & Reactivo
                   </span>
                 </h3>
-                <p className="text-[10.5px] text-slate-400">
+                <p className="text-xs text-slate-400">
                   Filosofía, Bioética, Derecho, Estética & Nexo Luyo
                 </p>
               </div>
@@ -366,7 +365,7 @@ export default function PublicAssistant() {
           </div>
 
           {/* Chips de Consultas Frecuentes */}
-          <div className="px-3 py-2 bg-slate-950/60 border-b border-slate-800/80 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-[11px]">
+          <div className="px-3 py-2 bg-slate-950/60 border-b border-slate-800/80 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-xs">
             {quickPrompts.map((q, idx) => (
               <button
                 key={idx}
@@ -381,7 +380,7 @@ export default function PublicAssistant() {
           </div>
 
           {/* Área de Mensajes del Chat */}
-          <div className="flex-1 p-3.5 space-y-3.5 overflow-y-auto font-sans text-xs select-text">
+          <div className="flex-1 p-3.5 space-y-3.5 overflow-y-auto font-sans text-sm select-text">
             {messages.map((msg) => {
               const isUser = msg.sender === 'user';
               return (
@@ -418,7 +417,7 @@ export default function PublicAssistant() {
                         return (
                           <div
                             key={lIdx}
-                            className={isBullet ? 'flex items-start gap-1.5 pl-1 text-[11.5px]' : 'text-[11.5px]'}
+                            className={isBullet ? 'flex items-start gap-1.5 pl-1 text-[13.5px]' : 'text-[13.5px]'}
                           >
                             {isBullet && <span className="text-sky-400 font-bold">•</span>}
                             <span>{isBullet ? rendered.slice(1) : rendered}</span>
@@ -438,11 +437,11 @@ export default function PublicAssistant() {
                               triggerAudio('pop');
                               setIsOpen(false);
                             }}
-                            className="group/btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-sky-950/70 to-[#0a1b3a] hover:from-sky-900/80 hover:to-[#0f2854] border border-sky-500/30 hover:border-sky-400 text-sky-200 hover:text-white text-[11px] font-semibold transition-all duration-200 hover:scale-[1.03] shadow-sm hover:shadow-sky-500/20"
+                            className="group/btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-sky-950/70 to-[#0a1b3a] hover:from-sky-900/80 hover:to-[#0f2854] border border-sky-500/30 hover:border-sky-400 text-sky-200 hover:text-white text-xs sm:text-sm font-semibold transition-all duration-200 hover:scale-[1.03] shadow-sm hover:shadow-sky-500/20"
                           >
-                            <span className="text-xs transition-transform duration-200 group-hover/btn:rotate-45">🧭</span>
+                            <span className="text-sm transition-transform duration-200 group-hover/btn:rotate-45">🧭</span>
                             <span>{rt.label}</span>
-                            <span className="text-[10px] text-sky-400 group-hover/btn:translate-x-0.5 transition-transform">→</span>
+                            <span className="text-xs text-sky-400 group-hover/btn:translate-x-0.5 transition-transform">→</span>
                           </Link>
                         ))}
                       </div>
@@ -451,7 +450,7 @@ export default function PublicAssistant() {
                     {/* Sugerencias Analíticas de Wilfredo */}
                     {!isUser && msg.suggestions && msg.suggestions.length > 0 && (
                       <div className="mt-3 pt-2.5 border-t border-slate-700/60 space-y-1.5">
-                        <div className="flex items-center gap-1.5 text-[10.5px] font-semibold text-sky-400 font-mono">
+                        <div className="flex items-center gap-1.5 text-xs font-semibold text-sky-400 font-mono">
                           <span>💡</span>
                           <span>Sugerencias Analíticas de Wilfredo:</span>
                         </div>
@@ -461,7 +460,7 @@ export default function PublicAssistant() {
                               key={sIdx}
                               type="button"
                               onClick={() => handleSend(sug.replace(/^💡\s*Sugerencia:\s*/i, ''))}
-                              className="text-left px-2.5 py-1.5 rounded-lg bg-sky-950/40 hover:bg-sky-900/60 border border-sky-500/20 hover:border-sky-400/50 text-slate-300 hover:text-sky-200 text-[11px] transition-all cursor-pointer flex items-center justify-between group/sug"
+                              className="text-left px-2.5 py-1.5 rounded-lg bg-sky-950/40 hover:bg-sky-900/60 border border-sky-500/20 hover:border-sky-400/50 text-slate-300 hover:text-sky-200 text-xs transition-all cursor-pointer flex items-center justify-between group/sug"
                             >
                               <span>{sug}</span>
                               <span className="text-[10px] text-sky-400 opacity-0 group-hover/sug:opacity-100 transition-opacity">↵</span>
@@ -473,8 +472,8 @@ export default function PublicAssistant() {
 
                     {/* Botón de Copiado de Respuesta */}
                     {!isUser && (
-                      <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-slate-700/40 text-[10px]">
-                        <span className="font-mono text-[9px] text-slate-400">WILFREDO • BONTEN</span>
+                      <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-slate-700/40 text-xs">
+                        <span className="font-mono text-[10px] text-slate-400">WILFREDO • BONTEN</span>
                         <button
                           type="button"
                           onClick={() => handleCopyMessage(msg.id, msg.text)}
@@ -501,7 +500,7 @@ export default function PublicAssistant() {
                       </div>
                     )}
                   </div>
-                  <span className="text-[9.5px] text-slate-500 px-1 mt-0.5">{msg.timestamp}</span>
+                  <span className="text-[10.5px] text-slate-500 px-1 mt-0.5">{msg.timestamp}</span>
                 </div>
               );
             })}
@@ -511,16 +510,16 @@ export default function PublicAssistant() {
               <div className="flex flex-col items-start animate-in fade-in duration-200">
                 <div className="max-w-[85%] p-3.5 rounded-2xl glass-luxury-delight border border-sky-500/40 text-slate-200 rounded-bl-xs shadow-lg space-y-2.5 relative overflow-hidden">
                   <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" />
-                  <div className="flex items-center gap-2 text-sky-400 font-mono text-[11px]">
+                  <div className="flex items-center gap-2 text-sky-400 font-mono text-xs">
                     <span className="relative flex h-2.5 w-2.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-80" />
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-gradient-to-tr from-sky-400 to-indigo-300 shadow-[0_0_8px_rgba(56,189,248,0.9)]" />
                     </span>
-                    <span className="font-semibold uppercase tracking-wider text-[10px] text-sky-400">
+                    <span className="font-semibold uppercase tracking-wider text-[11px] text-sky-400">
                       Procesando...
                     </span>
                   </div>
-                  <div className="text-[11.5px] text-slate-300 italic flex items-center gap-2 font-mono">
+                  <div className="text-xs text-slate-300 italic flex items-center gap-2 font-mono">
                     <span className="animate-spin-slow text-sm">⚙️</span>
                     <span>{currentThinkingStep}</span>
                   </div>
@@ -547,7 +546,7 @@ export default function PublicAssistant() {
                 type="button"
                 disabled={loading}
                 onClick={() => handleSend(chip)}
-                className="whitespace-nowrap text-[10.5px] px-2.5 py-1 rounded-full bg-slate-900/90 hover:bg-sky-950/80 border border-slate-700/60 hover:border-sky-500/40 text-slate-300 hover:text-sky-300 transition-all cursor-pointer disabled:opacity-50"
+                className="whitespace-nowrap text-xs px-2.5 py-1 rounded-full bg-slate-900/90 hover:bg-sky-950/80 border border-slate-700/60 hover:border-sky-500/40 text-slate-300 hover:text-sky-300 transition-all cursor-pointer disabled:opacity-50"
               >
                 {chip}
               </button>
@@ -568,12 +567,12 @@ export default function PublicAssistant() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Pregunta sobre manifiestos, integrantes o rutas..."
               disabled={loading}
-              className="flex-1 px-3.5 py-2 rounded-xl border border-slate-800 bg-slate-900/90 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/50 transition-all"
+              className="flex-1 px-3.5 py-2 rounded-xl border border-slate-800 bg-slate-900/90 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/50 transition-all"
             />
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className="px-3.5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold text-xs transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="px-3.5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold text-sm transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {loading ? '...' : 'Enviar'}
             </button>

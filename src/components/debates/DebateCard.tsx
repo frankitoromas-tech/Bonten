@@ -55,6 +55,11 @@ export default function DebateCard({ debate, index, onSelect }: DebateCardProps)
       <div className="debate-card-header">
         <div className="flex items-center gap-2 flex-wrap">
           <span className="debate-tag">{debate.tag}</span>
+          {debate.isReferential && (
+            <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-800 text-slate-400 uppercase tracking-wider border border-slate-700">
+              Referencial
+            </span>
+          )}
           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-medium bg-slate-800/80 text-slate-300 border border-slate-700/60">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             En Disputa
