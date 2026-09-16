@@ -19,8 +19,69 @@ interface AssistantMessage {
   reasoningSteps?: string[];
   isThinking?: boolean;
   activeStep?: string;
+  isStreaming?: boolean;
   timestamp: string;
 }
+
+const TypewriterText = ({
+  content,
+  speed = 10,
+  onUpdate
+}: {
+  content: string;
+  speed?: number;
+  onUpdate?: () => void;
+}) => {
+  const [displayed, setDisplayed] = useState('');
+
+  useEffect(() => {
+    let i = 0;
+    setDisplayed('');
+    const timer = setInterval(() => {
+      if (i < content.length) {
+        setDisplayed((prev) => prev + content.charAt(i));
+        i++;
+        if (onUpdate && i % 3 === 0) onUpdate(); // Scroll update
+      } else {
+        clearInterval(timer);
+      }
+    }, speed);
+
+    return () => clearInterval(timer);
+  }, [content, speed]);
+
+  // Formateo de texto en tiempo real
+  return (
+    <div className="space-y-1.5 leading-relaxed">
+      {displayed.split('\n').map((line, lIdx) => {
+        if (!line.trim()) return <div key={lIdx} className="h-1" />;
+
+        const parts = line.split(/(\*\*[^*]+\*\*)/g);
+        const rendered = parts.map((part, pIdx) => {
+          if (part.startsWith('**') && part.endsWith('**')) {
+            return (
+              <strong key={pIdx} className="font-semibold text-white">
+                {part.slice(2, -2)}
+              </strong>
+            );
+          }
+          return part;
+        });
+
+        const isBullet = line.trim().startsWith('•');
+        return (
+          <div
+            key={lIdx}
+            className={isBullet ? 'flex items-start gap-1.5 pl-1 text-[13.5px]' : 'text-[13.5px]'}
+          >
+            {isBullet && <span className="text-sky-400 font-bold">•</span>}
+            <span>{isBullet ? rendered.slice(1) : rendered}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default function PublicAssistant() {
   const [isOpen, setIsOpen] = useState(false);
@@ -188,7 +249,7 @@ export default function PublicAssistant() {
       const res = await fetch('/api/assistant', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: textToSend }),
+        body: JSON.stringify({ prompt: textToSend, history: messages }),
       });
 
       const data = await res.json();
@@ -211,6 +272,7 @@ export default function PublicAssistant() {
           routes: data.routes || [],
           suggestions: data.suggestions || [],
           reasoningSteps: data.reasoningSteps || [],
+          isStreaming: true,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
       ]);
@@ -395,36 +457,43 @@ export default function PublicAssistant() {
                         : 'glass-luxury-delight text-slate-100 rounded-bl-xs shadow-md before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-sky-400/40 before:to-transparent'
                     }`}
                   >
-                    {/* Render de texto con soporte para negritas y listas */}
-                    <div className="space-y-1.5 leading-relaxed">
-                      {msg.text.split('\n').map((line, lIdx) => {
-                        if (!line.trim()) return <div key={lIdx} className="h-1" />;
+                    {msg.isStreaming ? (
+                      <TypewriterText 
+                        content={msg.text} 
+                        speed={14} 
+                        onUpdate={() => chatBottomRef.current?.scrollIntoView({ behavior: 'auto' })} 
+                      />
+                    ) : (
+                      <div className="space-y-1.5 leading-relaxed">
+                        {msg.text.split('\n').map((line, lIdx) => {
+                          if (!line.trim()) return <div key={lIdx} className="h-1" />;
 
-                        // Formateo de negritas **texto**
-                        const parts = line.split(/(\*\*[^*]+\*\*)/g);
-                        const rendered = parts.map((part, pIdx) => {
-                          if (part.startsWith('**') && part.endsWith('**')) {
-                            return (
-                              <strong key={pIdx} className="font-semibold text-white">
-                                {part.slice(2, -2)}
-                              </strong>
-                            );
-                          }
-                          return part;
-                        });
+                          // Formateo de negritas **texto**
+                          const parts = line.split(/(\*\*[^*]+\*\*)/g);
+                          const rendered = parts.map((part, pIdx) => {
+                            if (part.startsWith('**') && part.endsWith('**')) {
+                              return (
+                                <strong key={pIdx} className="font-semibold text-white">
+                                  {part.slice(2, -2)}
+                                </strong>
+                              );
+                            }
+                            return part;
+                          });
 
-                        const isBullet = line.trim().startsWith('•');
-                        return (
-                          <div
-                            key={lIdx}
-                            className={isBullet ? 'flex items-start gap-1.5 pl-1 text-[13.5px]' : 'text-[13.5px]'}
-                          >
-                            {isBullet && <span className="text-sky-400 font-bold">•</span>}
-                            <span>{isBullet ? rendered.slice(1) : rendered}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
+                          const isBullet = line.trim().startsWith('•');
+                          return (
+                            <div
+                              key={lIdx}
+                              className={isBullet ? 'flex items-start gap-1.5 pl-1 text-[13.5px]' : 'text-[13.5px]'}
+                            >
+                              {isBullet && <span className="text-sky-400 font-bold">•</span>}
+                              <span>{isBullet ? rendered.slice(1) : rendered}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
 
                     {/* Botones de Navegación Sugeridos */}
                     {msg.routes && msg.routes.length > 0 && (
