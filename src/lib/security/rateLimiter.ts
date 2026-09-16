@@ -4,6 +4,8 @@
 //  fuerza bruta y saturación de peticiones L7.
 // =========================================
 
+import type { SecurityEventType } from './env.ts';
+
 interface RateLimitRecord {
   count: number;
   firstAttempt: number;
@@ -14,16 +16,7 @@ export interface SecurityEvent {
   id: string;
   timestamp: string;
   ip: string;
-  type:
-    | 'RATE_LIMIT_BLOCK'
-    | 'LOGIN_FAILED'
-    | 'LOGIN_SUCCESS'
-    | 'CSRF_REJECTED'
-    | 'IP_MANUALLY_BANNED'
-    | 'IP_UNBANNED'
-    | 'SUSPICIOUS_PROBE'
-    | 'PROMPT_INJECTION_BLOCKED'
-    | 'SESSION_HIJACK_ATTEMPT';
+  type: SecurityEventType;
   detail: string;
 }
 

@@ -6,6 +6,7 @@
 import crypto from 'node:crypto';
 import { hashPassword } from '../security/auth.ts';
 import { sanitizePlainText, sanitizeHtml } from '../security/sanitizer.ts';
+import { getRequiredSecret, safeEqualText } from '../security/env.ts';
 
 export interface User {
   id: number;
@@ -259,16 +260,13 @@ export function authenticateAdmin(
     return { success: false, error: 'Usuario o rol no autorizado' };
   }
 
-  const secret = process.env.ADMIN_JWT_SECRET || 'bonten_enterprise_crypto_shield_secret_key_sovereign_core_2026';
+  const secret = getRequiredSecret('ADMIN_JWT_SECRET', 32);
   const computedHash = crypto
     .createHmac('sha256', secret)
     .update(`${user.passwordSalt}:${passwordAttempt}`)
     .digest('hex');
 
-  const bufA = Buffer.from(computedHash);
-  const bufB = Buffer.from(user.passwordHash);
-
-  if (bufA.length !== bufB.length || !crypto.timingSafeEqual(bufA, bufB)) {
+  if (!safeEqualText(computedHash, user.passwordHash)) {
     return { success: false, error: 'Credenciales inválidas' };
   }
 
@@ -327,16 +325,13 @@ export function updateAdminPassword(
     return { success: false, error: 'Administrador no encontrado o no activo' };
   }
 
-  const secret = process.env.ADMIN_JWT_SECRET || 'bonten_enterprise_crypto_shield_secret_key_sovereign_core_2026';
+  const secret = getRequiredSecret('ADMIN_JWT_SECRET', 32);
   const computedHash = crypto
     .createHmac('sha256', secret)
     .update(`${user.passwordSalt}:${currentPasswordAttempt}`)
     .digest('hex');
 
-  const bufA = Buffer.from(computedHash);
-  const bufB = Buffer.from(user.passwordHash);
-
-  if (bufA.length !== bufB.length || !crypto.timingSafeEqual(bufA, bufB)) {
+  if (!safeEqualText(computedHash, user.passwordHash)) {
     return { success: false, error: 'La contraseña actual es incorrecta' };
   }
 

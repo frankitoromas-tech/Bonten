@@ -6,12 +6,11 @@
 import crypto from 'node:crypto';
 import type { User } from '../db/database';
 import { USER_SESSION_COOKIE } from './constants.ts';
+import { getRequiredSecret, safeEqualText } from './env.ts';
 
 export { USER_SESSION_COOKIE };
 
-const SECRET =
-  process.env.COMMUNITY_JWT_SECRET ||
-  'bonten_community_member_defense_secret_key_2026';
+const SECRET = getRequiredSecret('COMMUNITY_JWT_SECRET', 32);
 
 export interface MemberSessionPayload {
   userId: number;
@@ -62,10 +61,7 @@ export function verifyMemberToken(token: string): {
     .update(encodedPayload)
     .digest('base64url');
 
-  const bufA = Buffer.from(receivedSignature);
-  const bufB = Buffer.from(expectedSignature);
-
-  if (bufA.length !== bufB.length || !crypto.timingSafeEqual(bufA, bufB)) {
+  if (!safeEqualText(receivedSignature, expectedSignature)) {
     return { valid: false, error: 'Firma de sesión de miembro manipulada' };
   }
 

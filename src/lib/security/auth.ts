@@ -4,6 +4,7 @@
 // =========================================
 
 import crypto from 'node:crypto';
+import { getRequiredSecret, safeEqualText } from './env.ts';
 
 export interface AdminSessionPayload {
   username: string;
@@ -14,9 +15,7 @@ export interface AdminSessionPayload {
   fingerprint?: string;
 }
 
-const SECRET =
-  process.env.ADMIN_JWT_SECRET ||
-  'bonten_enterprise_crypto_shield_secret_key_sovereign_core_2026';
+const SECRET = getRequiredSecret('ADMIN_JWT_SECRET', 32);
 
 const DEFAULT_ADMIN_USER = process.env.ADMIN_USER || 'fireboy';
 const DEFAULT_ADMIN_PASS = process.env.ADMIN_PASS || 'fireboy_bonten_2026';
@@ -49,7 +48,6 @@ export function verifyPassword(password: string, expectedPassword?: string): boo
   const bufferB = Buffer.from(target);
 
   if (bufferA.length !== bufferB.length) {
-    crypto.timingSafeEqual(bufferA, bufferA);
     return false;
   }
 
@@ -110,14 +108,7 @@ export function verifySessionToken(
     .update(encodedPayload)
     .digest('base64url');
 
-  const sigBufferA = Buffer.from(receivedSignature);
-  const sigBufferB = Buffer.from(expectedSignature);
-
-  if (sigBufferA.length !== sigBufferB.length) {
-    return { valid: false, error: 'Firma criptográfica inválida' };
-  }
-
-  if (!crypto.timingSafeEqual(sigBufferA, sigBufferB)) {
+  if (!safeEqualText(receivedSignature, expectedSignature)) {
     return { valid: false, error: 'Firma manipulada' };
   }
 
