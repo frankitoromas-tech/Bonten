@@ -3,21 +3,19 @@ import type { LibraryDocument } from '@/types';
 export const DOCUMENTS: LibraryDocument[] = [
   {
     id: 1,
-    title: 'Crítica a la Posmodernidad y la Cultura de la Muerte: La Fractura del Telos Humano',
-    category: 'Posmodernidad & Filosofía',
+    title: 'El Bullying como Fenómeno Normativo del Cuerpo en la Posmodernidad',
+    category: 'Posmodernidad & Biopolítica',
     author: 'Fireboy (Fundador BONTEN)',
-    readTime: '12 min',
+    readTime: '15 min',
     level: 'Avanzado',
     featured: true,
     image: '/assets/hero_bg_1781465357241.webp',
-    excerpt: 'Una deconstrucción ontológica del nihilismo contemporáneo, la biopolítica del descarte y la disolución del sujeto en la modernidad tardía. Fireboy traza la línea entre el hedonismo de consumo y la verdad inmutable del ser.',
+    excerpt: 'Una aproximación analítica y sociológica para entender cómo las estructuras de dominación patriarcal y mercantilista inscriben la violencia normativa directamente sobre los cuerpos en los espacios de socialización.',
     content: [
-      'La posmodernidad no es meramente un período cronológico posterior a la modernidad ilustrada; es una <strong>patología ontológica</strong> caracterizada por la renuncia deliberada a los grandes relatos, a la verdad trascendente y al telos teleológico del ser humano.',
-      '<blockquote>"Al destruir la noción de un orden metafísico inmutable, el hombre moderno quedó a merced de una libertad vacía: no libre para realizar el bien, sino condenado a elegir entre simulacros de consumo efímero." — Fireboy</blockquote>',
-      'En esta coyuntura, la autodenominada "cultura de la muerte" no surge como un accidente histórico aislado, sino como la consecuencia lógica inevitable del utilitarismo nihilista. Cuando el ser humano es despojado de su dignidad ontológica intrínseca como criatura hecha a imagen de la verdad, pasa a medirse exclusivamente por su valor funcional, económico o sensorial.',
-      'Frente a esta disolución moral, la resistencia provida articulada por BONTEN no es un conservadurismo reactivo ni nostálgico; es una revolución apologética e intelectual que rescata la primacía del Ser sobre el Deseo.',
-      '<blockquote>El no nacido representa la máxima encarnación de la inocencia y el escándalo supremo para una sociedad utilitarista: existe sin consumir, interpela sin hablar y exige amor incondicional sin contraprestación pragmática.</blockquote>',
-      'Concluimos este tratado con un llamado inquebrantable a las nuevas generaciones: romper las cadenas del conformismo líquido, reconstruir el pensamiento crítico desde sus cimientos y levantar la antorcha de la vida donde otros solo siembran cenizas y relativismo.',
+      'Si bien el bullying suele definirse convencionalmente como un comportamiento violento e intimidatorio en el ámbito escolar, este trabajo busca expandir el concepto para entenderlo como un fenómeno normativo arraigado en la cultura.',
+      '<blockquote>"El patriarcado como sistema político es estructuralmente la primera forma de desigualdad, de usurpación del poder, prestigio, autoridad y soberanía." — Rita Segato</blockquote>',
+      'Judith Butler nos permite entender cómo las estructuras jurídicas, del lenguaje y de la política crean el campo actual de poder. Esto genera un rechazo hacia lo diferente —hacia aquello que no encaja en la normatividad— y perpetúa formas mercantilistas y violentas de relacionarnos impulsadas por un capitalismo exacerbado.',
+      'Frente a esta violencia estructural, la emancipación solo es posible si se cambia el discurso normalizante y totalizante por un discurso de pluralidad y diversidad, desarticulando los dispositivos de poder que buscan mantener el control sobre los cuerpos.'
     ],
   },
   {
@@ -43,7 +41,7 @@ export const DOCUMENTS: LibraryDocument[] = [
     author: 'Ilan (Consejo Doctrinal)',
     readTime: '8 min',
     level: 'Intermedio',
-    image: '/assets/b3.jpeg',
+    image: '/assets/b2.jpeg',
     excerpt: 'Examen de la mercantilización genética y las derivas eugenésicas contemporáneas a la luz de los cuatro principios rectores de la bioética personalista ontológicamente fundada.',
     content: [
       'El advenimiento de la ingeniería biogenética CRISPR-Cas9 y las narrativas transhumanistas prometen una falsa trascendencia biológica a costa de fragmentar la naturaleza humana. Frente a esto, el personalismo ontológico postula que el cuerpo no es mero instrumental biológico descartable.',
@@ -59,7 +57,7 @@ export const DOCUMENTS: LibraryDocument[] = [
     author: 'Daniel (Formación Académica)',
     readTime: '7 min',
     level: 'Intermedio',
-    image: '/assets/b2.jpeg',
+    image: '/assets/b4.jpeg',
     excerpt: 'La lección imperecedera de Sócrates a Calicles sobre la ilusión del placer sin límites. Por qué el hedonismo moderno es una condena a cargar agua en un cántaro con orificios.',
     content: [
       'En el diálogo platónico Gorgias (493a-d), Sócrates confronta la vehemencia hedonista de Calicles con una de las alegorías más lúcidas de la filosofía clásica: el mito del tonel agujereado y el alma de los insensatos.',
@@ -91,7 +89,7 @@ export const DOCUMENTS: LibraryDocument[] = [
     author: 'Comité Editorial BONTEN',
     readTime: '9 min',
     level: 'Avanzado',
-    image: '/assets/b4.jpeg',
+    image: '/assets/b3.jpeg',
     excerpt: 'Una articulación dialéctica entre las tesis de Michel Foucault, Giorgio Agamben y Zygmunt Bauman sobre los mecanismos estatales que decretan qué vidas merecen ser lloradas.',
     content: [
       'La transición de la soberanía tradicional (el poder de "hacer morir o dejar vivir") a la biopolítica contemporánea (el poder de "hacer vivir y dejar morir") ha alcanzado su estadio más perverso en la sociedad tardomoderna.',

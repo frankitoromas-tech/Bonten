@@ -15,7 +15,9 @@ export interface AdminSessionPayload {
   fingerprint?: string;
 }
 
-const SECRET = getRequiredSecret('ADMIN_JWT_SECRET', 32);
+function getSecret() {
+  return getRequiredSecret('ADMIN_JWT_SECRET', 32);
+}
 
 const DEFAULT_ADMIN_USER = process.env.ADMIN_USER || 'fireboy';
 const DEFAULT_ADMIN_PASS = process.env.ADMIN_PASS || 'fireboy_bonten_2026';
@@ -35,7 +37,7 @@ export function createSessionFingerprint(ip: string, userAgent = ''): string {
 export function hashPassword(password: string, salt?: string): { hash: string; salt: string } {
   const chosenSalt = salt || crypto.randomBytes(16).toString('hex');
   const hash = crypto
-    .createHmac('sha256', SECRET)
+    .createHmac('sha256', getSecret())
     .update(`${chosenSalt}:${password}`)
     .digest('hex');
   return { hash, salt: chosenSalt };
@@ -77,7 +79,7 @@ export function createSessionToken(
 
   const encodedPayload = Buffer.from(JSON.stringify(payload)).toString('base64url');
   const signature = crypto
-    .createHmac('sha256', SECRET)
+    .createHmac('sha256', getSecret())
     .update(encodedPayload)
     .digest('base64url');
 
@@ -104,7 +106,7 @@ export function verifySessionToken(
 
   const [encodedPayload, receivedSignature] = parts;
   const expectedSignature = crypto
-    .createHmac('sha256', SECRET)
+    .createHmac('sha256', getSecret())
     .update(encodedPayload)
     .digest('base64url');
 

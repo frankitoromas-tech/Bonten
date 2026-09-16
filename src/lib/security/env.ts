@@ -16,6 +16,12 @@ export type SecurityEventType =
 
 export function getRequiredSecret(name: string, minimumLength = 32): string {
   const value = process.env[name]?.trim();
+  
+  // Bypass validation during Next.js build phase to prevent deployment crashes
+  if (process.env.NEXT_PHASE === 'phase-production-build' || process.env.npm_lifecycle_event === 'build') {
+    return 'dummy-secret-for-build-phase-which-must-be-long-enough';
+  }
+
   if (!value || value.length < minimumLength) {
     if (process.env.NODE_ENV !== 'production' && name !== 'MISSING_TEST_SECRET') {
       return 'dev-secret-which-must-be-at-least-32-chars-long';

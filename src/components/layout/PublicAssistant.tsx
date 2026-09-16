@@ -262,8 +262,8 @@ export default function PublicAssistant() {
               ? 'bg-slate-900/90 border border-rose-500/40 text-rose-300 shadow-[0_4px_20px_rgba(244,63,94,0.25)]'
               : 'bg-[#060c1d]/85 hover:bg-[#0a1532]/95 border border-sky-500/30 hover:border-sky-400/60 text-slate-200 shadow-[0_4px_24px_rgba(0,0,0,0.5),0_0_15px_rgba(56,189,248,0.12)] hover:shadow-[0_6px_28px_rgba(56,189,248,0.28)]'
           }`}
-          aria-label={isOpen ? 'Cerrar Asistente' : 'Abrir Asistente BONTEN AI'}
-          title={isOpen ? 'Cerrar Asistente' : 'Abrir Guía Doctrinal BONTEN AI'}
+          aria-label={isOpen ? 'Cerrar Asistente' : 'Abrir Asistente WILFREDO AI'}
+          title={isOpen ? 'Cerrar Asistente' : 'Abrir Guía Doctrinal WILFREDO AI'}
         >
           {isOpen ? (
             <div className="flex items-center gap-1.5 text-xs font-semibold">

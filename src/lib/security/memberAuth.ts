@@ -10,7 +10,9 @@ import { getRequiredSecret, safeEqualText } from './env.ts';
 
 export { USER_SESSION_COOKIE };
 
-const SECRET = getRequiredSecret('COMMUNITY_JWT_SECRET', 32);
+function getSecret() {
+  return getRequiredSecret('COMMUNITY_JWT_SECRET', 32);
+}
 
 export interface MemberSessionPayload {
   userId: number;
@@ -34,7 +36,7 @@ export function createMemberToken(user: User): string {
 
   const encodedPayload = Buffer.from(JSON.stringify(payload)).toString('base64url');
   const signature = crypto
-    .createHmac('sha256', SECRET)
+    .createHmac('sha256', getSecret())
     .update(encodedPayload)
     .digest('base64url');
 
@@ -57,7 +59,7 @@ export function verifyMemberToken(token: string): {
 
   const [encodedPayload, receivedSignature] = parts;
   const expectedSignature = crypto
-    .createHmac('sha256', SECRET)
+    .createHmac('sha256', getSecret())
     .update(encodedPayload)
     .digest('base64url');
 
