@@ -6,37 +6,28 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { addDebateArgument, getDebateArguments } from '@/lib/db/database';
-import { verifyMemberToken, USER_SESSION_COOKIE } from '@/lib/security/memberAuth';
-import { verifySessionToken, SESSION_COOKIE_NAME } from '@/lib/security/auth';
+import { getAuthenticatedActor } from '@/lib/security/authorization';
 import { validateRequestOrigin } from '@/lib/security/csrf';
 
 function getAuthenticatedUser(req: NextRequest) {
-  // 1. Revisar administrador (Fireboy)
-  const adminCookie = req.cookies.get(SESSION_COOKIE_NAME)?.value;
-  if (adminCookie) {
-    const admin = verifySessionToken(adminCookie);
-    if (admin.valid && admin.payload) {
-      return {
-        id: 1,
-        username: admin.payload.username,
-        role: 'Líder / Fundador',
-        avatarUrl: '/assets/fireboy_client.webp',
-      };
-    }
+  const actor = getAuthenticatedActor(req);
+
+  if (actor?.kind === 'admin') {
+    return {
+      id: 1,
+      username: actor.payload.username,
+      role: 'Líder / Fundador',
+      avatarUrl: '/assets/fireboy_client.webp',
+    };
   }
 
-  // 2. Revisar miembro de comunidad
-  const userCookie = req.cookies.get(USER_SESSION_COOKIE)?.value;
-  if (userCookie) {
-    const member = verifyMemberToken(userCookie);
-    if (member.valid && member.payload) {
-      return {
-        id: member.payload.userId,
-        username: member.payload.username,
-        role: 'Miembro de Comunidad',
-        avatarUrl: member.payload.avatarUrl,
-      };
-    }
+  if (actor?.kind === 'member') {
+    return {
+      id: actor.payload.userId,
+      username: actor.payload.username,
+      role: 'Miembro de Comunidad',
+      avatarUrl: actor.payload.avatarUrl,
+    };
   }
 
   return null;

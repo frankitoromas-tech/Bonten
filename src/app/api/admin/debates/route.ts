@@ -11,14 +11,8 @@ import {
   updateStoreDebate,
   deleteStoreDebate,
 } from '@/lib/data/runtimeStore';
-import { verifySessionToken, SESSION_COOKIE_NAME } from '@/lib/security/auth';
+import { requireAdmin } from '@/lib/security/authorization';
 import { validateRequestOrigin } from '@/lib/security/csrf';
-
-function requireAdmin(req: NextRequest): boolean {
-  const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
-  const { valid, payload } = verifySessionToken(token || '');
-  return valid && (payload?.role === 'ROLE_SUPERADMIN' || payload?.role === 'ROLE_ADMIN');
-}
 
 export async function GET() {
   return NextResponse.json(getStoreDebates());
@@ -28,9 +22,8 @@ export async function POST(req: NextRequest) {
   if (!validateRequestOrigin(req).valid) {
     return NextResponse.json({ error: 'Origen no autorizado' }, { status: 403 });
   }
-  if (!requireAdmin(req)) {
-    return NextResponse.json({ error: 'No autorizado: se requiere rol de administrador' }, { status: 401 });
-  }
+  const auth = requireAdmin(req, ['ROLE_SUPERADMIN', 'ROLE_ADMIN']);
+  if (!auth.ok) return auth.response;
 
   try {
     const body = await req.json();
@@ -48,9 +41,8 @@ export async function PUT(req: NextRequest) {
   if (!validateRequestOrigin(req).valid) {
     return NextResponse.json({ error: 'Origen no autorizado' }, { status: 403 });
   }
-  if (!requireAdmin(req)) {
-    return NextResponse.json({ error: 'No autorizado: se requiere rol de administrador' }, { status: 401 });
-  }
+  const auth = requireAdmin(req, ['ROLE_SUPERADMIN', 'ROLE_ADMIN']);
+  if (!auth.ok) return auth.response;
 
   try {
     const body = await req.json();
@@ -71,9 +63,8 @@ export async function DELETE(req: NextRequest) {
   if (!validateRequestOrigin(req).valid) {
     return NextResponse.json({ error: 'Origen no autorizado' }, { status: 403 });
   }
-  if (!requireAdmin(req)) {
-    return NextResponse.json({ error: 'No autorizado: se requiere rol de administrador' }, { status: 401 });
-  }
+  const auth = requireAdmin(req, ['ROLE_SUPERADMIN', 'ROLE_ADMIN']);
+  if (!auth.ok) return auth.response;
 
   const { searchParams } = new URL(req.url);
   const id = Number(searchParams.get('id'));

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { verifySessionToken, SESSION_COOKIE_NAME } from '@/lib/security/auth';
+import { requireAdmin } from '@/lib/security/authorization';
 import { validateRequestOrigin } from '@/lib/security/csrf';
 import { findAdminByUsername, updateAdminPassword } from '@/lib/db/database';
 import { recordSecurityEvent } from '@/lib/security/rateLimiter';
@@ -14,13 +13,8 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. Sesión y RBAC
-    const cookieStore = await cookies();
-    const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
-    const session = token ? verifySessionToken(token) : null;
-
-    if (!session?.valid || !session.payload || (session.payload.role !== 'ROLE_SUPERADMIN' && session.payload.role !== 'ROLE_ADMIN')) {
-      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
-    }
+    const auth = requireAdmin(req, ['ROLE_SUPERADMIN', 'ROLE_ADMIN']);
+    if (!auth.ok) return auth.response;
 
     const { currentPassword, newPassword } = await req.json();
 
@@ -28,7 +22,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Faltan campos obligatorios' }, { status: 400 });
     }
 
-    const admin = findAdminByUsername(session.payload.username);
+    const admin = findAdminByUsername(auth.actor.username);
     if (!admin) {
       return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 });
     }
@@ -38,11 +32,11 @@ export async function POST(req: NextRequest) {
     const clientIp = req.headers.get('x-forwarded-for') || '127.0.0.1';
 
     if (!result.success) {
-      recordSecurityEvent(clientIp, 'LOGIN_FAILED', `Fallo al cambiar contraseña para admin ${session.payload.username}: ${result.error}`);
+      recordSecurityEvent(clientIp, 'LOGIN_FAILED', `Fallo al cambiar contraseña para admin ${auth.actor.username}: ${result.error}`);
       return NextResponse.json({ error: result.error || 'No se pudo actualizar la contraseña' }, { status: 400 });
     }
 
-    recordSecurityEvent(clientIp, 'LOGIN_SUCCESS', `Contraseña actualizada exitosamente por ${session.payload.username}`);
+    recordSecurityEvent(clientIp, 'LOGIN_SUCCESS', `Contraseña actualizada exitosamente por ${auth.actor.username}`);
 
     return NextResponse.json({
       ok: true,

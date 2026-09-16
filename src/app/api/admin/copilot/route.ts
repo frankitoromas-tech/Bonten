@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { verifySessionToken, SESSION_COOKIE_NAME } from '@/lib/security/auth';
+
+import { requireAdmin } from '@/lib/security/authorization';
 import {
   getSiteMetadata,
   updateSiteMetadata,
@@ -23,15 +23,12 @@ import { listAdmins } from '@/lib/db/database';
 export async function POST(req: NextRequest) {
   try {
     // 1. Verificación de Autenticación RBAC
-    const cookieStore = await cookies();
-    const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
-    const session = token ? verifySessionToken(token) : null;
-
-    if (!session?.valid || !session.payload || (session.payload.role !== 'ROLE_SUPERADMIN' && session.payload.role !== 'ROLE_ADMIN')) {
+    const auth = requireAdmin(req, ['ROLE_SUPERADMIN', 'ROLE_ADMIN']);
+    if (!auth.ok) {
       return NextResponse.json({ error: 'Acceso denegado: Se requieren privilegios de administrador.' }, { status: 401 });
     }
 
-    const currentAdmin = session.payload;
+    const currentAdmin = auth.actor;
 
     const body = await req.json();
     const mode = body.mode || 'propose'; // 'propose' | 'execute'

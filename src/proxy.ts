@@ -23,7 +23,7 @@ function isEdgeSessionExpired(token: string): boolean {
   }
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 1. Control de acceso en la zona privada /admin

@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit, recordSecurityEvent } from '@/lib/security/rateLimiter';
 import { sanitizePlainText } from '@/lib/security/sanitizer';
-import { verifySessionToken, SESSION_COOKIE_NAME } from '@/lib/security/auth';
-import { verifyMemberToken, USER_SESSION_COOKIE } from '@/lib/security/memberAuth';
+import { getAuthenticatedActor } from '@/lib/security/authorization';
 import { addDoctrinalContribution, DoctrinalContribution } from '@/lib/data/runtimeStore';
 
 export async function POST(req: NextRequest) {
@@ -24,29 +23,22 @@ export async function POST(req: NextRequest) {
     let authorized = false;
     let authorIdentity = 'Luyo';
 
-    const adminCookie = req.cookies.get(SESSION_COOKIE_NAME)?.value;
-    const memberCookie = req.cookies.get(USER_SESSION_COOKIE)?.value;
+    const actor = getAuthenticatedActor(req);
     const ingestKey = req.headers.get('x-contributor-key');
 
-    if (adminCookie) {
-      const v = verifySessionToken(adminCookie);
-      if (v.valid && v.payload) {
-        authorized = true;
-        authorIdentity = v.payload.username === 'fireboy_bonten_2026' ? 'Fireboy' : v.payload.username;
-      }
-    } else if (memberCookie) {
-      const v = verifyMemberToken(memberCookie);
-      if (v.valid && v.payload) {
-        authorized = true;
-        authorIdentity = v.payload.username;
-      }
+    if (actor?.kind === 'admin') {
+      authorized = true;
+      authorIdentity = actor.payload.username === 'fireboy_bonten_2026' ? 'Fireboy' : actor.payload.username;
+    } else if (actor?.kind === 'member') {
+      authorized = true;
+      authorIdentity = actor.payload.username;
     } else if (ingestKey && (ingestKey === 'luyo_bonten_secure_2026' || ingestKey === 'bonten_master_doctrine_key')) {
       authorized = true;
       authorIdentity = 'Luyo';
     }
 
     if (!authorized) {
-      recordSecurityEvent(ip, 'UNAUTHORIZED_ADMIN_ACCESS', 'Intento no autorizado de ingesta en la IA Wilfredo');
+      recordSecurityEvent(ip, 'AUTHORIZATION_DENIED', 'Intento no autorizado de ingesta en la IA Wilfredo');
       return NextResponse.json(
         { error: 'No dispones de credenciales autorizadas para alimentar la base doctrinal de Wilfredo.' },
         { status: 403 }

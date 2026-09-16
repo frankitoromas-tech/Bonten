@@ -6,25 +6,18 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { listAdmins, createUser, updateAdminRole, deleteAdmin } from '@/lib/db/database';
-import { verifySessionToken, SESSION_COOKIE_NAME } from '@/lib/security/auth';
+import { requireAdmin } from '@/lib/security/authorization';
 import { validateRequestOrigin } from '@/lib/security/csrf';
 
-function getAdminSession(req: NextRequest) {
-  const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
-  return verifySessionToken(token || '');
-}
-
 export async function GET(req: NextRequest) {
-  const session = getAdminSession(req);
-  if (!session.valid || (session.payload?.role !== 'ROLE_SUPERADMIN' && session.payload?.role !== 'ROLE_ADMIN')) {
-    return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
-  }
+  const auth = requireAdmin(req, ['ROLE_SUPERADMIN', 'ROLE_ADMIN']);
+  if (!auth.ok) return auth.response;
 
   const admins = listAdmins();
   return NextResponse.json({
     admins,
-    currentUserRole: session.payload?.role,
-    isSuperadmin: session.payload?.role === 'ROLE_SUPERADMIN',
+    currentUserRole: auth.actor.role,
+    isSuperadmin: auth.actor.role === 'ROLE_SUPERADMIN',
   });
 }
 
@@ -33,8 +26,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Origen no autorizado' }, { status: 403 });
   }
 
-  const session = getAdminSession(req);
-  if (!session.valid || session.payload?.role !== 'ROLE_SUPERADMIN') {
+  const auth = requireAdmin(req, ['ROLE_SUPERADMIN']);
+  if (!auth.ok) {
     return NextResponse.json(
       { error: 'Solo el Superadmin Principal (Fireboy) puede designar nuevos administradores' },
       { status: 403 }
@@ -61,14 +54,14 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: 'Origen no autorizado' }, { status: 403 });
   }
 
-  const session = getAdminSession(req);
-  if (!session.valid || session.payload?.role !== 'ROLE_SUPERADMIN') {
+  const auth = requireAdmin(req, ['ROLE_SUPERADMIN']);
+  if (!auth.ok) {
     return NextResponse.json({ error: 'Solo el Superadmin Principal (Fireboy) puede modificar roles' }, { status: 403 });
   }
 
   try {
     const { userId, role } = await req.json();
-    const result = updateAdminRole(Number(userId), role, session.payload?.role || '');
+    const result = updateAdminRole(Number(userId), role, auth.actor.role);
 
     if (!result.success) {
       return NextResponse.json({ error: result.error }, { status: 403 });
@@ -85,15 +78,15 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: 'Origen no autorizado' }, { status: 403 });
   }
 
-  const session = getAdminSession(req);
-  if (!session.valid || session.payload?.role !== 'ROLE_SUPERADMIN') {
+  const auth = requireAdmin(req, ['ROLE_SUPERADMIN']);
+  if (!auth.ok) {
     return NextResponse.json({ error: 'Solo el Superadmin Principal (Fireboy) puede revocar accesos' }, { status: 403 });
   }
 
   const { searchParams } = new URL(req.url);
   const targetId = Number(searchParams.get('userId'));
 
-  const result = deleteAdmin(targetId, session.payload?.role || '');
+  const result = deleteAdmin(targetId, auth.actor.role);
   if (!result.success) {
     return NextResponse.json({ error: result.error }, { status: 403 });
   }

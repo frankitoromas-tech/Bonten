@@ -12,17 +12,13 @@ import {
   unbanIp,
   listBannedIps,
 } from '@/lib/security/rateLimiter';
-import { verifySessionToken, SESSION_COOKIE_NAME } from '@/lib/security/auth';
+import { requireAdmin } from '@/lib/security/authorization';
 import { validateRequestOrigin } from '@/lib/security/csrf';
 import { sanitizePlainText } from '@/lib/security/sanitizer';
 
 export async function GET(req: NextRequest) {
-  const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
-  const { valid, payload } = verifySessionToken(token || '');
-
-  if (!valid || (payload?.role !== 'ROLE_SUPERADMIN' && payload?.role !== 'ROLE_ADMIN')) {
-    return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
-  }
+  const auth = requireAdmin(req, ['ROLE_SUPERADMIN', 'ROLE_ADMIN']);
+  if (!auth.ok) return auth.response;
 
   const events = getSecurityEvents();
   const rateLimit = getRateLimitStats();
@@ -30,9 +26,9 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({
     activeSession: {
-      username: payload?.username,
-      role: payload?.role,
-      expiresAt: payload?.exp ? new Date(payload.exp * 1000).toISOString() : null,
+      username: auth.actor.username,
+      role: auth.actor.role,
+      expiresAt: auth.actor.exp ? new Date(auth.actor.exp * 1000).toISOString() : null,
     },
     rateLimit,
     bannedIps,
@@ -53,12 +49,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Origen no autorizado' }, { status: 403 });
   }
 
-  const token = req.cookies.get(SESSION_COOKIE_NAME)?.value;
-  const { valid, payload } = verifySessionToken(token || '');
-
-  if (!valid || (payload?.role !== 'ROLE_SUPERADMIN' && payload?.role !== 'ROLE_ADMIN')) {
-    return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
-  }
+  const auth = requireAdmin(req, ['ROLE_SUPERADMIN', 'ROLE_ADMIN']);
+  if (!auth.ok) return auth.response;
 
   try {
     const body = await req.json();

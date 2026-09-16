@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit, recordSecurityEvent } from '@/lib/security/rateLimiter';
 import { sanitizePlainText } from '@/lib/security/sanitizer';
-import { verifyMemberToken, USER_SESSION_COOKIE } from '@/lib/security/memberAuth';
-import { verifySessionToken, SESSION_COOKIE_NAME } from '@/lib/security/auth';
+import { getAuthenticatedActor } from '@/lib/security/authorization';
 import { getAllLeaders } from '@/data/members';
 import { DOCUMENTS } from '@/data/library';
 import { INITIAL_DEBATES } from '@/data/debates';
@@ -49,19 +48,12 @@ export async function POST(req: NextRequest) {
 
     // 2. Identificación de contexto de cuenta autenticada para auditoría de ciberseguridad
     let accountAuditContext = 'Invitado (Anónimo)';
-    const memberCookie = req.cookies.get(USER_SESSION_COOKIE)?.value;
-    const adminCookie = req.cookies.get(SESSION_COOKIE_NAME)?.value;
+    const actor = getAuthenticatedActor(req);
 
-    if (adminCookie) {
-      const adminVerification = verifySessionToken(adminCookie);
-      if (adminVerification.valid && adminVerification.payload) {
-        accountAuditContext = `Admin [${adminVerification.payload.username}]`;
-      }
-    } else if (memberCookie) {
-      const memberVerification = verifyMemberToken(memberCookie);
-      if (memberVerification.valid && memberVerification.payload) {
-        accountAuditContext = `Miembro [${memberVerification.payload.username}]`;
-      }
+    if (actor?.kind === 'admin') {
+      accountAuditContext = `Admin [${actor.payload.username}]`;
+    } else if (actor?.kind === 'member') {
+      accountAuditContext = `Miembro [${actor.payload.username}]`;
     }
 
     // 3. Sanitización y Normalización Anti-Bypass
