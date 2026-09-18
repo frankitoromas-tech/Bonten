@@ -157,6 +157,7 @@ export default function Interactive3DBackground() {
 
       // Conexiones de red neuronal 3D entre partículas cercanas
       const maxDistance = isMobile ? 85 : 120;
+      const maxDistSq = maxDistance * maxDistance;
       ctx.shadowBlur = 0;
 
       for (let i = 0; i < projected.length; i++) {
@@ -165,9 +166,10 @@ export default function Interactive3DBackground() {
           const p2 = projected[j];
           const dx = p1.x - p2.x;
           const dy = p1.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < maxDistance) {
+          if (distSq < maxDistSq) {
+            const dist = Math.sqrt(distSq);
             const lineAlpha = (1 - dist / maxDistance) * 0.22 * Math.min(p1.scale, p2.scale);
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);

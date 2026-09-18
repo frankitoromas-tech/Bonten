@@ -1,21 +1,25 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 export default function CursorSpotlight() {
   const [position, setPosition] = useState({ x: -1000, y: -1000 });
   const [visible, setVisible] = useState(false);
+  const visibleRef = useRef(false);
 
   useEffect(() => {
-    // Solo activar en pantallas con puntero de precisión (mouse desktop)
     const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (!hasFinePointer) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
-      if (!visible) setVisible(true);
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        setVisible(true);
+      }
     };
 
     const handleMouseLeave = () => {
+      visibleRef.current = false;
       setVisible(false);
     };
 
@@ -26,7 +30,7 @@ export default function CursorSpotlight() {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [visible]);
+  }, []);
 
   if (!visible) return null;
 
@@ -40,3 +44,4 @@ export default function CursorSpotlight() {
     />
   );
 }
+

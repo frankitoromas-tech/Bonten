@@ -33,6 +33,8 @@ const TypewriterText = ({
   onUpdate?: () => void;
 }) => {
   const [displayed, setDisplayed] = useState('');
+  const onUpdateRef = useRef(onUpdate);
+  onUpdateRef.current = onUpdate;
 
   useEffect(() => {
     let i = 0;
@@ -41,7 +43,7 @@ const TypewriterText = ({
       if (i < content.length) {
         setDisplayed((prev) => prev + content.charAt(i));
         i++;
-        if (onUpdate && i % 3 === 0) onUpdate(); // Scroll update
+        if (onUpdateRef.current && i % 3 === 0) onUpdateRef.current();
       } else {
         clearInterval(timer);
       }
@@ -82,6 +84,7 @@ const TypewriterText = ({
     </div>
   );
 };
+
 
 export default function PublicAssistant() {
   const [isOpen, setIsOpen] = useState(false);
@@ -579,7 +582,7 @@ export default function PublicAssistant() {
 
             {/* Bucle de Procesamiento Cognitivo en Tiempo Real */}
             {loading && (
-              <div className="flex flex-col items-start animate-in fade-in duration-200">
+              <div className="flex flex-col items-start animate-in fade-in duration-200" role="status" aria-live="polite">
                 <div className="max-w-[85%] p-3.5 rounded-2xl glass-luxury-delight border border-sky-500/40 text-slate-200 rounded-bl-xs shadow-lg space-y-2.5 relative overflow-hidden">
                   <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" />
                   <div className="flex items-center gap-2 text-sky-400 font-mono text-xs">

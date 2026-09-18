@@ -20,25 +20,31 @@ export default function Footer() {
     <footer className="site-footer">
       <h3 className="footer-title">BLOQUE PROVIDA</h3>
       <div className="social-grid">
-        {SOCIALS.map((s) => (
-          <motion.a 
-            key={s.label} 
-            href={s.href} 
-            className="social-box" 
-            aria-label={s.label}
-            whileHover={{ y: -4, scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            {...(s.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          >
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-              {s.rect && <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />}
-              <path d={s.path} />
-              {s.rect && <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />}
-              {s.extra}
-            </svg>
-            <span>{s.label}</span>
-          </motion.a>
-        ))}
+        {SOCIALS.map((s) => {
+          const isDead = s.href === '#';
+          const Tag = isDead ? 'span' : motion.a;
+          const linkProps = isDead
+            ? { className: 'social-box social-box-disabled', title: `${s.label} — Próximamente`, 'aria-label': `${s.label} (próximamente)` }
+            : {
+                href: s.href,
+                className: 'social-box',
+                'aria-label': s.label,
+                whileHover: { y: -4, scale: 1.05 },
+                whileTap: { scale: 0.95 },
+                ...(s.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}),
+              };
+          return (
+            <Tag key={s.label} {...(linkProps as Record<string, unknown>)}>
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                {s.rect && <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />}
+                <path d={s.path} />
+                {s.rect && <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />}
+                {s.extra}
+              </svg>
+              <span>{s.label}{isDead && ' ⏳'}</span>
+            </Tag>
+          );
+        })}
       </div>
 
       <div className="mt-8 pt-6 border-t border-slate-200/40 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">

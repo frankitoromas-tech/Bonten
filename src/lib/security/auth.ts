@@ -19,8 +19,17 @@ function getSecret() {
   return getRequiredSecret('ADMIN_JWT_SECRET', 32);
 }
 
-const DEFAULT_ADMIN_USER = process.env.ADMIN_USER || 'fireboy';
-const DEFAULT_ADMIN_PASS = process.env.ADMIN_PASS || 'fireboy_bonten_2026';
+function getAdminCredentials(): { user: string; pass: string } {
+  if (process.env.NEXT_PHASE === 'phase-production-build' || process.env.npm_lifecycle_event === 'build') {
+    return { user: 'build-placeholder', pass: 'build-placeholder-pass-32-chars-x' };
+  }
+  const user = process.env.ADMIN_USER;
+  const pass = process.env.ADMIN_PASS;
+  if (process.env.NODE_ENV === 'production' && (!user || !pass)) {
+    throw new Error('ADMIN_USER and ADMIN_PASS must be configured in production');
+  }
+  return { user: user || 'fireboy', pass: pass || 'fireboy_bonten_2026' };
+}
 
 export const SESSION_COOKIE_NAME = 'bonten_admin_session';
 
@@ -45,25 +54,21 @@ export function hashPassword(password: string, salt?: string): { hash: string; s
 
 /** Verificación a prueba de timing attacks (ataques de canal lateral) */
 export function verifyPassword(password: string, expectedPassword?: string): boolean {
-  const target = expectedPassword || DEFAULT_ADMIN_PASS;
-  const bufferA = Buffer.from(password);
-  const bufferB = Buffer.from(target);
-
-  if (bufferA.length !== bufferB.length) {
-    return false;
-  }
-
-  return crypto.timingSafeEqual(bufferA, bufferB);
+  const target = expectedPassword || getAdminCredentials().pass;
+  const secret = getSecret();
+  const hashA = crypto.createHmac('sha256', secret).update(password).digest();
+  const hashB = crypto.createHmac('sha256', secret).update(target).digest();
+  return crypto.timingSafeEqual(hashA, hashB);
 }
 
 /** Verifica usuario administrador */
 export function verifyUsername(username: string): boolean {
-  return username.trim().toLowerCase() === DEFAULT_ADMIN_USER.toLowerCase();
+  return username.trim().toLowerCase() === getAdminCredentials().user.toLowerCase();
 }
 
 /** Emite un token firmado con HMAC-SHA256, TTL de 2 horas y huella de cliente */
 export function createSessionToken(
-  username = DEFAULT_ADMIN_USER,
+  username = getAdminCredentials().user,
   role: AdminSessionPayload['role'] = 'ROLE_SUPERADMIN',
   fingerprint?: string
 ): string {

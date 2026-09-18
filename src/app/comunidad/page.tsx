@@ -57,6 +57,7 @@ export default function ComunidadPage() {
   const [hasPledged, setHasPledged] = useState(false);
   const [pledgeCount, setPledgeCount] = useState(142);
   const [activeTab, setActiveTab] = useState<'muro' | 'principios' | 'directorio'>('muro');
+  const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -75,7 +76,9 @@ export default function ComunidadPage() {
   };
 
   const handleLike = (id: string) => {
+    if (likedPosts.has(id)) return;
     triggerAudio('pop');
+    setLikedPosts((prev) => new Set(prev).add(id));
     setPosts((prev) =>
       prev.map((p) => (p.id === id ? { ...p, likes: p.likes + 1 } : p))
     );

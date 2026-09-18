@@ -64,7 +64,7 @@ export default function QuickSearch() {
       id: `doc-${d.id}`,
       title: d.title,
       category: 'Biblioteca',
-      url: '/',
+      url: '/#biblioteca-seccion',
       icon: '📚',
     })),
     ...INITIAL_DEBATES.map((d) => ({

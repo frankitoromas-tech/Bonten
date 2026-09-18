@@ -19,6 +19,7 @@ export default function Newsletter() {
       setStatus('success');
       showToast('Suscripción confirmada. ¡Bienvenido a BONTEN!', 'success');
       setEmail('');
+      setTimeout(() => setStatus('idle'), 5000);
     }, 1500);
   };
 
