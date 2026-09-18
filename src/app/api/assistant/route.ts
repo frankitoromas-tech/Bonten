@@ -33,7 +33,8 @@ export async function POST(req: NextRequest) {
   try {
     // 1. Detección de IP y Rate Limiting L7 estricto (10 peticiones/minuto)
     const forwardedFor = req.headers.get('x-forwarded-for');
-    const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1';
+    const realIp = req.headers.get('x-real-ip');
+    const ip = realIp || (forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1');
 
     const rateCheck = checkRateLimit(ip, 10, 60 * 1000);
     if (!rateCheck.allowed) {
@@ -60,6 +61,15 @@ export async function POST(req: NextRequest) {
     // 3. Sanitización y Normalización Anti-Bypass
     const body = await req.json().catch(() => ({}));
     const rawPrompt = typeof body.prompt === 'string' ? body.prompt : '';
+
+    // DOS Protection: Límite estricto de longitud en servidor
+    if (rawPrompt.length > 500) {
+      recordSecurityEvent(ip, 'PAYLOAD_TOO_LARGE', `Intento de consulta muy larga (${rawPrompt.length} chars)`);
+      return NextResponse.json(
+        { error: 'La consulta excede la longitud máxima permitida (500 caracteres). Por favor, sintetiza tu idea.' },
+        { status: 413 }
+      );
+    }
     const defangedPrompt = normalizePromptDefense(rawPrompt);
     const cleanPrompt = sanitizePlainText(defangedPrompt, 350).trim();
 
@@ -134,6 +144,15 @@ export async function POST(req: NextRequest) {
       'private key',
       'cert',
       'root access',
+      
+      // Delimitadores de modelos LLM (ataques de control de formato)
+      '<|im_start|>',
+      '<|im_end|>',
+      '\\n\\nsystem:',
+      '\\nuser:',
+      '\\nassistant:',
+      '[system]',
+      '[user]',
 
       // Explotación de shells, inyección SQL o código
       'sql injection',
@@ -204,13 +223,13 @@ export async function POST(req: NextRequest) {
         ok: true,
         reply:
           '🏛️ **Sobre los límites de nuestra charla**\n\n' +
-          'Comprendo tu curiosidad, pero como polímata y compañero de diálogo en BONTEN, hay ciertos temas mundanos o triviales que escapan a mi propósito.\n\n' +
-          'Me dedico, en cambio, a reflexionar profundamente sobre:\n\n' +
-          '• **Filosofía y Metafísica**: La ontología del ser, la teleología y los diagnósticos de Fireboy sobre la posmodernidad.\n' +
-          '• **Ética Positiva y Negativa**: Nuestros deberes inquebrantables de no hacer daño (*neminem laedere*) y la vocación de acoger al otro.\n' +
-          '• **Estética**: La belleza clásica (*kalokagathía*) como respuesta al nihilismo y feísmo actuales.\n' +
-          '• **Derecho y Biología**: El estatus innegable del nasciturus y las evidencias genéticas de la vida.\n\n' +
-          '¿Qué te parece si dejamos lo trivial de lado y abordamos un verdadero dilema intelectual o bioético?',
+          'Comprendo tu curiosidad, pero como polímata de BONTEN, dejo lo puramente trivial o mundano a un lado.\n\n' +
+          'Mi dominio cognitivo abarca un amplio espectro intelectual para debatir contigo:\n\n' +
+          '• **Filosofía, Teología y Metafísica**: La ontología del ser, dialéctica y los diagnósticos de la posmodernidad.\n' +
+          '• **Ética y Geopolítica**: Deberes inquebrantables, estado de derecho y análisis histórico.\n' +
+          '• **Estética y Sociología**: La belleza clásica como antídoto al nihilismo.\n' +
+          '• **Derecho, Transhumanismo y Biología**: El estatus del nasciturus y la antropología médica.\n\n' +
+          'Te invito a elevar el debate hacia estos horizontes. ¿Qué tema intelectual te gustaría abordar?',
         routes: [
           { label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' },
           { label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' },

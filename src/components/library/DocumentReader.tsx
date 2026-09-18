@@ -38,22 +38,42 @@ export default function DocumentReader({ document: doc, onClose, autoPlayAudio =
     };
   }, []);
 
+  const setPremiumVoice = (utterance: SpeechSynthesisUtterance) => {
+    const voices = window.speechSynthesis.getVoices();
+    const premiumVoice = voices.find(v => 
+      v.lang.includes('es') && 
+      (v.name.includes('Natural') || v.name.includes('Premium') || v.name.includes('Google') || v.name.includes('Microsoft'))
+    );
+    if (premiumVoice) utterance.voice = premiumVoice;
+    utterance.pitch = 0.85; // Tono más profundo y resonante (neuro-psicoacústico)
+    utterance.rate = 0.92; // Ritmo más pausado e inmersivo
+  };
+
   useEffect(() => {
     if (autoPlayAudio && typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      setTimeout(() => {
+      const play = () => {
         if (!isPlayingAudio) {
           window.speechSynthesis.cancel();
           const plainText = `${doc?.title}. ${doc?.content.map((p) => p.replace(/<[^>]*>/g, '')).join('. ')}`;
           const utterance = new SpeechSynthesisUtterance(plainText);
           utterance.lang = 'es-ES';
-          utterance.rate = 1.0;
+          setPremiumVoice(utterance);
           utterance.onend = () => setIsPlayingAudio(false);
           utterance.onerror = () => setIsPlayingAudio(false);
           window.speechSynthesis.speak(utterance);
           setIsPlayingAudio(true);
-          showToast('Reproduciendo audio del manifiesto...', 'info');
+          showToast('Iniciando lectura inmersiva neuro-acústica...', 'info');
         }
-      }, 500);
+      };
+
+      // Asegurar que las voces estén cargadas
+      if (window.speechSynthesis.getVoices().length > 0) {
+        setTimeout(play, 600);
+      } else {
+        window.speechSynthesis.onvoiceschanged = () => {
+          setTimeout(play, 600);
+        };
+      }
     }
   }, [autoPlayAudio, doc]);
 
@@ -107,14 +127,14 @@ export default function DocumentReader({ document: doc, onClose, autoPlayAudio =
       const plainText = `${doc.title}. ${doc.content.map((p) => p.replace(/<[^>]*>/g, '')).join('. ')}`;
       const utterance = new SpeechSynthesisUtterance(plainText);
       utterance.lang = 'es-ES';
-      utterance.rate = 1.0;
+      setPremiumVoice(utterance);
       
       utterance.onend = () => setIsPlayingAudio(false);
       utterance.onerror = () => setIsPlayingAudio(false);
 
       window.speechSynthesis.speak(utterance);
       setIsPlayingAudio(true);
-      showToast('Reproduciendo audio del manifiesto...', 'info');
+      showToast('Iniciando lectura inmersiva neuro-acústica...', 'info');
     }
   };
 
@@ -127,7 +147,7 @@ export default function DocumentReader({ document: doc, onClose, autoPlayAudio =
 
   return (
     <motion.div 
-      className="modal-overlay" 
+      className="fixed inset-0 z-[2000] flex items-center justify-center p-4 sm:p-6 bg-[#030816]/60 backdrop-blur-2xl" 
       onClick={handleClose} 
       role="dialog" 
       aria-modal="true" 
@@ -135,15 +155,15 @@ export default function DocumentReader({ document: doc, onClose, autoPlayAudio =
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <motion.div 
-        className="modal-container" 
+        className="modal-container relative w-full max-w-4xl max-h-[90vh] flex flex-col rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-[#0a1128]/95 to-[#060c1d]/95 shadow-[0_0_80px_rgba(79,70,229,0.15)] overflow-hidden" 
         onClick={(e) => e.stopPropagation()}
-        initial={{ scale: 0.92, opacity: 0, y: 20 }}
+        initial={{ scale: 0.95, opacity: 0, y: 30 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.92, opacity: 0, y: 20 }}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        exit={{ scale: 0.95, opacity: 0, y: 30 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
       >
         <button className="modal-close-btn" onClick={handleClose} aria-label="Cerrar modal" title="Cerrar lectura (Esc)">
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none">
