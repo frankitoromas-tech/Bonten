@@ -23,6 +23,39 @@ interface AssistantMessage {
   timestamp: string;
 }
 
+const MessageSuggestions = ({ suggestions, onSelect }: { suggestions: string[], onSelect: (sug: string) => void }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="mt-4 pt-3 border-t border-slate-700/60 space-y-2">
+      <button 
+        onClick={() => setIsOpen(!isOpen)} 
+        className="flex items-center gap-2 text-sm font-semibold text-sky-400 hover:text-sky-300 transition-colors"
+      >
+        <span>💡</span>
+        <span>{isOpen ? 'Ocultar sugerencias analíticas' : 'Ver sugerencias analíticas'}</span>
+        <span className="text-xs">{isOpen ? '▲' : '▼'}</span>
+      </button>
+      
+      {isOpen && (
+        <div className="flex flex-col gap-1.5 mt-2 animate-in fade-in slide-in-from-top-2 duration-200">
+          {suggestions.map((sug, sIdx) => (
+            <button
+              key={sIdx}
+              type="button"
+              onClick={() => onSelect(sug)}
+              className="text-left px-3 py-2 rounded-xl bg-sky-950/40 hover:bg-sky-900/60 border border-sky-500/20 hover:border-sky-400/50 text-slate-300 hover:text-sky-200 text-sm transition-all cursor-pointer flex items-center justify-between group/sug"
+            >
+              <span>{sug}</span>
+              <span className="text-sky-400 opacity-0 group-hover/sug:opacity-100 transition-opacity">↵</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const TypewriterText = ({
   content,
   speed = 10,
@@ -199,7 +232,7 @@ export default function WilfredoPage() {
         const nextIdx = (thinkingSteps.indexOf(current) + 1) % thinkingSteps.length;
         return thinkingSteps[nextIdx];
       });
-    }, 420);
+    }, 200);
 
     const startTime = Date.now();
 
@@ -214,7 +247,7 @@ export default function WilfredoPage() {
       if (!res.ok) throw new Error(data.error || 'No pude procesar la orientación');
 
       const elapsed = Date.now() - startTime;
-      const remainingMargin = Math.max(0, 1100 - elapsed);
+      const remainingMargin = Math.max(0, 300 - elapsed);
       await new Promise((resolve) => setTimeout(resolve, remainingMargin));
 
       clearInterval(stepInterval);
@@ -333,7 +366,7 @@ export default function WilfredoPage() {
                   {msg.isStreaming ? (
                     <TypewriterText 
                       content={msg.text} 
-                      speed={14} 
+                      speed={5} 
                       onUpdate={() => {
                         if (chatContainerRef.current) {
                           chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -370,25 +403,10 @@ export default function WilfredoPage() {
 
                   {/* Sugerencias Analíticas */}
                   {!isUser && msg.suggestions && msg.suggestions.length > 0 && (
-                    <div className="mt-4 pt-3 border-t border-slate-700/60 space-y-2">
-                      <div className="flex items-center gap-2 text-sm font-semibold text-sky-400">
-                        <span>💡</span>
-                        <span>Sugerencias Analíticas:</span>
-                      </div>
-                      <div className="flex flex-col gap-1.5">
-                        {msg.suggestions.map((sug, sIdx) => (
-                          <button
-                            key={sIdx}
-                            type="button"
-                            onClick={() => handleSend(sug.replace(/^💡\s*Sugerencia:\s*/i, ''))}
-                            className="text-left px-3 py-2 rounded-xl bg-sky-950/40 hover:bg-sky-900/60 border border-sky-500/20 hover:border-sky-400/50 text-slate-300 hover:text-sky-200 text-sm transition-all cursor-pointer flex items-center justify-between group/sug"
-                          >
-                            <span>{sug}</span>
-                            <span className="text-sky-400 opacity-0 group-hover/sug:opacity-100 transition-opacity">↵</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
+                    <MessageSuggestions 
+                      suggestions={msg.suggestions} 
+                      onSelect={(sug) => handleSend(sug.replace(/^💡\s*Sugerencia:\s*/i, ''))} 
+                    />
                   )}
 
                   {/* Botones de Rutas */}

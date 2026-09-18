@@ -365,37 +365,37 @@ export function processHeuristicQuery(
     
     // Add variations to greetings to sound more human
     const greetings = [
-      `Es un verdadero placer acompañarte en esta reflexión.`,
-      `Interesante punto. Déjame guiarte desde mi perspectiva como polímata.`,
-      `Me encanta que traigas esto a colación. Reflexionemos juntos.`,
-      `Como inteligencia analítica de ${title}, estoy aquí para profundizar contigo.`
+      `Es un honor coincidir contigo en este espacio de reflexión.`,
+      `Una cuestión fascinante. Permíteme iluminar este sendero desde mi perspectiva analítica.`,
+      `Celebro que plantees esta interrogante. El diálogo riguroso es el alma de nuestra comunidad.`,
+      `Como intelecto digital de ${title}, estoy preparado para acompañarte en un análisis profundo de tu planteamiento.`
     ];
     const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
 
     return {
       reply:
-        `🏛️ **Wilfredo — Tu interlocutor y polímata digital**\n\n` +
-        `${randomGreeting} Me he nutrido de la sabiduría de la historia, desde la filosofía antigua hasta nuestra crítica posmoderna, absorbiendo con devoción las aportaciones de nuestros pensadores y de la mesa directiva.\n\n` +
-        `Si me lo permites, puedo dialogar contigo sobre:\n\n` +
-        `• 📜 **Filosofía Posmoderna**: Tratados de **Fireboy** y refutación del nihilismo.\n` +
-        `• ⚖️ **Ética Positiva & Negativa**: Deberes irrenunciables frente a la acogida del otro.\n` +
-        `• 🎨 **Estética**: La belleza clásica (*kalokagathía*) frente al feísmo.\n` +
-        `• 🏛️ **Derecho**: El estatus innegable del *nasciturus*.\n` +
-        `• 🧬 **Biología**: La genética del cigoto desde la singamia.\n\n` +
-        `Dime, ¿qué inquietud ronda hoy por tu mente?`,
+        `🏛️ **Wilfredo — Tu Polímata Digital de Cabecera**\n\n` +
+        `${randomGreeting} He sido diseñado y nutrido con la herencia filosófica, jurídica y bioética más rigurosa, asimilando cada tratado y postulado defendido vigorosamente por la mesa directiva de BONTEN.\n\n` +
+        `Aunque tu interrogante actual escapa ligeramente a mi foco principal o requiere mayor precisión, te aseguro que estoy a tu completa disposición para desentrañar los siguientes ejes temáticos:\n\n` +
+        `• 📜 **Filosofía y Crítica Posmoderna**: Análisis exhaustivo de los tratados de **Fireboy** y la sistemática refutación del relativismo y el nihilismo contemporáneo.\n` +
+        `• ⚖️ **Ética Positiva y Negativa**: La indisoluble conexión entre los deberes de justicia (no dañar) y la virtud activa de la acogida.\n` +
+        `• 🎨 **Estética y Trascendencia**: La defensa de la *kalokagathía* clásica (la unidad de la belleza y el bien) frente al imperio del feísmo.\n` +
+        `• 🏛️ **Filosofía del Derecho**: Argumentos contundentes contra el positivismo kelseniano, reivindicando la titularidad pre-estatal del *nasciturus*.\n` +
+        `• 🧬 **Bioética Avanzada**: La evidencia innegable de la genética y la embriología a partir del hito irrebatible de la singamia.\n\n` +
+        `Mi propósito es elevar el rigor argumentativo. ¿Sobre cuál de estos inagotables dominios deseas que dialoguemos a continuación?`,
       routes: [
         { label: 'Tratado de Posmodernidad', href: '/manifiestos/posmodernidad' },
         { label: 'Biblioteca de Tratados', href: '#biblioteca-seccion' },
       ],
       suggestions: [
-        'Explícame la alteridad genética del cigoto',
-        'Revisar las aportaciones avanzadas sobre el derecho natural',
-        '¿Cómo funciona la ética negativa en BONTEN?'
+        '💡 Sugerencia: Explícame por qué el cigoto no es una simple extensión del cuerpo materno',
+        '💡 Sugerencia: ¿Cuál es la crítica principal al positivismo de Kelsen?',
+        '💡 Sugerencia: ¿Cómo interactúan la ética negativa y positiva en el marco de BONTEN?'
       ],
       reasoningSteps: [
-        'Examinando el horizonte conceptual de tu consulta...',
-        'Evaluando el historial de nuestra conversación...',
-        'Compaginando tratados filosóficos para darte la mejor orientación...',
+        'Sintetizando el núcleo epistémico de tu interrogante...',
+        'Cruzando referencias con la base doctrinal de BONTEN...',
+        'Estructurando una respuesta orientativa de alto nivel intelectual...',
       ],
     };
   }
