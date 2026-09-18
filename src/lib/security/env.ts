@@ -12,6 +12,7 @@ export type SecurityEventType =
   | 'SESSION_HIJACK_ATTEMPT'
   | 'AUTHORIZATION_DENIED'
   | 'INVALID_JSON'
+  | 'PAYLOAD_TOO_LARGE'
   | 'AUDIT_LOG';
 
 export function getRequiredSecret(name: string, minimumLength = 32): string {
