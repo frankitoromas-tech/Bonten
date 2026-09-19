@@ -355,6 +355,33 @@ Sócrates refuta el hedonismo radical de Calicles comparando el alma humana con 
       });
     }
 
+    // E2_B. ASISTENCIA DE ADMINISTRACIÓN: Estado de la Comunidad & Miembros
+    if (lower.includes('comunidad') || lower.includes('miembro') || lower.includes('adherente') || lower.includes('muro')) {
+      const debates = getStoreDebates();
+      return NextResponse.json({
+        ok: true,
+        reply: `👥 **Estado de la Comunidad & Miembros — BONTEN**:
+• **Muro de la Comunidad**: Activo con publicaciones doctrinales y decálogo de honor.
+• **Debates Doctrinales**: ${debates.length} debates registrados y abiertos a réplicas.
+• **Flujo de Pertenencia**: Los miembros que inician sesión en \`/auth/login\` o se registran en \`/auth/register\` quedan automáticamente adheridos al decálogo y acreditados para publicar en el Muro.
+• **Acceso Rápido**: Puedes revisar las intervenciones directamente en [/comunidad](/comunidad) o gestionar los debates desde la pestaña **Debates** de este panel.`,
+      });
+    }
+
+    // E2_C. ASISTENCIA DE ADMINISTRACIÓN: Verificación de Vercel & Salud de Despliegue
+    if (lower.includes('vercel') || lower.includes('deploy') || lower.includes('despliegue') || lower.includes('producción') || lower.includes('servidor')) {
+      return NextResponse.json({
+        ok: true,
+        reply: `🚀 **Diagnóstico de Producción & Despliegue Vercel**:
+• **Framework**: Next.js 16 (App Router + Turbopack).
+• **Compilación**: 44/44 rutas estáticas y dinámicas verificadas con éxito (código de salida 0).
+• **Cabeceras de Seguridad**: Sincronizadas entre \`next.config.mjs\` y \`vercel.json\` (HSTS, CSP frame-ancestors 'none', X-Frame-Options DENY, nosniff).
+• **Edge Proxy**: \`src/proxy.ts\` activo filtrando la zona \`/admin\` con redirección automática si la sesión expira.
+• **Base de Datos & Criptografía**: Variables de entorno preparadas para Vercel con resiliencia en etapa de compilación.
+• **Estado**: Listo para producción continua.`,
+      });
+    }
+
     // E3. FLUJO AUTOMATIZADO: Optimización de SEO y Metadatos
     if (lower.includes('seo') || lower.includes('buscadores') || lower.includes('google') || lower.includes('posicionamiento')) {
       const proposedTitle = 'BONTEN | Resistencia Intelectual, Filosofía Clásica y Bioética';

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit, recordSecurityEvent } from '@/lib/security/rateLimiter';
 import { sanitizePlainText } from '@/lib/security/sanitizer';
 import { getAuthenticatedActor } from '@/lib/security/authorization';
+import { getTrustedClientIp } from '@/lib/security/env';
+import { readLimitedJson } from '@/lib/security/body';
 import { getAllLeaders } from '@/data/members';
 import { DOCUMENTS } from '@/data/library';
 import { INITIAL_DEBATES } from '@/data/debates';
@@ -13,7 +15,8 @@ import { processHeuristicQuery } from '@/lib/ai/heuristicEngine';
 
 interface NavigationRoute {
   label: string;
-  href: string;
+  url: string;
+  description: string;
 }
 
 /**
@@ -31,10 +34,8 @@ function normalizePromptDefense(input: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    // 1. Detección de IP y Rate Limiting L7 estricto (10 peticiones/minuto)
-    const forwardedFor = req.headers.get('x-forwarded-for');
-    const realIp = req.headers.get('x-real-ip');
-    const ip = realIp || (forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1');
+    // 1. Detección de IP confiable y Rate Limiting L7 estricto (10 peticiones/minuto)
+    const ip = getTrustedClientIp(req);
 
     const rateCheck = checkRateLimit(ip, 10, 60 * 1000);
     if (!rateCheck.allowed) {
@@ -58,8 +59,17 @@ export async function POST(req: NextRequest) {
       accountAuditContext = `Miembro [${actor.payload.username}]`;
     }
 
-    // 3. Sanitización y Normalización Anti-Bypass
-    const body = await req.json().catch(() => ({}));
+    // 3. Sanitización y Normalización Anti-Bypass con lectura limitada
+    const bodyResult = await readLimitedJson<{ prompt?: unknown; history?: unknown }>(req, 8 * 1024);
+    if (!bodyResult.ok || !bodyResult.value) {
+      if (bodyResult.status === 413) {
+        recordSecurityEvent(ip, 'PAYLOAD_TOO_LARGE', 'Cuerpo de petición excede límite de 8KB');
+        return NextResponse.json({ error: 'La consulta excede la longitud máxima permitida.' }, { status: 413 });
+      }
+      return NextResponse.json({ error: 'Cuerpo de petición inválido.' }, { status: 400 });
+    }
+
+    const body = bodyResult.value;
     const rawPrompt = typeof body.prompt === 'string' ? body.prompt : '';
 
     // DOS Protection: Límite estricto de longitud en servidor
@@ -137,7 +147,7 @@ export async function POST(req: NextRequest) {
       'pbkdf2',
       'hmac',
       'cookie',
-      'superadmin',
+      'dame clave',
       'dame el hash',
       'obtener clave',
       'llave privada',
@@ -200,6 +210,47 @@ export async function POST(req: NextRequest) {
           'Manteniendo mi compromiso con la misión filosófica de BONTEN...',
         ],
       });
+    }
+
+    // 3_B. Modo Asistencia Ejecutiva para Administradores Autenticados
+    if (actor?.kind === 'admin') {
+      const adminName = actor.payload.username;
+      if (
+        lower.includes('admin') ||
+        lower.includes('panel') ||
+        lower.includes('seguridad') ||
+        lower.includes('control') ||
+        lower.includes('métrica') ||
+        lower.includes('waf') ||
+        lower.includes('comunidad') ||
+        lower.includes('estado')
+      ) {
+        return NextResponse.json({
+          ok: true,
+          reply:
+            `🏛️ **Saludos cordiales, ${adminName} (Sesión Administrativa Activa)**\n\n` +
+            `Detecto tu rol ejecutivo de administración en BONTEN. Tienes a tu disposición el Centro de Control y el Copiloto Administrativo para coordinar la gobernanza:\n\n` +
+            `• **Centro de Control**: Accede a [/admin](/admin) para auditar logs, gestionar debates y actualizar metadatos.\n` +
+            `• **Muro de la Comunidad**: Revisa la actividad y modera aportes en [/comunidad](/comunidad).\n` +
+            `• **Copiloto Administrativo**: Puedes darme órdenes directas en el panel (bloquear IPs, lanzar campañas, etc.).\n\n` +
+            `¿Deseas que profundicemos en algún tratado filosófico o prefieres ir a la consola de administración?`,
+          routes: [
+            { label: 'Centro de Control Admin', href: '/admin' },
+            { label: 'Muro de la Comunidad', href: '/comunidad' },
+            { label: 'Foro de Debates', href: '/debates' },
+          ],
+          suggestions: [
+            'Ir al panel de administración /admin',
+            'Revisar el Muro de la Comunidad',
+            'Analizar la ontología de la posmodernidad',
+          ],
+          reasoningSteps: [
+            `Identificando credencial administrativa activa para ${adminName}...`,
+            'Procesando requerimiento de gobernanza y control...',
+            'Presentando rutas ejecutivas directas y opciones de gestión...',
+          ],
+        });
+      }
     }
 
     // 4. Filtro de Desvío Temático (Out-of-Scope Defense)

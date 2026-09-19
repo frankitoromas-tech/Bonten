@@ -286,13 +286,14 @@ export default function WilfredoPage() {
   };
 
   const quickPrompts = [
+    { label: '🛡️ Gobernanza & Admin', prompt: '¿Cómo puedo acceder a las métricas del sistema y el panel administrativo?' },
+    { label: '👥 Comunidad BONTEN', prompt: '¿Cómo funciona la pertenencia automática a la comunidad y el Muro?' },
     { label: '⚖️ Ética', prompt: 'Explícame la diferencia entre ética positiva y ética negativa aplicada a la defensa del concebido' },
     { label: '🏛️ Derecho', prompt: '¿Por qué el iusnaturalismo defiende que el concebido es sujeto de derecho frente al positivismo kelseniano?' },
     { label: '🧬 Bioética Avanzada', prompt: 'Argumentos genéticos y clínicos sobre la singamia como inicio irrefutable de la vida humana' },
     { label: '🎨 Estética Clásica', prompt: 'Análisis de la kalokagathía frente al nihilismo estético de la posmodernidad' },
     { label: '🔥 Filosofía', prompt: 'Explica las tesis de Fireboy sobre la fractura posmoderna y el relativismo moral' },
     { label: '🏺 Historia y Ética', prompt: 'La alegoría del tonel en el Gorgias de Platón y su crítica al hedonismo contemporáneo' },
-    { label: '📖 Dialéctica Hegeliana', prompt: 'Analiza el debate provida actual usando el marco de la dialéctica del amo y el esclavo' },
     { label: '💬 Debates', prompt: '¿Cuáles son los debates activos en el Ágora y cómo se estructuran?' },
   ];
 

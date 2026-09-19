@@ -339,6 +339,73 @@ export function processHeuristicQuery(
           'Estructurando protocolo de debate socrático...',
         ],
       })
+    },
+    {
+      id: 'ADMIN_GOVERNANCE',
+      keywords: [
+        { word: 'admin', weight: 5 },
+        { word: 'gobernanza', weight: 6 },
+        { word: 'panel', weight: 5 },
+        { word: 'métrica', weight: 5 },
+        { word: 'sistema', weight: 4 },
+        { word: 'seguridad', weight: 4 },
+        { word: 'copilot', weight: 5 },
+        { word: 'superadmin', weight: 6 },
+      ],
+      generateResponse: () => ({
+        reply:
+          '🏛️ **Gobernanza Administrativa & Centro de Control BONTEN**\n\n' +
+          'La administración de la plataforma se rige por un estricto modelo de control de acceso por roles (RBAC) y defensa perimetral:\n\n' +
+          '• **Centro de Control**: Ubicado en `/admin`, permite gestionar metadatos, debatir internamente, auditar eventos y configurar el WAF.\n' +
+          '• **Copiloto Administrativo**: Puedes interactuar directamente con mi módulo administrativo en el panel para ejecutar acciones automatizadas en 1 clic.\n' +
+          '• **Acceso Unificado**: Los administradores pueden identificarse en `/auth/login` o en `/admin/login`. Las sesiones emiten cookies HttpOnly firmadas con HMAC-SHA256.',
+        routes: [
+          { label: 'Centro de Control Admin', href: '/admin' },
+          { label: 'Acceso Administrativo', href: '/admin/login' },
+          { label: 'Muro Comunitario', href: '/comunidad' },
+        ],
+        suggestions: [
+          '¿Cómo funciona el WAF y el IP Jail?',
+          '¿Qué permisos tiene el superadmin Fireboy?',
+        ],
+        reasoningSteps: [
+          'Consultando especificaciones de gobernanza y control RBAC...',
+          'Proveyendo rutas de acceso administrativo y directivas de seguridad...',
+        ],
+      })
+    },
+    {
+      id: 'COMMUNITY_MEMBERSHIP',
+      keywords: [
+        { word: 'comunidad', weight: 6 },
+        { word: 'adhesión', weight: 5 },
+        { word: 'adherente', weight: 5 },
+        { word: 'muro', weight: 5 },
+        { word: 'decálogo', weight: 6 },
+        { word: 'pertenecer', weight: 6 },
+        { word: 'miembro', weight: 4 },
+      ],
+      generateResponse: () => ({
+        reply:
+          '👥 **Pertenencia Automatizada a la Comunidad BONTEN**\n\n' +
+          'Nuestra comunidad opera bajo un flujo de integración inmediato y fraterno:\n\n' +
+          '• **Adhesión Inmediata**: Al iniciar sesión o registrarte en `/auth/login`, tu cuenta queda automáticamente vinculada al decálogo de honor y acreditada para participar.\n' +
+          '• **El Muro de la Comunidad**: En `/comunidad` puedes publicar reflexiones, debatir con la hermandad y consultar tratados bioéticos.\n' +
+          '• **Identidad Activa**: Tu pseudónimo se acredita en todas tus intervenciones en el Muro y en el Foro de Debates.',
+        routes: [
+          { label: 'Muro de la Comunidad', href: '/comunidad' },
+          { label: 'Ingreso a la Comunidad', href: '/auth/login' },
+          { label: 'Foro de Debates', href: '/debates' },
+        ],
+        suggestions: [
+          'Quiero leer el Manifiesto de Adhesión',
+          '¿Cómo publicar en el Muro de la Comunidad?',
+        ],
+        reasoningSteps: [
+          'Localizando protocolos de membresía y adhesión comunitaria...',
+          'Conectando al usuario con el Muro y los debates activos...',
+        ],
+      })
     }
   ];
 

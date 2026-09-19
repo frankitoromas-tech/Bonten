@@ -197,13 +197,14 @@ export function AdminCopilot({ onMetadataUpdated }: Props) {
   };
 
   const automatedWorkflows = [
+    { label: '👥 Estado Comunidad', prompt: 'Muéstrame el estado de la comunidad, miembros y debates' },
+    { label: '🚀 Diagnóstico Vercel', prompt: 'Verificar estado de despliegue en Vercel y configuración de producción' },
+    { label: '🛡️ Auditoría WAF & Seguridad', prompt: 'Realiza una auditoría completa de vulnerabilidades y seguridad' },
     { label: '⚡ Fireboy Dorsal 7', prompt: 'Cambiar el avatar oficial de Fireboy a la nueva foto del dorsal 7 en el estadio (/assets/fireboy_dorsal_7.webp)' },
     { label: '🚀 Campaña Provida', prompt: 'Lanzar campaña provida con título y slogan actualizados' },
     { label: '🛡️ Aislar IP Maliciosa', prompt: 'Bloquea la IP sospechosa 198.51.100.42 por intento reiterado de intrusión' },
     { label: '⚖️ Ética Socrática (Gorgias 493a)', prompt: 'Explícame la alegoría socrática de los dos toneles perforados de Gorgias 493a y su aplicación ética' },
     { label: '💬 Crear Debate Doctrinal', prompt: 'Crear un nuevo debate sobre bioética y deontología provida' },
-    { label: '🖼️ Avatar Estudio', prompt: 'Cambiar avatar oficial de Fireboy a /assets/avatar_fireboy_1781973753933.webp' },
-    { label: '🛡️ Auditoría WAF & Seguridad', prompt: 'Realiza una auditoría completa de vulnerabilidades y seguridad' },
     { label: '📚 Publicar Ensayo Bioética', prompt: 'Publicar ensayo sobre bioética titulado "La Dignidad del Ser en Gestación"' },
     { label: '✨ Optimizar Metadatos SEO', prompt: 'Optimiza los metadatos y SEO para posicionamiento' },
   ];
@@ -227,11 +228,14 @@ export function AdminCopilot({ onMetadataUpdated }: Props) {
             className="rounded-xl border border-slate-200 dark:border-white/10 object-cover shadow-sm float-3d"
           />
           <div>
-            <h3 className="text-sm font-semibold text-[var(--title-color)]">
-              Asistente Editorial & Acciones Rápidas
+            <h3 className="text-sm font-semibold text-[var(--title-color)] flex items-center gap-2">
+              <span>WILFREDO AI</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 font-mono font-bold border border-sky-400/30">
+                Copiloto Administrativo
+              </span>
             </h3>
             <p className="text-xs text-[var(--text-muted)]">
-              Gestión de contenidos, actualización de metadatos y soporte
+              Inteligencia estratégica para administración, comunidad, auditoría WAF y Vercel
             </p>
           </div>
         </div>
