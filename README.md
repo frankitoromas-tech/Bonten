@@ -1,17 +1,24 @@
-# BONTEN_WEB
+# ⚡ BONTEN Web Platform
 
-Plataforma oficial de la comunidad **BONTEN** — *Nuestra Resistencia*. Manifiestos doctrinales, biblioteca bioética, muro comunitario, foro de debates y asistencia cognitiva con **Wilfredo AI**.
+[![Next.js 16](https://img.shields.io/badge/Next.js-16%20App%20Router-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Tests Passing](https://img.shields.io/badge/Tests-36%20Passed-success?style=for-the-badge&logo=node.js&logoColor=white)](#comandos-de-desarrollo-y-validación)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel%20Edge-black?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+
+Plataforma comunitaria oficial **BONTEN** — *Nuestra Resistencia*. Portal interactivo de alto rendimiento que integra biblioteca bioética, foros de debates, muro comunitario y asistencia cognitiva autónoma mediante el motor de IA **Wilfredo AI**.
 
 ---
 
 ## 🚀 Stack Tecnológico
 
 - **Framework:** Next.js 16 (App Router + Turbopack) + React 19
-- **Lenguaje:** TypeScript 5.x (modo estricto, cero errores de tipado)
-- **Estilos & UI:** Tailwind CSS + Sistema de tokens y temas dinámicos (`src/index.css`)
+- **Lenguaje:** TypeScript 5.x (modo estricto, tipado estricto extremo)
+- **Estilos & UI:** Tailwind CSS + Sistema de tokens y temas dinámicos (`src/index.css`) + Framer Motion
 - **Motor de IA:** WILFREDO AI (Copiloto Administrativo & Asistente Doctrinal Polímata)
 - **Ciberseguridad:** Hardening OWASP Top 10, HMAC-SHA256, Rate Limiting y Edge Proxy
-- **Despliegue:** Optimizado para **Vercel**
+- **Despliegue:** Optimizado para **Vercel Edge**
 
 ---
 
@@ -46,22 +53,22 @@ BONTEN_WEB/
 
 ## 🛡️ Ciberdefensa & Gobernanza (BONTEN Defense)
 
-La plataforma cuenta con un perímetro de seguridad verificado contra ataques comunes en aplicaciones web:
+La plataforma cuenta con un perímetro de seguridad verificado contra vectores de ataque web:
 
 1. **Defensa DoS L7 & Fuerza Bruta:** Ventana deslizante de 15 minutos por IP con bloqueo temporal (IP Jail).
-2. **Protección de Carga Útil:** Límite estricto de bytes con `readLimitedJson` contra saturación de memoria.
-3. **Firmas de Sesión HMAC-SHA256:** Huella digital de cliente (IP + User-Agent) para mitigar secuestro de sesión (*Cookie Replay*).
+2. **Protección de Carga Útil:** Límite estricto de bytes con `readLimitedJson` contra ataques de consumo de memoria.
+3. **Firmas de Sesión HMAC-SHA256:** Huella digital criptográfica de cliente (IP + User-Agent) para erradicar secuestro de sesión (*Cookie Replay*).
 4. **Protección Anti-CSRF:** Validación obligatoria de cabeceras `Origin` y `Referer` en endpoints mutantes.
 5. **Sanitización XSS:** Purificación rigurosa en consultas de IA, argumentos y publicaciones del Muro.
-6. **Cabeceras HTTP Estrictas:** HSTS, CSP `frame-ancestors 'none'`, `X-Frame-Options: DENY` y `nosniff`.
+6. **Cabeceras HTTP Estrictas:** HSTS, CSP `frame-ancestors 'none'`, `X-Frame-Options: DENY` y `X-Content-Type-Options: nosniff`.
 
 ---
 
 ## 👥 Comunidad & Asistencia Cognitiva
 
-- **Pertenencia Automatizada:** Al registrarse o iniciar sesión en `/auth/login`, los usuarios quedan automáticamente adheridos al decálogo de honor y acreditados para intervenir en el Muro Comunitario (`/comunidad`).
+- **Pertenencia Automatizada:** Al registrarse o iniciar sesión en `/auth/login`, los usuarios quedan acreditados para intervenir en el Muro Comunitario (`/comunidad`).
 - **WILFREDO AI:**
-  - **Público (`/wilfredo`):** Polímata interactivo para orientación filosófica, bioética y debate.
+  - **Público (`/wilfredo`):** Polímata interactivo para orientación filosófica, bioética y debate argumentativo.
   - **Administrativo (`/admin`):** Copiloto con comandos automatizados en 1 clic para bloqueo de amenazas, análisis de métricas y diagnóstico de producción.
 
 ---
@@ -69,27 +76,39 @@ La plataforma cuenta con un perímetro de seguridad verificado contra ataques co
 ## 💻 Comandos de Desarrollo y Validación
 
 ```bash
-# Desarrollo local
+# Desarrollo local con Turbopack
 npm run dev
 
 # Compilación de producción optimizada
 npm run build
 
-# Comprobación estricta de tipos TypeScript
+# Comprobación estricta de tipos TypeScript (cero errores)
 npm run typecheck
 
-# Suite de pruebas automatizadas
-node --test tests/*.test.mjs
+# Suite completa de pruebas automatizadas (36 pruebas)
+npm run test:all
+
+# Pruebas de seguridad perimetral
+npm run test:security
+
+# Pruebas de base de datos y comunidad
+npm run test:community
 ```
 
 ---
 
-## 🌐 Configuración de Entorno (Vercel)
+## 🌐 Configuración de Entorno
 
-Copie `.env.example` a `.env.local` y defina secretos de al menos 32 caracteres:
+Copie `.env.example` a `.env.local` y defina los secretos criptográficos:
 
-- `ADMIN_USER` / `ADMIN_PASS`: Credenciales maestras del Superadmin.
-- `ADMIN_JWT_SECRET`: Llave criptográfica para firmas de sesión administrativa.
-- `COMMUNITY_JWT_SECRET`: Llave criptográfica para tokens de miembros.
-- `LUYO_INGEST_KEY`: Clave de integración segura para ingesta externa.
+- `ADMIN_USER` / `ADMIN_PASS`: Credenciales de acceso para consola Superadmin.
+- `ADMIN_JWT_SECRET`: Firma criptográfica para tokens de administración.
+- `COMMUNITY_JWT_SECRET`: Llave simétrica para autenticación de miembros comunitarios.
+- `LUYO_INGEST_KEY`: Token de autenticación para microservicios de ingesta externa.
 
+---
+
+## 👨‍💻 Autor & Créditos
+- **Desarrollador:** **Φραγκοσύνη / francus 🐦‍🔥** (Frank Emiliano Vargas Huamán)
+- **GitHub:** [@frankitoromas-tech](https://github.com/frankitoromas-tech)
+- **LinkedIn:** [Frank Emiliano Vargas](https://www.linkedin.com/in/frank-emiliano-vargas-huam%C3%A1n-6a010a378/)
