@@ -9,13 +9,16 @@ import { createUser } from '@/lib/db/database';
 import { createMemberToken, USER_SESSION_COOKIE } from '@/lib/security/memberAuth';
 import { checkRateLimit, recordFailedAttempt, resetRateLimit } from '@/lib/security/rateLimiter';
 import { validateRequestOrigin } from '@/lib/security/csrf';
+import { getTrustedClientIp } from '@/lib/security/env';
+import { readLimitedJson } from '@/lib/security/body';
 
 export async function POST(req: NextRequest) {
-  if (!validateRequestOrigin(req).valid) {
+  try {
+    if (!validateRequestOrigin(req).valid) {
     return NextResponse.json({ error: 'Petición rechazada por política anti-CSRF' }, { status: 403 });
   }
 
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || '127.0.0.1';
+  const ip = getTrustedClientIp(req);
   const rate = checkRateLimit(ip, 5, 15 * 60 * 1000);
   if (!rate.allowed) {
     return NextResponse.json(
@@ -24,15 +27,19 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  try {
-    const { username, email, password } = await req.json();
+  const bodyResult = await readLimitedJson<{ username?: string; email?: string; password?: string }>(req, 8 * 1024);
+  if (!bodyResult.ok || !bodyResult.value) {
+    return NextResponse.json({ error: bodyResult.error || 'Cuerpo de petición inválido' }, { status: bodyResult.status || 400 });
+  }
 
-    if (!username || !email || !password) {
-      return NextResponse.json({ error: 'Todos los campos son obligatorios' }, { status: 400 });
-    }
+  const { username, email, password } = bodyResult.value;
 
-    const result = createUser({ username, email, password });
-    if (result.error || !result.user) {
+  if (!username || !email || !password) {
+    return NextResponse.json({ error: 'Todos los campos son obligatorios' }, { status: 400 });
+  }
+
+  const result = createUser({ username, email, password });
+  if (result.error || !result.user) {
       recordFailedAttempt(ip);
       return NextResponse.json({ error: result.error || 'Error registrando usuario' }, { status: 400 });
     }

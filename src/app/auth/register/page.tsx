@@ -27,7 +27,15 @@ export default function MemberRegisterPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error al registrar la cuenta');
 
-      router.push('/debates');
+      // Automatización de Adhesión y Pertenencia a la Comunidad
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('bonten:pledge', 'true');
+        localStorage.setItem('bonten:member_alias', username.trim());
+        localStorage.setItem('bonten:member_email', email.trim());
+        localStorage.setItem('bonten:member_role', 'MEMBER');
+      }
+
+      router.push('/comunidad');
       router.refresh();
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Fallo en registro';

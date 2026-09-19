@@ -7,7 +7,8 @@ import Link from 'next/link';
 export default function MemberLoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get('redirect') || '/debates';
+  const explicitRedirect = searchParams.get('redirect');
+  const redirectUrl = explicitRedirect || '/comunidad';
 
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +31,24 @@ export default function MemberLoginPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Credenciales no válidas');
 
-      router.push(redirectUrl);
+      // Automatización de Membresía y Pertenencia a la Comunidad
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('bonten:pledge', 'true');
+        if (data.user?.username) {
+          localStorage.setItem('bonten:member_alias', data.user.username);
+        }
+        if (data.user?.role) {
+          localStorage.setItem('bonten:member_role', data.user.role);
+        }
+        if (data.user?.email) {
+          localStorage.setItem('bonten:member_email', data.user.email);
+        }
+      }
+
+      // Si es administrador sin redirección forzada previa, enviar al Centro de Control o Comunidad
+      const targetDestination = data.isAdmin && !explicitRedirect ? '/admin' : redirectUrl;
+
+      router.push(targetDestination);
       router.refresh();
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Error en inicio de sesión';
@@ -47,8 +65,13 @@ export default function MemberLoginPage() {
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 mb-3 text-xl">
             ⚔️
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Comunidad BONTEN</h1>
-          <p className="text-xs text-slate-400 mt-1 font-mono">Inicia sesión para participar en debates doctrinales</p>
+          <h1 className="text-2xl font-bold text-white tracking-tight">Acceso a la Comunidad BONTEN</h1>
+          <p className="text-xs text-slate-400 mt-1 font-mono">
+            Ingreso unificado de miembros y administración con adhesión comunitaria inmediata
+          </p>
+          <div className="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] text-emerald-400 font-mono">
+            <span>✓</span> Adhesión automatizada al Muro & Debates
+          </div>
         </div>
 
         {error && (
