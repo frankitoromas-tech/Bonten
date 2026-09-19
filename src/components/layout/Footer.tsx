@@ -24,7 +24,7 @@ export default function Footer() {
           const isDead = s.href === '#';
           const Tag = isDead ? 'span' : motion.a;
           const linkProps = isDead
-            ? { className: 'social-box social-box-disabled', title: `${s.label} — Próximamente`, 'aria-label': `${s.label} (próximamente)` }
+            ? { className: 'social-box social-box-disabled', title: `${s.label} — Próximamente`, 'aria-label': `${s.label} (próximamente)`, 'aria-disabled': 'true', role: 'link' as const }
             : {
                 href: s.href,
                 className: 'social-box',

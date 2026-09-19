@@ -3,7 +3,17 @@ import assert from 'node:assert/strict';
 
 const BASE_URL = 'http://localhost:3000';
 
-test('Live Server: 1. Ruta /integrantes responde con HTTP 200 y botones Ver Perfil Completo', async () => {
+let isServerRunning = false;
+try {
+  const probe = await fetch(BASE_URL, { signal: AbortSignal.timeout(800) });
+  isServerRunning = Boolean(probe.status);
+} catch {
+  isServerRunning = false;
+}
+
+const skipReason = !isServerRunning ? 'Servidor local no detectado en http://localhost:3000 (ejecutar npm run dev)' : false;
+
+test('Live Server: 1. Ruta /integrantes responde con HTTP 200 y botones Ver Perfil Completo', { skip: skipReason }, async () => {
   const res = await fetch(`${BASE_URL}/integrantes`);
   assert.equal(res.status, 200, 'Debe responder con 200 OK');
   const html = await res.text();
@@ -14,7 +24,7 @@ test('Live Server: 1. Ruta /integrantes responde con HTTP 200 y botones Ver Perf
   assert.ok(html.includes('BLOQUE PROVIDA'), 'El footer debe mostrar BLOQUE PROVIDA');
 });
 
-test('Live Server: 2. Ruta /integrantes/ilan responde con HTTP 200 y el ensayo socrático', async () => {
+test('Live Server: 2. Ruta /integrantes/ilan responde con HTTP 200 y el ensayo socrático', { skip: skipReason }, async () => {
   const res = await fetch(`${BASE_URL}/integrantes/ilan`);
   assert.equal(res.status, 200, 'Debe responder con 200 OK');
   const html = await res.text();
@@ -28,14 +38,14 @@ test('Live Server: 2. Ruta /integrantes/ilan responde con HTTP 200 y el ensayo s
   assert.ok(html.includes('tiktok.com/@ianhbelmonte'), 'Debe incluir su TikTok real');
 });
 
-test('Live Server: 3. Compatibilidad de alias /integrantes/ian responde con HTTP 200', async () => {
+test('Live Server: 3. Compatibilidad de alias /integrantes/ian responde con HTTP 200', { skip: skipReason }, async () => {
   const res = await fetch(`${BASE_URL}/integrantes/ian`);
   assert.equal(res.status, 200, 'Debe responder con 200 OK');
   const html = await res.text();
   assert.ok(html.includes('Sócrates sobre el placer, la virtud y el bien'));
 });
 
-test('Live Server: 4. Ruta /manifiestos/fundamentos responde con Fundamentos del Bloque Provida', async () => {
+test('Live Server: 4. Ruta /manifiestos/fundamentos responde con Fundamentos del Bloque Provida', { skip: skipReason }, async () => {
   const res = await fetch(`${BASE_URL}/manifiestos/fundamentos`);
   assert.equal(res.status, 200, 'Debe responder con 200 OK');
   const html = await res.text();

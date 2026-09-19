@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function ManifiestosPage() {
   return (
-    <section className="layout-container" style={{ minHeight: '80vh', paddingTop: '2.5rem' }}>
+    <section style={{ minHeight: '80vh', paddingTop: '2.5rem' }}>
       <Breadcrumbs items={[{ label: 'Manifiestos' }]} />
 
       <div className="page-header" style={{ marginBottom: '2.5rem' }}>

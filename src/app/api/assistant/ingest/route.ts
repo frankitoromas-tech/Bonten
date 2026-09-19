@@ -3,38 +3,39 @@ import { checkRateLimit, recordSecurityEvent } from '@/lib/security/rateLimiter'
 import { sanitizePlainText } from '@/lib/security/sanitizer';
 import { getAuthenticatedActor } from '@/lib/security/authorization';
 import { addDoctrinalContribution, DoctrinalContribution } from '@/lib/data/runtimeStore';
+import { readLimitedJson } from '@/lib/security/body';
+import { getTrustedClientIp, safeEqualText } from '@/lib/security/env';
 
 export async function POST(req: NextRequest) {
   try {
-    // 1. Rate Limiting L7 estricto
-    const forwardedFor = req.headers.get('x-forwarded-for');
-    const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : '127.0.0.1';
+    // 1. Rate Limiting L7 estricto por IP confiable
+    const ip = getTrustedClientIp(req);
 
     const rateCheck = checkRateLimit(ip, 5, 60 * 1000);
     if (!rateCheck.allowed) {
-      recordSecurityEvent(ip, 'RATE_LIMIT_BLOCK', 'Saturación en Ingesta Doctrinal (Nexo Luyo)');
+      recordSecurityEvent(ip, 'RATE_LIMIT_BLOCK', 'Saturación en Ingesta Doctrinal');
       return NextResponse.json(
         { error: 'Límite de solicitudes de ingesta excedido. Por favor, aguarda un momento.' },
         { status: 429 }
       );
     }
 
-    // 2. Control de Autorización: Admin, Miembro Autorizado o Token de Contribuidor Luyo
+    // 2. Control de Autorización Estricto: Administrador o Clave de Integración Segura (LUYO_INGEST_KEY)
     let authorized = false;
     let authorIdentity = 'Luyo';
 
     const actor = getAuthenticatedActor(req);
-    const ingestKey = req.headers.get('x-contributor-key');
+    const ingestKey = req.headers.get('x-contributor-key')?.trim();
 
     if (actor?.kind === 'admin') {
       authorized = true;
       authorIdentity = actor.payload.username === 'fireboy_bonten_2026' ? 'Fireboy' : actor.payload.username;
-    } else if (actor?.kind === 'member') {
-      authorized = true;
-      authorIdentity = actor.payload.username;
-    } else if (ingestKey && (ingestKey === 'luyo_bonten_secure_2026' || ingestKey === 'bonten_master_doctrine_key')) {
-      authorized = true;
-      authorIdentity = 'Luyo';
+    } else if (ingestKey) {
+      const configuredLuyoKey = process.env.LUYO_INGEST_KEY?.trim();
+      if (configuredLuyoKey && configuredLuyoKey.length >= 32 && safeEqualText(ingestKey, configuredLuyoKey)) {
+        authorized = true;
+        authorIdentity = 'Luyo';
+      }
     }
 
     if (!authorized) {
@@ -45,8 +46,30 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 3. Extracción y Sanitización del Contenido Doctrinal
-    const body = await req.json().catch(() => ({}));
+    // 3. Extracción con Límite de Tamaño Estricto (Máx 16 KiB) y Sanitización
+    const bodyResult = await readLimitedJson<{
+      title?: unknown;
+      thesis?: unknown;
+      content?: unknown;
+      topic?: unknown;
+    }>(req, 16 * 1024);
+
+    if (!bodyResult.ok || !bodyResult.value) {
+      if (bodyResult.status === 413) {
+        recordSecurityEvent(ip, 'PAYLOAD_TOO_LARGE', 'Payload de ingesta excede límite de 16KB');
+        return NextResponse.json(
+          { error: 'Carga útil excesiva. El límite máximo es 16 KiB.' },
+          { status: 413 }
+        );
+      }
+      recordSecurityEvent(ip, 'INVALID_JSON', 'Cuerpo de petición de ingesta con formato JSON inválido');
+      return NextResponse.json(
+        { error: 'Formato JSON inválido.' },
+        { status: 400 }
+      );
+    }
+
+    const body = bodyResult.value;
     const rawTitle = typeof body.title === 'string' ? body.title : '';
     const rawThesis = typeof body.thesis === 'string' ? body.thesis : '';
     const rawContent = typeof body.content === 'string' ? body.content : '';

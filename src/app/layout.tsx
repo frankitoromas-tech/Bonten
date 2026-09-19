@@ -21,6 +21,10 @@ export const metadata: Metadata = {
     template: '%s | BONTEN',
   },
   description: 'BONTEN es nuestra resistencia activa. Únete al manifiesto y descubre nuestra filosofía, debates y biblioteca para aquellos que defienden el valor de la vida.',
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/LOGO_BONTEN_V2.jpeg',
+  },
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,

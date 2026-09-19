@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { MANIFIESTOS } from '@/data/manifiestos';
 import { getAllLeaders } from '@/data/members';
 
-const BASE_URL = 'https://bonten-bice.vercel.app';
+const BASE_URL = 'https://bonten.vercel.app';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

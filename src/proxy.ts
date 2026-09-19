@@ -48,9 +48,8 @@ export function proxy(request: NextRequest) {
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('Content-Security-Policy', "frame-ancestors 'none';");
 
-  // Anti-MIME sniffing y filtrado XSS
+  // Anti-MIME sniffing
   response.headers.set('X-Content-Type-Options', 'nosniff');
-  response.headers.set('X-XSS-Protection', '1; mode=block');
 
   // Política de aislamiento de origen y referenciador
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
