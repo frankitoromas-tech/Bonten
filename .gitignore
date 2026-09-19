@@ -33,3 +33,12 @@ next-env.d.ts
 # Testing & temporary screenshots
 .playwright-mcp/
 screenshot_*.png
+diff*.txt
+*.tmp
+
+# Environment variables
+.env
+.env*.local
+
+# IDEs & AI tools
+.claude/
